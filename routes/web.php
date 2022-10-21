@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,8 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Route::get('/', function () {
-    return view('greetings');
-});
+// [название контроллера, название экшена], где экшен - метод контроллера
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/news', function () {
     return view('news');
@@ -32,3 +33,7 @@ Route::get('/post', function () {
 Route::get('/info', function () {
     return view('info');
 });
+
+Route::view('/test', 'info');
+
+Route::redirect('redir', '/', 301);
