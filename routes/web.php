@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestInvokeController;
+use App\Http\Controllers\Admin\IndexController;
 
 
 /*
@@ -41,3 +42,7 @@ Route::redirect('redir', '/', 301);
 
 //Чтобы устранить ошибку, нужно указать namespace для класса контроллера (use)
 Route::get('/invoke', TestInvokeController::class);
+
+Route::get('/admin', [IndexController::class, 'index']);
+
+
