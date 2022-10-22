@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestInvokeController;
 
 
 /*
@@ -37,3 +38,6 @@ Route::get('/info', function () {
 Route::view('/test', 'info');
 
 Route::redirect('redir', '/', 301);
+
+//Чтобы устранить ошибку, нужно указать namespace для класса контроллера (use)
+Route::get('/invoke', TestInvokeController::class);
