@@ -21,13 +21,17 @@ use \App\Http\Controllers\NewsController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
-Route::get('/news', [NewsController::class, 'index'])->name('news.all');
+Route::name('news.')
+    ->prefix('news')
+    ->group(function () {
+        Route::get('/', [NewsController::class, 'index'])->name('all');
 
 //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
 //->where позволяет применить регулярное выражение для валидации параметров запроса
-Route::get('/news/{id}', [NewsController::class, 'show'])
-    ->where('id', '[0-9]+')
-    ->name('news.one');
+        Route::get('/{id}', [NewsController::class, 'show'])
+            ->where('id', '[0-9]+')
+            ->name('one');
+    });
 
 Route::get('/post', function () {
     return view('post');
@@ -37,18 +41,22 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get ('/admin', [IndexController::class, 'index'])->name('admin.index');
-Route::get('/admin/test1', [IndexController::class, 'test1'])->name('admin.test1');
-Route::get('/admin/test2', [IndexController::class, 'test2'])->name('admin.test2');
+Route::name('admin.')
+    ->prefix('admin')
+    ->group(function () {
+        Route::get('/', [IndexController::class, 'index'])->name('index');
+        Route::get('/test1', [IndexController::class, 'test1'])->name('test1');
+        Route::get('/test2', [IndexController::class, 'test2'])->name('test2');
 
-Route::get('/404', function (){
+    });
+
+Route::get('/404', function () {
     return view('beauty_404');
 })->name('404');
 
-Route::fallback(function (){
+Route::fallback(function () {
     return view('beauty_404');
 });
-
 
 
 //Примеры
