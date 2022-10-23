@@ -4,7 +4,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestInvokeController;
 use App\Http\Controllers\Admin\IndexController;
-
+use \App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +24,13 @@ use App\Http\Controllers\Admin\IndexController;
 // [название контроллера, название экшена], где экшен - метод контроллера
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/news', function () {
+/*Route::get('/news', function () {
     return view('news');
-});
+});*/
+
+Route::get('/news', [NewsController::class, 'index']);
+
+Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '[0-9]+');
 
 Route::get('/post', function () {
     return view('post');
@@ -45,5 +49,9 @@ Route::get('/invoke', TestInvokeController::class);
 
 Route::get('/test', [IndexController::class, 'test1']);
 Route::get('/test', [IndexController::class, 'test2']);
+
+Route::fallback(function (){
+    return view('beauty_404');
+})->name('404');
 
 
