@@ -43,6 +43,7 @@ Route::get('/about', function () {
 
 Route::name('admin.')
     ->prefix('admin')
+    ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
         Route::get('/', [IndexController::class, 'index'])->name('index');
         Route::get('/test1', [IndexController::class, 'test1'])->name('test1');
