@@ -12,15 +12,15 @@ class Categories
         ],
         [
             'id' => '2',
-            'name' => 'the science'
+            'name' => 'sport'
         ],
         [
             'id' => '3',
-            'name' => 'culture'
+            'name' => 'movie'
         ],
         [
             'id' => '4',
-            'name' => 'art'
+            'name' => 'finance'
         ],
         [
             'id' => '5',
