@@ -43,6 +43,7 @@ Route::redirect('redir', '/', 301);
 //Чтобы устранить ошибку, нужно указать namespace для класса контроллера (use)
 Route::get('/invoke', TestInvokeController::class);
 
-Route::get('/admin', [IndexController::class, 'index']);
+Route::get('/test', [IndexController::class, 'test1']);
+Route::get('/test', [IndexController::class, 'test2']);
 
 
