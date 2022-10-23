@@ -14,7 +14,8 @@ class NewsController
         return view('news.all')->with('news', $news);
     }
 
-    //Параметры строки запроса доступны через параметры методов контроллера средствами фреймворка
+    //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
+    //При передаче нескольких параметров важен порядок их следования, а не имена переменных
     public function show($id)
     {
         $news = News::getOneNews($id);
@@ -22,7 +23,8 @@ class NewsController
         switch (is_null($news)) {
             case true:
                 //при отсутствии данных возвращаем редирект
-               return redirect()->action([HomeController::class, 'index']);
+                //редирект с помощью именованного маршрута
+               return redirect()->route('404');
             default:
                 return view('news.one')->with('news', $news);
         }

@@ -17,27 +17,44 @@ use \App\Http\Controllers\NewsController;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 // [название контроллера, название экшена], где экшен - метод контроллера
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-/*Route::get('/news', function () {
-    return view('news');
-});*/
 
-Route::get('/news', [NewsController::class, 'index']);
+Route::get('/news', [NewsController::class, 'index'])->name('news.all');
 
-Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '[0-9]+');
+//Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
+//->where позволяет применить регулярное выражение для валидации параметров запроса
+Route::get('/news/{id}', [NewsController::class, 'show'])
+    ->where('id', '[0-9]+')
+    ->name('news.one');
 
 Route::get('/post', function () {
     return view('post');
+})->name('post');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get ('/admin', [IndexController::class, 'index'])->name('admin.index');
+Route::get('/admin/test1', [IndexController::class, 'test1'])->name('admin.test1');
+Route::get('/admin/test2', [IndexController::class, 'test2'])->name('admin.test2');
+
+Route::get('/404', function (){
+    return view('beauty_404');
+})->name('404');
+
+Route::fallback(function (){
+    return view('beauty_404');
 });
 
-Route::get('/info', function () {
-    return view('info');
+
+
+//Примеры
+
+Route::get('/welcome', function () {
+    return view('welcome');
 });
 
 Route::view('/test', 'info');
@@ -46,12 +63,5 @@ Route::redirect('redir', '/', 301);
 
 //Чтобы устранить ошибку, нужно указать namespace для класса контроллера (use)
 Route::get('/invoke', TestInvokeController::class);
-
-Route::get('/test', [IndexController::class, 'test1']);
-Route::get('/test', [IndexController::class, 'test2']);
-
-Route::fallback(function (){
-    return view('beauty_404');
-})->name('404');
 
 
