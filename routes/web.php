@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\IndexController as AdminController;
+use App\Http\Controllers\Category\IndexController as CategoryController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TestInvokeController;
-use App\Http\Controllers\Admin\IndexController;
-use \App\Http\Controllers\NewsController;
-use \App\Http\Controllers\Category\IndexController as CategoryController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,13 +46,21 @@ Route::name('admin.')
     ->prefix('admin')
     ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
-        Route::get('/', [IndexController::class, 'index'])->name('index');
-        Route::get('/test1', [IndexController::class, 'test1'])->name('test1');
-        Route::get('/test2', [IndexController::class, 'test2'])->name('test2');
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
+        Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
 
     });
 
-Route::get('/category', [CategoryController::class, 'index']);
+Route::name('category.')
+    ->prefix('category')
+    ->namespace('Category')
+    ->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('all');
+        Route::get('/{id}', [CategoryController::class, 'selectBy'])
+            ->where('id', '[0-9]+')
+            ->name('id');
+    });
 
 Route::get('/404', function () {
     return view('beauty_404');
