@@ -180,4 +180,12 @@ class News
         }
         return null;
     }
+
+    public static function getNewsFilteredByCategory($id): ?array
+    {
+       $filteredNews = array_filter(static::getNews(), function($news) use($id) {
+               return $news['category_id'] === $id;
+        });
+       return $filteredNews;
+    }
 }

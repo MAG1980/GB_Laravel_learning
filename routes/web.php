@@ -32,6 +32,10 @@ Route::name('news.')
         Route::get('/{id}', [NewsController::class, 'show'])
             ->where('id', '[0-9]+')
             ->name('one');
+
+        Route::get('/category/{id}', [NewsController::class, 'selectByCategory'])
+            ->where('id', '[0-9]+')
+            ->name('selectedByCategoryId');
     });
 
 Route::get('/post', function () {

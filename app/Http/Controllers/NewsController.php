@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\News;
 
 class NewsController
@@ -27,6 +28,25 @@ class NewsController
                return redirect()->route('404');
             default:
                 return view('news.one')->with('news', $news);
+        }
+    }
+
+    public function selectByCategory($id)
+    {
+        $categories = Categories::getCategories();
+        $selectedCategoryName = Categories::getNameCategoryBy($id);
+        $news = News::getNewsFilteredByCategory($id);
+
+        switch (is_null($news)) {
+            case true:
+                //при отсутствии данных возвращаем редирект
+                //редирект с помощью именованного маршрута
+                return redirect()->route('404');
+            default:
+                return view('news.selectedCategory')
+                    ->with('categories', $categories)
+                    ->with('selectedCategoryName', $selectedCategoryName)
+                    ->with('news', $news);
         }
     }
 }
