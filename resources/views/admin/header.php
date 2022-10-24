@@ -10,9 +10,7 @@
 </head>
 <body>
 <header>
-    <?php
-    include_once "main-menu.php";
-    ?>
+    <?php include_once "main-menu.php"; ?>
 </header>
 
 
