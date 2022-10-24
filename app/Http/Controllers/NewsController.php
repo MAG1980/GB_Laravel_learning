@@ -28,6 +28,5 @@ class NewsController
             default:
                 return view('news.one')->with('news', $news);
         }
-
     }
 }

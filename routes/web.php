@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestInvokeController;
 use App\Http\Controllers\Admin\IndexController;
 use \App\Http\Controllers\NewsController;
+use \App\Http\Controllers\Category\IndexController as CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,8 @@ Route::name('admin.')
         Route::get('/test2', [IndexController::class, 'test2'])->name('test2');
 
     });
+
+Route::get('/category', [CategoryController::class, 'index']);
 
 Route::get('/404', function () {
     return view('beauty_404');
