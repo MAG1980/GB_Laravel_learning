@@ -7,24 +7,24 @@ class Categories
     private static $categories = [
         [
             'id' => '1',
-            'name' => 'politics'
+            'name' => 'Политика'
 
         ],
         [
             'id' => '2',
-            'name' => 'sport'
+            'name' => 'Спорт'
         ],
         [
             'id' => '3',
-            'name' => 'movie'
+            'name' => 'Кино'
         ],
         [
             'id' => '4',
-            'name' => 'finance'
+            'name' => 'Финансы'
         ],
         [
             'id' => '5',
-            'name' => 'stars'
+            'name' => '"Звёзды"'
         ]
     ];
 
@@ -41,5 +41,13 @@ class Categories
             }
         }
         return null;
+    }
+
+    public static function getNameCategoryBy($id){
+        foreach (static::$categories as $category){
+            if ($category['id'] === $id) {
+                return $category['name'];
+            }
+        }
     }
 }
