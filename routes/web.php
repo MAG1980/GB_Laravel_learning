@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Category\IndexController as CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 // [название контроллера, название экшена], где экшен - метод контроллера
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/login', [HomeController::class, 'login'])->name('login');
 
 
 Route::name('news.')
@@ -38,10 +40,6 @@ Route::name('news.')
             ->name('selectedByCategoryId');
     });
 
-Route::get('/post', function () {
-    return view('post');
-})->name('post');
-
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -51,6 +49,7 @@ Route::name('admin.')
     ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/news/add', [AdminNewsController::class, 'newsAdd'])->name('newsAdd');
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
 
