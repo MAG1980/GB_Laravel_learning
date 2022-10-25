@@ -39,7 +39,7 @@ class NewsController
         $selectedCategoryName = Categories::getNameCategoryBy($id);
         $news = News::getNewsFilteredByCategory($id);
 
-        switch (is_null($news)) {
+        switch (is_null($news) || is_null($selectedCategoryName)) {
             case true:
                 //при отсутствии данных возвращаем редирект
                 //редирект с помощью именованного маршрута

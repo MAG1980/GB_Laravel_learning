@@ -17,7 +17,6 @@ class IndexController extends Controller
     {
         $categories = Categories::getCategories();
         $selectedCategory = Categories::getOneCategory($id);
-
         switch (is_null($selectedCategory)) {
             case true:
                 //при отсутствии данных возвращаем редирект
