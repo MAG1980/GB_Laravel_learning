@@ -9,10 +9,13 @@ class NewsController
 {
     public function index()
     {
+        $categories = Categories::getCategories();
         $news = News::getNews();
 
         //Передаём данные в представление ('news' - переменная, $news - значение)
-        return view('news.all')->with('news', $news);
+        return view('news.all')
+            ->with('categories',$categories)
+            ->with('news', $news);
     }
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка

@@ -1,5 +1,4 @@
 <?php include_once "header.php"?>
-<?php include_once "categoriesMenu.php"?>
 
 <h2>Категория новостей: <?= $selectedCategoryName ?></h2>
 
