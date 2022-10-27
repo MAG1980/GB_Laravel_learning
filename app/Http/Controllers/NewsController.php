@@ -36,11 +36,10 @@ class NewsController
         }
     }
 
-    public function selectByCategory($id)
+    public function selectByCategory($name)
     {
         $categories = Categories::getCategories();
-        $selectedCategoryName = Categories::getNameCategoryBy($id);
-        $news = News::getNewsFilteredByCategory($id);
+        $news = News::getNewsFilteredByCategory($name);
 
         switch (is_null($news)) {
             case true:
@@ -50,7 +49,7 @@ class NewsController
             default:
                 return view('news.selectedCategory')
                     ->with('categories', $categories)
-                    ->with('selectedCategoryName', $selectedCategoryName)
+                    ->with('selectedCategoryName', $name)
                     ->with('news', $news);
         }
     }

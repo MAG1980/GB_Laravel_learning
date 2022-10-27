@@ -35,8 +35,7 @@ Route::name('news.')
             ->where('id', '[0-9]+')
             ->name('one');
 
-        Route::get('/category/{id}', [NewsController::class, 'selectByCategory'])
-            ->where('id', '[0-9]+')
+        Route::get('/category/{name}', [NewsController::class, 'selectByCategory'])
             ->name('selectedByCategoryId');
     });
 
@@ -60,8 +59,7 @@ Route::name('category.')
     ->namespace('Category')
     ->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('all');
-        Route::get('/{id}', [CategoryController::class, 'selectBy'])
-            ->where('id', '[0-9]+')
+        Route::get('/{}', [CategoryController::class, 'selectBy'])
             ->name('id');
     });
 

@@ -7,24 +7,24 @@ class Categories
     private static $categories = [
         [
             'id' => '1',
-            'name' => 'Политика'
+            'name' => 'Politic'
 
         ],
         [
             'id' => '2',
-            'name' => 'Спорт'
+            'name' => 'Sport'
         ],
         [
             'id' => '3',
-            'name' => 'Кино'
+            'name' => 'Movie'
         ],
         [
             'id' => '4',
-            'name' => 'Финансы'
+            'name' => 'Finance'
         ],
         [
             'id' => '5',
-            'name' => '"Звёзды"'
+            'name' => '"Stars"'
         ]
     ];
 
@@ -33,21 +33,26 @@ class Categories
         return static::$categories;
     }
 
-    public static function getOneCategory($id): ?array
+    public static function getOneCategory($name): ?array
     {
         foreach (static::getCategories() as $category) {
-            if ($category['id'] === $id) {
+            if ($category['name'] === $name) {
                 return $category;
             }
         }
         return null;
     }
 
-    public static function getNameCategoryBy($id){
+    public static function getCategoryIdBy($name){
         foreach (static::$categories as $category){
-            if ($category['id'] === $id) {
-                return $category['name'];
+            if ($category['name'] === $name) {
+                return $category['id'];
             }
         }
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'name';
     }
 }

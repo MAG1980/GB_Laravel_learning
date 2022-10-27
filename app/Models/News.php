@@ -181,8 +181,9 @@ class News
         return null;
     }
 
-    public static function getNewsFilteredByCategory($id): ?array
+    public static function getNewsFilteredByCategory($name): ?array
     {
+        $id = Categories::getCategoryIdBy($name);
        $filteredNews = array_filter(static::getNews(), function($news) use($id) {
                return $news['category_id'] === $id;
         });
