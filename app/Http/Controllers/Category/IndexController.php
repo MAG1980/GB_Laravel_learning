@@ -7,16 +7,17 @@ use App\Models\Categories;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function index(Categories $categories)
     {
-        $categories = Categories::getCategories();
-        return view('categories.index')->with('categories', $categories);
+//        dd($categories);
+        return view('categories.index')->with('categories', $categories->getCategories());
     }
 
-    public function selectBy($id)
+    public function selectBy($slug, Categories $cat)
     {
-        $categories = Categories::getCategories();
-        $selectedCategory = Categories::getOneCategory($id);
+        dd($slug);
+        $categories = $cat->getCategories();
+        $selectedCategory = $cat->getOneCategory($slug);
         switch (is_null($selectedCategory)) {
             case true:
                 //при отсутствии данных возвращаем редирект

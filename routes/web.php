@@ -35,8 +35,8 @@ Route::name('news.')
             ->where('id', '[0-9]+')
             ->name('one');
 
-        Route::get('/category/{id}', [NewsController::class, 'selectByCategory'])
-            ->where('id', '[0-9]+')
+        Route::get('/category', [CategoryController::class, 'index'])->name('category_all');
+        Route::get('/category/{slug}', [NewsController::class, 'selectByCategory'])
             ->name('selectedByCategoryId');
     });
 
@@ -55,15 +55,14 @@ Route::name('admin.')
 
     });
 
-Route::name('category.')
+/*Route::name('category.')
     ->prefix('category')
     ->namespace('Category')
     ->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('all');
-        Route::get('/{id}', [CategoryController::class, 'selectBy'])
-            ->where('id', '[0-9]+')
+        Route::get('/{slug}', [CategoryController::class, 'selectBy'])
             ->name('id');
-    });
+    });*/
 
 Route::get('/404', function () {
     return view('beauty_404');

@@ -4,46 +4,58 @@ namespace App\Models;
 
 class Categories
 {
-    private static $categories = [
-        '1' =>
+    private $categories = [
+        'politic' =>
             [
                 'id' => '1',
-                'name' => 'Политика'
+                'name' => 'Политика',
+                'slug' => 'politic'
             ],
-        "2" =>
+        "sport" =>
             [
                 'id' => '2',
-                'name' => 'Спорт'
+                'name' => 'Спорт',
+                'slug' => 'sport'
             ],
-        "3" =>
+        "movie" =>
             [
                 'id' => '3',
-                'name' => 'Кино'
+                'name' => 'Кино',
+                'slug' => 'movie'
             ],
-        "4" =>
+        "finance" =>
             [
                 'id' => '4',
-                'name' => 'Финансы'
+                'name' => 'Финансы',
+                'slug' => 'finance'
             ],
-        "5" =>
+        "stars" =>
             [
                 'id' => '5',
-                'name' => '"Звёзды"'
+                'name' => '"Звёзды"',
+                'slug' => 'stars'
             ]
     ];
 
-    public static function getCategories(): array
+    public function getCategories()
     {
-        return static::$categories;
+//        dump($this->categories);
+        return $this->categories;
     }
 
-    public static function getOneCategory($id): ?array
+    public function getOneCategory($slug): ?array
     {
-        return self::$categories[$id];
+        return $this->categories[$slug];
     }
 
-    public static function getNameCategoryBy($id)
+    public function getNameCategoryBy($slug)
     {
-        return self::$categories[$id]['name'];
+//        dd($slug);
+        return $this->categories[$slug]['name'];
+    }
+
+    public function getCategoryIdBy($slug)
+    {
+        return $this->categories[$slug]['id'];
     }
 }

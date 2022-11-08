@@ -17,10 +17,10 @@ class NewsController
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
     //При передаче нескольких параметров важен порядок их следования, а не имена переменных
-    public function show($id)
+    public function show($id, Categories $categories)
     {
         $news = News::getOneNews($id);
-        $categories = Categories::getCategories();
+        $categories = $categories->getCategories();
         switch (is_null($news)) {
             case true:
                 //при отсутствии данных возвращаем редирект
@@ -33,10 +33,11 @@ class NewsController
         }
     }
 
-    public function selectByCategory($id)
+    public function selectByCategory($slug, Categories $cat )
     {
-        $categories = Categories::getCategories();
-        $selectedCategoryName = Categories::getNameCategoryBy($id);
+        $categories = $cat->getCategories();
+        $id = $cat->getCategoryIdBy($slug);
+        $selectedCategoryName = $cat->getNameCategoryBy($slug);
         $news = News::getNewsFilteredByCategory($id);
 
         switch (is_null($news) || is_null($selectedCategoryName)) {
