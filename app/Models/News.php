@@ -4,7 +4,7 @@ namespace App\Models;
 
 class News
 {
-    private static $news = [
+    private array $news = [
         [
             'id' => '1',
             'title' => '59-летняя Деми Мур снялась в куртке на голое тело и восхитила фанатов',
@@ -166,25 +166,23 @@ class News
         ]
     ];
 
-    public static function getNews(): array
+    public function getNews(): array
     {
-        return static::$news;
+        return $this->news;
     }
 
-    public static function getOneNews($id): ?array
+    public function getOneNews($id): ?array
     {
-        foreach (static::getNews() as $news) {
-            if ($news['id'] === $id) {
-                return $news;
-            }
+        if (array_key_exists($id, $this->getNews())) {
+            return $this->getNews()[$id];
         }
         return null;
     }
 
-    public static function getNewsFilteredByCategory($name): ?array
+    public function getNewsFilteredByCategory($name): ?array
     {
         $id = Categories::getCategoryIdBy($name);
-       $filteredNews = array_filter(static::getNews(), function($news) use($id) {
+       $filteredNews = array_filter($this->getNews(), function($news) use($id) {
                return $news['category_id'] === $id;
         });
        return $filteredNews;

@@ -23,17 +23,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 
+//Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
+//->where позволяет применить регулярное выражение для валидации параметров запроса
+//Имя роута должно совпадать с именем шаблона или метода (StyleGuide)
 
 Route::name('news.')
     ->prefix('news')
     ->group(function () {
-        Route::get('/', [NewsController::class, 'index'])->name('all');
+        Route::get('/', [NewsController::class, 'index'])->name('index');
 
-//Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
-//->where позволяет применить регулярное выражение для валидации параметров запроса
         Route::get('/{id}', [NewsController::class, 'show'])
             ->where('id', '[0-9]+')
-            ->name('one');
+            ->name('show');
 
         Route::get('/category/{name}', [NewsController::class, 'selectByCategory'])
             ->name('selectedByCategoryId');
@@ -52,15 +53,6 @@ Route::name('admin.')
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
 
-    });
-
-Route::name('category.')
-    ->prefix('category')
-    ->namespace('Category')
-    ->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('all');
-        Route::get('/{}', [CategoryController::class, 'selectBy'])
-            ->name('id');
     });
 
 Route::get('/404', function () {
