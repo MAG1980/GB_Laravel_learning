@@ -11,7 +11,8 @@
         <h2>Новости</h2>
 
     @forelse($news as $item)
-        <a href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}></a><br>
+        <a href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}</a><br>
+        <hr>
     @empty
         <div>Новостей нет</div>
     @endforelse

@@ -20,7 +20,7 @@ class NewsController
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
     //При передаче нескольких параметров важен порядок их следования, а не имена переменных
-    public function show($id, News $news):?string
+    public function show($id, News $news)
     {
         $news = $news->getOneNews($id);
         $categories = Categories::getCategories();
