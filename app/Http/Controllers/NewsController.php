@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
+use App\Models\Category;
 use App\Models\News;
 
 class NewsController
 {
-    public function index(News $news):?string
+    public function index(News $news, Category $category):?string
     {
-        $categories = Categories::getCategories();
+        $categories = $category->getCategories();
         $news = $news->getNews();
 
         //Передаём данные в представление ('news' - переменная, $news - значение)
@@ -20,10 +20,10 @@ class NewsController
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
     //При передаче нескольких параметров важен порядок их следования, а не имена переменных
-    public function show($id, News $news)
+    public function show($id, News $news, Category $category)
     {
         $news = $news->getOneNews($id);
-        $categories = Categories::getCategories();
+        $categories = $category->getCategories();
         return view('news.show')
             ->with('categories', $categories)
             ->with('news', $news);
@@ -32,10 +32,11 @@ class NewsController
     public
     function selectByCategory(
         $name,
-        News $news
+        News $news,
+        Category $category
     ) {
-        $categories = Categories::getCategories();
-        $news = $news->getNewsFilteredByCategory($name);
+        $categories = $category->getCategories();
+        $news = $news->getNewsFilteredByCategory($name, $category);
 
         switch (is_null($news)) {
             case true:

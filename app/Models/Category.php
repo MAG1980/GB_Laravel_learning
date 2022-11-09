@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-class Categories
+class Category
 {
-    private static $categories = [
+    private array $categories = [
         [
             'id' => '1',
             'name' => 'Politic'
@@ -28,14 +28,14 @@ class Categories
         ]
     ];
 
-    public static function getCategories(): array
+    public function getCategories(): array
     {
-        return static::$categories;
+        return $this->categories;
     }
 
-    public static function getOneCategory($name): ?array
+    public function getOneCategory($name): ?array
     {
-        foreach (static::getCategories() as $category) {
+        foreach ($this->getCategories() as $category) {
             if ($category['name'] === $name) {
                 return $category;
             }
@@ -43,8 +43,8 @@ class Categories
         return null;
     }
 
-    public static function getCategoryIdBy($name){
-        foreach (static::$categories as $category){
+    public function getCategoryIdBy($name){
+        foreach ($this->categories as $category){
             if ($category['name'] === $name) {
                 return $category['id'];
             }

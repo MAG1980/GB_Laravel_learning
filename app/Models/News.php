@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Category;
+
 class News
 {
     private array $news = [
@@ -205,9 +207,9 @@ class News
         return null;
     }
 
-    public function getNewsFilteredByCategory($name): ?array
+    public function getNewsFilteredByCategory($name, Category $category): ?array
     {
-        $id = Categories::getCategoryIdBy($name);
+        $id = $category->getCategoryIdBy($name);
        $filteredNews = array_filter($this->getNews(), function($news) use($id) {
                return $news['category_id'] === $id;
         });
