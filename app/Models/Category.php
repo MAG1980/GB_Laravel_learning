@@ -5,26 +5,31 @@ namespace App\Models;
 class Category
 {
     private array $categories = [
-        [
-            'id' => '1',
-            'name' => 'Politic'
+       1 => [
+           'id' => '1',
+           'name' => 'Политика',
+           'slug' => 'politika'
 
-        ],
-        [
+       ],
+        2 => [
             'id' => '2',
-            'name' => 'Sport'
+            'name' => 'Спорт',
+            'slug' => 'sport'
         ],
-        [
+        3 => [
             'id' => '3',
-            'name' => 'Movie'
+            'name' => 'Кино',
+            'slug' => 'kino'
         ],
-        [
+        4 => [
             'id' => '4',
-            'name' => 'Finance'
+            'name' => 'Финансы',
+            'slug' => 'finansy'
         ],
-        [
+        5 => [
             'id' => '5',
-            'name' => '"Stars"'
+            'name' => '"Звёзды"',
+            'slug' => 'zvyozdy'
         ]
     ];
 
@@ -49,6 +54,17 @@ class Category
                 return $category['id'];
             }
         }
+    }
+
+    public function getCategoryIdBySlug($slug){
+        $id = null;
+        foreach($this->categories as $category){
+            if ($category['slug'] === $slug){
+                $id = $category['id'];
+                break;
+            }
+        }
+        return $id;
     }
 
     public function getRouteKeyName()

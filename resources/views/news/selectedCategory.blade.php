@@ -8,11 +8,19 @@
 @endsection
 
 @section('content')
-    <h2>Категория новостей: {{ $selectedCategoryName }}</h2>
+    <h1>Новости категории {{ $selectedCategoryName }}</h1>
 
-   @foreach ($news as $item)
-    <a href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}</a><br>
-   @endforeach
+    @forelse ($news as $item)
+        <h2>{{ $item['title'] }}</h2>
+        @if($item['isPrivate'])
+            <p>Для просмотра данной новости Вам необходимо войти в свой профиль</p>
+            <a href="{{ route('login') }}"> Авторизоваться</a><br>
+        @else
+            <a href="{{ route('news.show', $item['id']) }}"> Подробнее...</a><br>
+        @endif
+    @empty
+        <p>Нет новостей данной категории</p>
+    @endforelse
 @endsection
 
 

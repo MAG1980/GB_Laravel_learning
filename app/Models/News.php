@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Category;
-
 class News
 {
+    private Category $category;
     private array $news = [
 
         1 => [
@@ -14,7 +13,7 @@ class News
             'text' => '59-летняя знаменитость снялась в зеркало ванной комнаты в оранжевой расстегнутой куртке на голое тело, представленной в ассортименте бренда Glenda Bailey. На размещенных изображениях видно, что волосы телезвезды распущены и спрятаны под капюшоном верхней одежды, а на ее лице полностью отсутствует макияж.
                         «Живу в своей новой куртке», — подписала экс-манекенщица публикацию, которая набрала более 52 тысяч лайков. Поклонники восхитились внешним видом Мур в комментариях под постом. «Красотка», «Прекрасная женщина», «Выглядишь шикарно», «Самая красивая», «Лучшая реклама», — высказывались подписчики.',
             'category_id' => '5',
-            'isPrivate'=> true
+            'isPrivate' => true
         ],
         2 => [
             'id' => '2',
@@ -190,9 +189,14 @@ class News
             'text' => 'Центральный комитет Компартии Китая переизбрал Си Цзиньпина главой КНР на третий срок
                         Центральный комитет Коммунистической партии Китая (ЦК КПК) в воскресенье, 23 октября, переизбрал Си Цзиньпина на пост генерального секретаря на третий срок. Об этом сообщает Центральное телевидение Китая.',
             'category_id' => '1',
-            'isPrivate'=> true
+            'isPrivate' => true
         ]
     ];
+
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
 
     public function getNews(): array
     {
@@ -210,9 +214,19 @@ class News
     public function getNewsFilteredByCategory($name, Category $category): ?array
     {
         $id = $category->getCategoryIdBy($name);
-       $filteredNews = array_filter($this->getNews(), function($news) use($id) {
-               return $news['category_id'] === $id;
+        $filteredNews = array_filter($this->getNews(), function ($news) use ($id) {
+            return $news['category_id'] === $id;
         });
-       return $filteredNews;
+        return $filteredNews;
+    }
+
+    public function getNewsByCategoryBySlug($slug):array
+    {
+        //array_search()
+        $id = $this->category->getCategoryIdBySlug($slug);
+        return array_filter($this->getNews(), function ($news) use ($id) {
+            return $news['category_id'] === $id;
+        });
+
     }
 }

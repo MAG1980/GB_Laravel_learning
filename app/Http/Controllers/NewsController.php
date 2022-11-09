@@ -7,7 +7,7 @@ use App\Models\News;
 
 class NewsController
 {
-    public function index(News $news, Category $category):?string
+    public function index(News $news, Category $category)
     {
         $categories = $category->getCategories();
         $news = $news->getNews();
@@ -29,25 +29,20 @@ class NewsController
             ->with('news', $news);
     }
 
-    public
-    function selectByCategory(
-        $name,
+    public function selectedCategory(
+        $slug,
         News $news,
         Category $category
     ) {
         $categories = $category->getCategories();
-        $news = $news->getNewsFilteredByCategory($name, $category);
+        $news = $news->getNewsByCategoryBySlug($slug);
+        $categoryId = $category->getCategoryIdBySlug($slug);
+        $name = $categories[$categoryId]['name'];
 
-        switch (is_null($news)) {
-            case true:
-                //при отсутствии данных возвращаем редирект
-                //редирект с помощью именованного маршрута
-                return redirect()->route('404');
-            default:
-                return view('news.selectedCategory')
-                    ->with('categories', $categories)
-                    ->with('selectedCategoryName', $name)
-                    ->with('news', $news);
-        }
+        return view('news.selectedCategory')
+            ->with('categories', $categories)
+            ->with('selectedCategoryName', $name)
+            ->with('news', $news);
+
     }
 }
