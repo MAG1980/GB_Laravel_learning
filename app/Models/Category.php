@@ -66,9 +66,4 @@ class Category
         }
         return $id;
     }
-
-    public function getRouteKeyName()
-    {
-        return 'name';
-    }
 }

@@ -87,3 +87,7 @@ Route::redirect('redir', '/', 301);
 Route::get('/invoke', TestInvokeController::class);
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
