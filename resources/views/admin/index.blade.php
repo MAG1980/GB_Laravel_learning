@@ -7,11 +7,11 @@
 @endsection
 
 @section('content')
-<h1>Админка</h1>
+<h1 class="text-primary my-5 text-center">Админка</h1>
 
-<ul class="main-menu">
-    <li class="main-menu__li">
-        <a class="main-menu__link" href="{{ route('admin.newsAdd') }}">Добавить новость</a>
+<ul class="list-unstyled">
+    <li>
+        <a class="btn btn-primary" href="{{ route('admin.newsAdd') }}">Добавить новость</a>
     </li>
 </ul>
 @endsection

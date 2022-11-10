@@ -7,6 +7,6 @@
 @endsection
 
 @section('content')
-    <h1>Информация об агрегаторе новостей</h1>
+    <h1 class="text-primary my-5 text-center">Информация об агрегаторе новостей</h1>
 @endsection
 

@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-        <h2>Новости</h2>
+        <h1 class="text-primary my-5 text-center">Новости</h1>
 
     @forelse($news as $item)
         <a href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}</a><br>
