@@ -16,14 +16,15 @@
 
                         <div class="card-body">
 
-                            <form id="news__add" action="{{ route('admin.create') }} method='post">
+                            <form id="news__add" action="{{ route('admin.create') }}" method="post">
+                                @csrf
                                 <div class="row mb-3">
                                     <label for="news__title" class="col-md-4 col-form-label text-md-end">
                                         Заголовок новости
                                     </label>
                                     <div class="col-md-6">
                                         <input id="news__title" type="text" name="news__title" class="form-control"
-                                               value="">
+                                               value="{{ old('news__title') }}">
                                     </div>
                                 </div>
 
@@ -32,10 +33,14 @@
                                         Категория новости
                                     </label>
                                     <div class="col-md-6">
-                                        <select id="news__category" type="text" name="news__title" class="form-control"
-                                               value="">
+                                        <select id="news__category" type="text"
+                                                name="news__category"
+                                                class="form-control">                                               >
                                             @forelse($categories as $category)
-                                            <option value="{{ $category['id'] }}">{{ $category['title'] }}</option>
+                                            <option
+                                                {{ $category['id'] === old('news__category') ? 'selected' : '' }}
+                                                value="{{ $category['id'] }}">{{ $category['title']
+                                            }}</option>
                                             @empty
                                             <option value="0">Нет категории</option>
                                             @endforelse
@@ -49,6 +54,7 @@
                                     </label>
                                     <div class="col-md-6">
                                         <textarea id="news__text" name="news__text" class="form-control"
+                                                  value="{{ old('news__text') }}"
                                                   ></textarea>
                                     </div>
                                 </div>
@@ -59,7 +65,7 @@
                                     </label>
                                     <div class="col-md-6">
                                         <input id="news__descr" type="text" name="news__descr" class="form-control"
-                                               value="">
+                                               value="{{ old('news__descr') }}">
                                     </div>
                                 </div>
 
@@ -73,6 +79,7 @@
                                                name="news__is-private"
                                                value="1"
                                                class="form-check-input"
+                                               {{ old('news__is-private') === '1' ? 'checked' : '' }}
                                         >
                                     </div>
                                 </div>

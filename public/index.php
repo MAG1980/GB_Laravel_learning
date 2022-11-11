@@ -51,6 +51,4 @@ $kernel = $app->make(Kernel::class);
 $response = $kernel->handle(
     $request = Request::capture()
 )->send();
- dump ($request);
- dump ($response);
 $kernel->terminate($request, $response);
