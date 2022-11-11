@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 // [название контроллера, название экшена], где экшен - метод контроллера
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 
 Route::view('/vue', 'vue')->name('vue');
@@ -43,24 +46,19 @@ Route::name('news.')
           {
               Route::get('/category/{slug}', [NewsController::class, 'selectedCategory'])
                   ->name('selectedCategory');
-
-              Route::get('/categories/all', [CategoryController::class, 'index'])
-                  ->name('index');
           });
     });
 
 
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+
 
 Route::name('admin.')
     ->prefix('admin')
     ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
-        Route::get('/news/add', [AdminNewsController::class, 'addNews'])->name('newsAdd');
+        Route::get('/create', [AdminNewsController::class, 'create'])->name('create');
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
 

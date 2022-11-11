@@ -17,7 +17,7 @@
                 <div class="card-text">
 
                 </div>
-                <a class="btn btn-primary mt-4" href="{{ route('admin.newsAdd') }}">
+                <a class="btn btn-primary mt-4" href="{{ route('admin.create') }}">
                     Добавить новость
                 </a>
             </div>
