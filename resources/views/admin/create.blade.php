@@ -18,11 +18,11 @@
 
                             <form id="news__add" action="{{ route('admin.create') }} method='post">
                                 <div class="row mb-3">
-                                    <label for="news__name" class="col-md-4 col-form-label text-md-end">
+                                    <label for="news__title" class="col-md-4 col-form-label text-md-end">
                                         Заголовок новости
                                     </label>
                                     <div class="col-md-6">
-                                        <input id="news__name" type="text" name="news__name" class="form-control"
+                                        <input id="news__title" type="text" name="news__title" class="form-control"
                                                value="">
                                     </div>
                                 </div>
@@ -32,7 +32,7 @@
                                         Категория новости
                                     </label>
                                     <div class="col-md-6">
-                                        <select id="news__category" type="text" name="news__name" class="form-control"
+                                        <select id="news__category" type="text" name="news__title" class="form-control"
                                                value="">
                                             @forelse($categories as $category)
                                             <option value="{{ $category['id'] }}">{{ $category['title'] }}</option>
@@ -48,7 +48,7 @@
                                         Подробное описание новости
                                     </label>
                                     <div class="col-md-6">
-                                        <textarea id="news__text" name="news__name" class="form-control"
+                                        <textarea id="news__text" name="news__text" class="form-control"
                                                   ></textarea>
                                     </div>
                                 </div>
@@ -58,8 +58,22 @@
                                         Краткое описание новости
                                     </label>
                                     <div class="col-md-6">
-                                        <input id="news__descr" type="text" name="news__name" class="form-control"
+                                        <input id="news__descr" type="text" name="news__descr" class="form-control"
                                                value="">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="news__is-private" class="col-md-4 col-form-label text-md-end">
+                                        Приватность
+                                    </label>
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <input id="news__is-private"
+                                               type="checkbox"
+                                               name="news__is-private"
+                                               value="1"
+                                               class="form-check-input"
+                                        >
                                     </div>
                                 </div>
 
