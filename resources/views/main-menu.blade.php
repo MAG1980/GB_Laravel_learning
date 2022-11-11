@@ -1,6 +1,6 @@
 <nav class="sticky-top navbar navbar-expand-md navbar-light bg-white shadow-sm  fs-5 ">
     <div class="container">
-        <a class="navbar-brand"  href="{{ route('home') }}">
+        <a class="navbar-brand {{ request()->routeIs('home') ? 'active' : '' }}"  href="{{ route('home') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -11,16 +11,17 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 <li class=" nav-item">
-                    <a class="nav-link" href="{{ route('news.index') }}">Новости</a>
+                    <a class="nav-link {{ request()->routeIs('news.index') ? 'active' : '' }}" href="{{ route('news.index') }}">Новости</a>
                 </li>
                 <li class=" nav-item">
-                    <a class="nav-link" href="{{ route('about') }}">Информация о проекте</a>
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Информация о
+                        проекте</a>
                 </li>
                 <li class=" nav-item">
-                    <a class="nav-link" href="{{ route('admin.index') }}">Консоль администратора</a>
+                    <a class="nav-link {{ request()->routeIs('admin.index') ? 'active' : '' }}" href="{{ route('admin.index') }}">Консоль администратора</a>
                 </li>
                 <li class=" nav-item">
-                    <a class="nav-link" href="{{ route('vue') }}">Vue</a>
+                    <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}" href="{{ route('vue') }}">Vue</a>
                 </li>
             </ul>
 
@@ -30,13 +31,13 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else

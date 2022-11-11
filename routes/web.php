@@ -60,7 +60,7 @@ Route::name('admin.')
     ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
-        Route::get('/news/add', [AdminNewsController::class, 'newsAdd'])->name('newsAdd');
+        Route::get('/news/add', [AdminNewsController::class, 'addNews'])->name('newsAdd');
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
 
