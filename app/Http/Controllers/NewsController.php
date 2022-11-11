@@ -37,11 +37,11 @@ class NewsController
         $categories = $category->getCategories();
         $news = $news->getNewsByCategoryBySlug($slug);
         $categoryId = $category->getCategoryIdBySlug($slug);
-        $name = $categories[$categoryId]['name'];
+        $title = $categories[$categoryId]['title'];
 
         return view('news.selectedCategory')
             ->with('categories', $categories)
-            ->with('selectedCategoryName', $name)
+            ->with('selectedCategoryTitle', $title)
             ->with('news', $news);
 
     }

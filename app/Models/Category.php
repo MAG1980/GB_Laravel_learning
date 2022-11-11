@@ -7,28 +7,28 @@ class Category
     private array $categories = [
        1 => [
            'id' => '1',
-           'name' => 'Политика',
+           'title' => 'Политика',
            'slug' => 'politika'
 
        ],
         2 => [
             'id' => '2',
-            'name' => 'Спорт',
+            'title' => 'Спорт',
             'slug' => 'sport'
         ],
         3 => [
             'id' => '3',
-            'name' => 'Кино',
+            'title' => 'Кино',
             'slug' => 'kino'
         ],
         4 => [
             'id' => '4',
-            'name' => 'Финансы',
+            'title' => 'Финансы',
             'slug' => 'finansy'
         ],
         5 => [
             'id' => '5',
-            'name' => '"Звёзды"',
+            'title' => '"Звёзды"',
             'slug' => 'zvyozdy'
         ]
     ];
@@ -38,19 +38,19 @@ class Category
         return $this->categories;
     }
 
-    public function getOneCategory($name): ?array
+    public function getOneCategory($title): ?array
     {
         foreach ($this->getCategories() as $category) {
-            if ($category['name'] === $name) {
+            if ($category['title'] === $title) {
                 return $category;
             }
         }
         return null;
     }
 
-    public function getCategoryIdBy($name){
+    public function getCategoryIdBy($title){
         foreach ($this->categories as $category){
-            if ($category['name'] === $name) {
+            if ($category['title'] === $title) {
                 return $category['id'];
             }
         }

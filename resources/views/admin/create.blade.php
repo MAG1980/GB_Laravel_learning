@@ -19,11 +19,27 @@
                             <form id="news__add" action="{{ route('admin.create') }} method='post">
                                 <div class="row mb-3">
                                     <label for="news__name" class="col-md-4 col-form-label text-md-end">
-                                        Название новости
+                                        Заголовок новости
                                     </label>
                                     <div class="col-md-6">
                                         <input id="news__name" type="text" name="news__name" class="form-control"
                                                value="">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="news__category" class="col-md-4 col-form-label text-md-end">
+                                        Категория новости
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select id="news__category" type="text" name="news__name" class="form-control"
+                                               value="">
+                                            @forelse($categories as $category)
+                                            <option>{{ $category['title'] }}</option>
+                                            @empty
+                                            <option>Нет категории</option>
+                                            @endforelse
+                                        </select>
                                     </div>
                                 </div>
 

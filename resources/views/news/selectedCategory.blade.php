@@ -9,7 +9,7 @@
 
 @section('content')
     <div class="card container-lg d-flex align-items-center justify-content-center">
-        <h1 class="card-title">Новости категории {{ $selectedCategoryName }}</h1>
+        <h1 class="card-title">Новости категории {{ $selectedCategoryTitle }}</h1>
         <div class="card text-center col-md-8">
 
             @forelse ($news as $item)
