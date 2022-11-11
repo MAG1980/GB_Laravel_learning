@@ -35,9 +35,9 @@
                                         <select id="news__category" type="text" name="news__name" class="form-control"
                                                value="">
                                             @forelse($categories as $category)
-                                            <option>{{ $category['title'] }}</option>
+                                            <option value="{{ $category['id'] }}">{{ $category['title'] }}</option>
                                             @empty
-                                            <option>Нет категории</option>
+                                            <option value="0">Нет категории</option>
                                             @endforelse
                                         </select>
                                     </div>
