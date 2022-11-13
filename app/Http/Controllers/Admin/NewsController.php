@@ -10,32 +10,33 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
-    public function create(Request $request, Category $category, News $news)
+    public function create(Request $request, Storage $storage, Category $category, News $news)
     {
         if ($request->isMethod('post')) {
 
-            //TODO прочитать все новости из файла, добавить новую в конце, сохранить файл
+            $allNews = $news->getNews($storage);
+            $lastIdString = strval((int)array_key_last($allNews) + 1);
 
-            $oldNewsArray = $news->getNews();
+            //получаю данные из формы добавления свежей новости
+            $freshNews = $request->except(['_token']);
+            $freshNews['id'] = $lastIdString;
 
-            dump($oldNewsArray);
-            $freshNews = Request::capture();
-            dd($freshNews);
+            if (array_key_exists('isPrivate', $freshNews)) {
+                $freshNews['isPrivate'] = true;
+            } else {
+                $freshNews['isPrivate'] = false;
+            }
 
-            //$arr[] = ; array_key_last() - получить ключ последнего элемента массива (для редиректа на него)
-            //return redirect()->route('');
+            $allNews[$lastIdString] = $freshNews;
 
-   /*         TODO учесть, что при получении данных из формы при снятом checkbox "isPrivate" свойство 'isPrivate' в
-             массиве будет отсутствовать (обработать эту ситуацию вручную)*/
+            $storage::disk('local')->put('news.json', json_encode($allNews, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
-/*            //сохраняем полученные данные в сессию ("одноразовую")
-            $request->flash();*/
+            return redirect()->route('news.show', $lastIdString);
 
-//            $data =
-            //запись данных на диск 'database' в файл 'news.json'
-//            Storage::disk('database')->put('news.json', $data);
+            /*            //сохраняем полученные данные в сессию ("одноразовую")
+                        $request->flash();*/
 
-            return redirect()->route('admin.create');
+//            return redirect()->route('admin.create');
         }
         return view('admin.create')
             ->with('categories', $category->getCategories());

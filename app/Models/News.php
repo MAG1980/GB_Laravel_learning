@@ -213,9 +213,10 @@ class News
 
     public function getOneNews($id): ?array
     {
-        /*        Временно использовал для сохранения данных из класса в файл
-                $data = json_encode($this->getNews(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                Storage::disk('local')->put('news.json', $data);*/
+/*       Временно использовал для сохранения данных из класса в файл
+        $data = json_encode($this->getNews(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        dump($data);
+        Storage::disk('local')->put('news.json', $data);*/
 
         if (array_key_exists($id, $this->getNews())) {
             return $this->getNews()[$id];

@@ -76,10 +76,10 @@
                                     <div class="col-md-6 d-flex align-items-center">
                                         <input id="news__is-private"
                                                type="checkbox"
-                                               name="news__is-private"
+                                               name="isPrivate"
                                                value="1"
                                                class="form-check-input"
-                                               {{ old('news__is-private') === '1' ? 'checked' : '' }}
+                                               {{ old('isPrivate') === '1' ? 'checked' : '' }}
                                         >
                                     </div>
                                 </div>
