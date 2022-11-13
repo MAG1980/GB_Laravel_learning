@@ -4,16 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
-    public function create(Request $request, Category $category)
+    public function create(Request $request, Category $category, News $news)
     {
         if ($request->isMethod('post')) {
 
             //TODO прочитать все новости из файла, добавить новую в конце, сохранить файл
+
+            $oldNewsArray = $news->getNews();
+
+            dump($oldNewsArray);
+            $freshNews = Request::capture();
+            dd($freshNews);
+
             //$arr[] = ; array_key_last() - получить ключ последнего элемента массива (для редиректа на него)
             //return redirect()->route('');
 

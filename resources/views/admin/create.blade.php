@@ -23,8 +23,8 @@
                                         Заголовок новости
                                     </label>
                                     <div class="col-md-6">
-                                        <input id="news__title" type="text" name="news__title" class="form-control"
-                                               value="{{ old('news__title') }}">
+                                        <input id="news__title" type="text" name="title" class="form-control"
+                                               value="{{ old('title') }}">
                                     </div>
                                 </div>
 
@@ -34,11 +34,11 @@
                                     </label>
                                     <div class="col-md-6">
                                         <select id="news__category" type="text"
-                                                name="news__category"
+                                                name="category_id"
                                                 class="form-control">                                               >
                                             @forelse($categories as $category)
                                             <option
-                                                {{ $category['id'] === old('news__category') ? 'selected' : '' }}
+                                                {{ $category['id'] === old('category_id') ? 'selected' : '' }}
                                                 value="{{ $category['id'] }}">{{ $category['title']
                                             }}</option>
                                             @empty
@@ -53,21 +53,21 @@
                                         Подробное описание новости
                                     </label>
                                     <div class="col-md-6">
-                                        <textarea id="news__text" name="news__text" class="form-control"
-                                                  value="{{ old('news__text') }}"
+                                        <textarea id="news__text" name="text" class="form-control"
+                                                  value="{{ old('text') }}"
                                                   ></textarea>
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
+<!--                                <div class="row mb-3">
                                     <label for="news__descr" class="col-md-4 col-form-label text-md-end">
                                         Краткое описание новости
                                     </label>
                                     <div class="col-md-6">
-                                        <input id="news__descr" type="text" name="news__descr" class="form-control"
-                                               value="{{ old('news__descr') }}">
+                                        <input id="news__descr" type="text" name="descr" class="form-control"
+                                               value="{{ old('descr') }}">
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="row mb-3">
                                     <label for="news__is-private" class="col-md-4 col-form-label text-md-end">
