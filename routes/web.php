@@ -26,6 +26,9 @@ Route::get('/about', function () {
 })->name('about');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 
+Route::get('/save', [HomeController::class, 'save'])->name('save');
+
+// вывод страницы, к которой подключен Vue
 Route::view('/vue', 'vue')->name('vue');
 
 //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
@@ -48,10 +51,6 @@ Route::name('news.')
                   ->name('selectedCategory');
           });
     });
-
-
-
-
 
 Route::name('admin.')
     ->prefix('admin')

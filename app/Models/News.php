@@ -200,6 +200,8 @@ class News
 
     public function getNews(): array
     {
+        //TODO прочитать данные из файла
+        //json_decode('file_name', true); - по умолчанию возвращает объект, с опцией true возвращает массив
         return $this->news;
     }
 
