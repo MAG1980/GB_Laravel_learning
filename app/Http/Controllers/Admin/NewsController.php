@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -21,6 +22,11 @@ class NewsController extends Controller
 
 /*            //сохраняем полученные данные в сессию ("одноразовую")
             $request->flash();*/
+
+//            $data =
+            //запись данных на диск 'database' в файл 'news.json'
+//            Storage::disk('database')->put('news.json', $data);
+
             return redirect()->route('admin.create');
         }
         return view('admin.create')
