@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class MyTest extends TestCase
@@ -41,11 +39,12 @@ class MyTest extends TestCase
         $response->assertSeeText("Новости категории Финансы");
     }
 
-    public function test_on_the_finance_news_page_is_visible()
+    public function test_on_the_all_news_page_that_view_has_all_keys()
     {
         $response = $this->get('/news');
-//        dd($response);
-
-//        $response->assertViewHas();
+        $response->assertViewHasAll([
+            'categories',
+            'news'
+        ]);
     }
 }
