@@ -29,9 +29,11 @@ class NewsController extends Controller
             $allNews[$lastId]['id'] = $lastId;
 
             //перезаписываю файл с новостями новыми данными
-            $storage::disk('local')->put('news.json', json_encode($allNews, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            $storage::disk('local')->put('news.json',
+                json_encode($allNews, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
-            return redirect()->route('news.show', $lastId);
+            return redirect()->route('news.show', $lastId)
+                ->with('success', "Новость успешно добавлена!");
 
             /*            //сохраняем полученные данные в сессию ("одноразовую")
                         $request->flash();*/
