@@ -14,24 +14,24 @@ class NewsController extends Controller
     {
         if ($request->isMethod('post')) {
 
-            $allNews = $news->getNews($storage);
-            $lastIdString = strval((int)array_key_last($allNews) + 1);
+            $allNews = $news->getNews();
 
-            //получаю данные из формы добавления свежей новости
-            $freshNews = $request->except(['_token']);
-            $freshNews['id'] = $lastIdString;
+         /* в архив с новостями добавляю новый элемент,
+         который содержит данные, полученные из формы добавления новости*/
+            $allNews[] = [
+                "title" => $request->title,
+                "text" => $request->text,
+                "category_id" => (int) $request->category_id,
+                "isPrivate" => isset($request->isPrivate)
+            ];
 
-            if (array_key_exists('isPrivate', $freshNews)) {
-                $freshNews['isPrivate'] = true;
-            } else {
-                $freshNews['isPrivate'] = false;
-            }
+            $lastId = array_key_last($allNews);
+            $allNews[$lastId]['id'] = $lastId;
 
-            $allNews[$lastIdString] = $freshNews;
-
+            //перезаписываю файл с новостями новыми данными
             $storage::disk('local')->put('news.json', json_encode($allNews, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
-            return redirect()->route('news.show', $lastIdString);
+            return redirect()->route('news.show', $lastId);
 
             /*            //сохраняем полученные данные в сессию ("одноразовую")
                         $request->flash();*/
