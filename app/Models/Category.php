@@ -1,41 +1,17 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Support\Facades\Storage;
 
 class Category
 {
-    private array $categories = [
-       1 => [
-           'id' => '1',
-           'title' => 'Политика',
-           'slug' => 'politika'
-
-       ],
-        2 => [
-            'id' => '2',
-            'title' => 'Спорт',
-            'slug' => 'sport'
-        ],
-        3 => [
-            'id' => '3',
-            'title' => 'Кино',
-            'slug' => 'kino'
-        ],
-        4 => [
-            'id' => '4',
-            'title' => 'Финансы',
-            'slug' => 'finansy'
-        ],
-        5 => [
-            'id' => '5',
-            'title' => '"Звёзды"',
-            'slug' => 'zvyozdy'
-        ]
-    ];
 
     public function getCategories(): array
     {
-        return $this->categories;
+        $categories = Storage::disk('local')->get('categories.json');
+
+        //параметр true преобразует объект в ассоциативный массив
+        return json_decode($categories, true) ;
     }
 
     public function getOneCategory($title): ?array
@@ -49,7 +25,7 @@ class Category
     }
 
     public function getCategoryIdBy($title){
-        foreach ($this->categories as $category){
+        foreach ($this->getCategories() as $category){
             if ($category['title'] === $title) {
                 return $category['id'];
             }
@@ -58,7 +34,7 @@ class Category
 
     public function getCategoryIdBySlug($slug){
         $id = null;
-        foreach($this->categories as $category){
+        foreach($this->getCategories() as $category){
             if ($category['slug'] === $slug){
                 $id = $category['id'];
                 break;
