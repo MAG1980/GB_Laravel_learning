@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\News;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class NewsController
 {
-    public function index(News $news, Category $category)
+    public function index(Category $category)
     {
         $categories = $category->getCategories();
-        $news = $news->getNews();
+
+        /*Использовать метод select можно только в исключительных случаях,
+        когда невозможно обойтись средствами конструктора запросов.
+        $news = DB::select('SELECT * FROM `news` WHERE 1'); */
+        $news = DB::table('news')->get();
 
         //Передаём данные в представление ('news' - переменная, $news - значение)
         return view('news.index')
@@ -21,9 +24,11 @@ class NewsController
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
     //При передаче нескольких параметров важен порядок их следования, а не имена переменных
-    public function show($id, News $news, Category $category)
+    public function show($id, Category $category)
     {
-        $news = $news->getOneNews($id);
+//        $news = $news->getOneNews($id);
+        $news = DB::table('news')->find($id);
+//        dd($news);
         $categories = $category->getCategories();
         return view('news.show')
             ->with('categories', $categories)
