@@ -14,7 +14,7 @@
             <div class="list-group">
                 @forelse($news as $item)
                     <a class="list-group-item list-group-item-action my-2 py-2"
-                       href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}
+                       href="{{ route('news.show', $item->id) }}">{{ $item->title }}
                     </a>
                 @empty
                     <div text-primary my-5 text-center fs-5>Новостей нет</div>
