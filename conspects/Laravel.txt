@@ -1,4 +1,10 @@
-﻿Возникала ошибка
+﻿При внесении изменений в файл .env под Windows к нему применяется кодировка DOS и возникают ошибки
+./.env: line 6: $'\r': command not found
+Преобразовать кодировку обратно можно с помощью команды:
+$ dos2unix .env .env
+dos2unix: converting file .env to Unix format...
+
+Возникала ошибка
 SQLSTATE[HY000] [1044] Access denied for user 'sail'@'%' to database 'example_app' (SQL: select * from information_schema.tables where table_schema = example_app and table_name = migrations and table_type = 'BASE TABLE')
 
 Решил с помощью этой инструкции:
@@ -154,9 +160,9 @@ Route::get('/create', [AdminNewsController::class, 'create'])->name('create');
 
 Чтобы создать HomeController, используя средства Laravel, нужно ввести команду
 $ sail artisan make:controller HomeController
-Эта команда будет вызывать ошибку, если в придожении уже есть строка,
+Эта команда будет вызывать ошибку, если в приложении уже есть строка,
 в которой происходит обращение к несуществующему контроллеру (её нужно предварительно закомментировать),
-т.к. перед выполнением команды artisan вполняет код приложения.
+т.к. перед выполнением команды artisan выполняет код приложения.
 
 
 sail artisan help make:controller
@@ -612,7 +618,8 @@ Storage::disk('local')->put('news.json', json_encode($news->getNews(), JSON_UNES
 
 Настройка тестирования в Docker: 1:30:20
 Для тестирования Laravel Sail в PHPStorm нажатием стрелки нужно установить и активировать плагины PHP и PHPDocker.
-После этого в настройках PHP IDE нуно добавить новый CLI интерпретатор предварительно запустив контейнер Sail (при этом нужно в настройках сервера нажать кнопку "New").
+После этого в настройках PHP IDE нужно добавить новый CLI интерпретатор предварительно запустив контейнер Sail (при этом
+ нужно в настройках сервера нажать кнопку "New").
 
 Самый простой способ запустить тесты - использовать команду:
 
@@ -1086,3 +1093,9 @@ c. Источники получения новостных данных.
 если идёт редирект на эту новость, то insert()->getId()
 Подробнее о ДЗ 1:31, 1:33
 Продолжить просмотр с 1:39 (добавление картинки в HTML)
+
+Чтобы файлы, находящиеся в папке ~/storage стали доступны в браузере,
+нужно создать символическую ссылку (ярлык) командой:
+$ sail artisan storage:link
+   INFO  The [public/storage] link has been connected to [storage/app/public].
+
