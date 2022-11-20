@@ -20,6 +20,7 @@
                     <div text-primary my-5 text-center fs-5>Новостей нет</div>
                 @endforelse
             </div>
+            {{$news->links()}}
         </div>
     </div>
 @endsection

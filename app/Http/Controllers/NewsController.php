@@ -15,8 +15,9 @@ class NewsController
         когда невозможно обойтись средствами конструктора запросов.
         $news = DB::select('SELECT * FROM `news` WHERE 1'); */
 //        $news = DB::table('news')->get();
-        $news = News::all();
-
+//        $news = News::all();
+//      $news = News::where('isPrivate', false)->get();
+        $news= News::query()->paginate(5);
         //Передаём данные в представление ('news' - переменная, $news - значение)
         return view('news.index')
             ->with('categories', $categories)
