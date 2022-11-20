@@ -40,7 +40,7 @@ Route::name('news.')
     ->group(function () {
         Route::get('/', [NewsController::class, 'index'])->name('index');
 
-        Route::get('/{id}', [NewsController::class, 'show'])
+        Route::get('/{news}', [NewsController::class, 'show'])
             ->where('id', '[0-9]+')
             ->name('show');
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Support\Facades\DB;
 
 class NewsController
@@ -13,7 +14,8 @@ class NewsController
         /*Использовать метод select можно только в исключительных случаях,
         когда невозможно обойтись средствами конструктора запросов.
         $news = DB::select('SELECT * FROM `news` WHERE 1'); */
-        $news = DB::table('news')->get();
+//        $news = DB::table('news')->get();
+        $news = News::all();
 
         //Передаём данные в представление ('news' - переменная, $news - значение)
         return view('news.index')
@@ -23,10 +25,10 @@ class NewsController
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
     //При передаче нескольких параметров важен порядок их следования, а не имена переменных
-    public function show($id)
+    public function show(News $news)
     {
 //        $news = $news->getOneNews($id);
-        $news = DB::table('news')->find($id);
+//        $news = DB::table('news')->find($id);
 //        dd($news);
         $categories = DB::table('categories')->get();
         return view('news.show')
