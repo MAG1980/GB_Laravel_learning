@@ -42,7 +42,7 @@ class NewsController
     ) {
         $categories = DB::table('categories')->get();
 //        $news = $news->getNewsByCategoryBySlug($slug);
-        $selectedCategory = DB::table('categories')->where('slug', '=', $slug)->get()[0];
+        $selectedCategory = DB::table('categories')->where('slug', '=', $slug)->first();
         $selectedCategoryId = $selectedCategory->id;
 
         $news = DB::table('news')->where('category_id', $selectedCategoryId)->get();
