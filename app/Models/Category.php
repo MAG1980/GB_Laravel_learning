@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 class Category
 {
 
-    public function getCategories(): array
+   /* public function getCategories(): array
     {
         $categories = Storage::disk('local')->get('categories.json');
 
@@ -41,5 +41,5 @@ class Category
             }
         }
         return $id;
-    }
+    }*/
 }
