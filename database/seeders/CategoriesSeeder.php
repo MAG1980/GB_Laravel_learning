@@ -31,6 +31,7 @@ class CategoriesSeeder extends Seeder
                     'id'=>$i,
                     'title' =>$faker->realText(rand(10,30)),
                     'slug'=>$faker->realText(rand(10,10)),
+                    'created_at'=>now()
                 ];
 
         }

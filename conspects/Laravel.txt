@@ -932,6 +932,9 @@ $ sail artisan migrate
 используется команда:
 $sail artisan migrate:rollback
 
+Для добавления столбца category_id  в таблицу news необходимо создать миграцию командой:
+sail artisan make:migration add_category_id_column_to_news_table --table=news
+
 Для заполнения таблиц фейковыми данными используется "посев" Seeding
 Seeders располагаются в ~/database/seeders/
 

@@ -28,11 +28,13 @@ class NewsSeeder extends Seeder
         //создаёт локализованный для русского языка экземпляр класса Faker.
         $faker = Faker\Factory::create('ru_Ru');
         //для создания массива новостей используем цикл
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 150; $i++) {
             $data[] = [
                 'title' => $faker->realText(rand(10, 30)),
                 'text' => $faker->realText(rand(1000, 3000)),
-                'isPrivate' => $faker->boolean()
+                'isPrivate' => $faker->boolean(),
+                'category_id' =>rand(1,5),
+                'created_at'=>now()
             ];
         }
         return $data;
