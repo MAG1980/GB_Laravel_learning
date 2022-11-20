@@ -38,8 +38,8 @@
                                                 class="form-control">                                               >
                                             @forelse($categories as $category)
                                             <option
-                                                {{ $category['id'] === old('category_id') ? 'selected' : '' }}
-                                                value="{{ $category['id'] }}">{{ $category['title']
+                                                {{ $category->id === old('category_id') ? 'selected' : '' }}
+                                                value="{{ $category->id }}">{{ $category->title
                                             }}</option>
                                             @empty
                                             <option value="0">Нет категории</option>
