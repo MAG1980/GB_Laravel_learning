@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class News
 {
-    private Category $category;
+/*    private Category $category;
 
     public function __construct(Category $category)
     {
@@ -26,10 +26,10 @@ class News
 
     public function getOneNews($id): ?array
     {
-/*       Временно использовал для сохранения данных из класса в файл
-        $data = json_encode($this->getNews(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        dump($data);
-        Storage::disk('local')->put('news.json', $data);*/
+//       Временно использовал для сохранения данных из класса в файл
+//        $data = json_encode($this->getNews(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+//        dump($data);
+//        Storage::disk('local')->put('news.json', $data);
 
         if (array_key_exists($id, $this->getNews())) {
             return $this->getNews()[$id];
@@ -54,5 +54,5 @@ class News
             return $news['category_id'] === $id;
         });
 
-    }
+    }*/
 }

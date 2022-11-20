@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
 class NewsController
 {
-    public function index(Category $category)
+    public function index()
     {
-        $categories = $category->getCategories();
+        $categories = DB::table('categories')->get();
 
         /*Использовать метод select можно только в исключительных случаях,
         когда невозможно обойтись средствами конструктора запросов.
@@ -24,30 +23,33 @@ class NewsController
 
     //Параметры строки запроса доступны передаются в параметры методов контроллера средствами фреймворка
     //При передаче нескольких параметров важен порядок их следования, а не имена переменных
-    public function show($id, Category $category)
+    public function show($id)
     {
 //        $news = $news->getOneNews($id);
         $news = DB::table('news')->find($id);
 //        dd($news);
-        $categories = $category->getCategories();
+        $categories = DB::table('categories')->get();
         return view('news.show')
             ->with('categories', $categories)
             ->with('news', $news);
     }
 
     public function selectedCategory(
-        $slug,
-        News $news,
-        Category $category
+        $slug
     ) {
-        $categories = $category->getCategories();
-        $news = $news->getNewsByCategoryBySlug($slug);
-        $categoryId = $category->getCategoryIdBySlug($slug);
-        $title = $categories[$categoryId]['title'];
+        $categories = DB::table('categories')->get();
+//        $news = $news->getNewsByCategoryBySlug($slug);
+        $selectedCategory = DB::table('categories')->where('slug', '=', $slug)->get()[0];
+        $selectedCategoryId = $selectedCategory->id;
+
+        $news = DB::table('news')->where('category_id', $selectedCategoryId)->get();
+
+//        $categoryId = $category->getCategoryIdBySlug($slug);
+//        $title = $categories[$categoryId]['title'];
 
         return view('news.selectedCategory')
             ->with('categories', $categories)
-            ->with('selectedCategoryTitle', $title)
+            ->with('selectedCategory', $selectedCategory)
             ->with('news', $news);
 
     }

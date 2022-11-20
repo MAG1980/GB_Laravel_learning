@@ -9,21 +9,22 @@
 
 @section('content')
     <div class="card container-lg d-flex align-items-center justify-content-center">
-        <h1 class="card-title">Новости категории {{ $selectedCategoryTitle }}</h1>
+
+        <h1 class="card-title">Новости категории {{ $selectedCategory->title }}</h1>
         <div class="card text-center col-md-8">
 
             @forelse ($news as $item)
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h2 class="card-title">{{ $item['title'] }}</h2>
+                        <h2 class="card-title">{{ $item->title }}</h2>
                         <div>
-                            <img src="..." class="card-img-top" alt="...">
+                            <img src="{{asset('/storage/img/default.jpg')}}" class="card-img-top" alt="...">
                         </div>
-                        @if($item['isPrivate'])
+                        @if($item->isPrivate)
                             <p>Для просмотра данной новости Вам необходимо войти в свой профиль</p>
                             <a class="btn btn-primary" href="{{ route('login') }}"> Авторизоваться</a>
                         @else
-                            <a class="btn bg-info" href="{{ route('news.show', $item['id']) }}"> Подробнее...</a>
+                            <a class="btn bg-info" href="{{ route('news.show', $item->id) }}"> Подробнее...</a>
                         @endif
                     </div>
                 </div>
