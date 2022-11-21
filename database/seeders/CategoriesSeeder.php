@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CategoriesSeeder extends Seeder
 {
@@ -25,7 +26,7 @@ class CategoriesSeeder extends Seeder
     {
         $data = [];
         $faker = Faker\Factory::create('ru_Ru');
-        for ($i = 1; $i < 6; $i++) {
+/*        for ($i = 1; $i < 6; $i++) {
             $data[]=
                 [
                     'id'=>$i,
@@ -34,7 +35,35 @@ class CategoriesSeeder extends Seeder
                     'created_at'=>now()
                 ];
 
-        }
+        }*/
+        $data=
+            [
+                ['id'=>1,
+                'title' =>'политика',
+                'slug'=>Str::slug('политика'),
+                'created_at'=>now()
+                ],
+                ['id'=>2,
+                    'title' =>'финансы',
+                    'slug'=>Str::slug('финансы'),
+                    'created_at'=>now()
+                ],
+                ['id'=>3,
+                    'title' =>'искусство',
+                    'slug'=>Str::slug('искусство'),
+                    'created_at'=>now()
+                ],
+                ['id'=>4,
+                    'title' =>'здоровье',
+                    'slug'=>Str::slug('здоровье'),
+                    'created_at'=>now()
+                ],
+                ['id'=>5,
+                    'title' =>'спорт',
+                    'slug'=>Str::slug('спорт'),
+                    'created_at'=>now()
+                ],
+            ];
         return $data;
     }
 }
