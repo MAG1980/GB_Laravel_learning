@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-   public function show(News $news, $slug)
+   public function show($slug)
    {
+       $category=Category::query()->where('slug', $slug)->first();
+       $news = News::query()->where('category_id', $category);
        return view('news.selectedCategory')
-           ->with('news', $news->getNewsByCategoryBySlug($slug));
+           ->with('news', $news);
    }
 }
