@@ -15,15 +15,29 @@
             <div class="card-body py-5">
                 <h1 class="card-title">Консоль администратора</h1>
                 <div class="card-text">
-
+                    <h2>CRUD новости</h2>
+                    <a class="btn btn-primary mt-4" href="{{ route('admin.create') }}">
+                        Добавить новость
+                    </a>
+                    <div class="news mt-5">
+                        @forelse($news as $item)
+                            <h2>{{$item->title}}</h2>
+                            <a href="{{route('admin.edit', $item)}}" class="btn btn-success m-4">
+                                Редактировать новость
+                            </a>
+                            <a href="{{route('admin.destroy', $item)}}" class="btn btn-danger m-4">
+                                Удалить новость
+                            </a>
+                        @empty
+                            <p>Нет новостей</p>
+                        @endforelse</div>
                 </div>
-                <a class="btn btn-primary mt-4" href="{{ route('admin.create') }}">
-                    Добавить новость
-                </a>
+
             </div>
             <div class="card-footer text-muted">
                 - || -
             </div>
+            {{ $news->links() }}
         </div>
     </div>
 @endsection

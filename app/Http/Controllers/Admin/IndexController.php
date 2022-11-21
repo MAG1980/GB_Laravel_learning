@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    public function index(){
-        return view('admin.index');
-    }
-
     //скачивание браузером файла user3.jpg из папки public сервера на локальный диск
     public function test1(){
         return response()->download('user3.jpg');

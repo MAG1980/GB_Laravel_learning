@@ -56,11 +56,18 @@ Route::name('admin.')
     ->prefix('admin')
     ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
-        Route::get('/', [AdminController::class, 'index'])->name('index');
+        //CRUD
+        Route::get('/', [AdminNewsController::class, 'index'])->name('index');
         Route::match(['post','get'],'/create', [AdminNewsController::class, 'create'])->name('create');
+        //открывает форму редактирования новости
+        Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
+        //сохраняет изменённую новость в БД
+        Route::post('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
+        //удаляет новость из БД
+        Route::get('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
+
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
-
     });
 
 Route::get('/404', function () {

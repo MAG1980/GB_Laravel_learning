@@ -12,21 +12,26 @@
             <div class="d-flex justify-content-center align-items-center">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header text-center">{{ __('Добавить новость') }}</div>
+                        <div class="card-header text-center">
+                            {{$news->id ? 'Редактировать' : 'Добавить'}} новость
+                        </div>
 
                         <div class="card-body">
 
-                            <form id="news__add" action="{{ route('admin.create') }}" method="post">
-                                @csrf
-                                <div class="row mb-3">
-                                    <label for="news__title" class="col-md-4 col-form-label text-md-end">
-                                        Заголовок новости
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input id="news__title" type="text" name="title" class="form-control"
-                                               value="{{ old('title') }}">
-                                    </div>
+                            <!-- Если $news содержит поле id, значит мы не создаём новость, а редактируем-->
+                            <form id="news__add"
+                                  action="{{ $news->id ? route('admin.update', $news): route('admin.create') }}"
+                                  method="post">
+                            @csrf
+                            <div class="row mb-3">
+                                <label for="news__title" class="col-md-4 col-form-label text-md-end">
+                                    Заголовок новости
+                                </label>
+                                <div class="col-md-6">
+                                    <input id="news__title" type="text" name="title" class="form-control"
+                                           value="{{ $news->title ?? old('title') }}">
                                 </div>
+                            </div>
 
                                 <div class="row mb-3">
                                     <label for="news__category" class="col-md-4 col-form-label text-md-end">
@@ -54,7 +59,7 @@
                                     </label>
                                     <div class="col-md-6">
                                         <textarea id="news__text" name="text" class="form-control"
-                                                  value="{{ old('text') }}"
+                                                  value="{{ $news->text ?? old('text') }}"
                                                   ></textarea>
                                     </div>
                                 </div>
@@ -79,7 +84,7 @@
                                                name="isPrivate"
                                                value="1"
                                                class="form-check-input"
-                                               {{ old('isPrivate') === '1' ? 'checked' : '' }}
+                                               {{ $news->isPrivate ?? old('isPrivate') === '1' ? 'checked' : '' }}
                                         >
                                     </div>
                                 </div>
@@ -87,7 +92,7 @@
                                 <div class="row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
-                                            Добавить новость
+                                            {{$news->id ? 'Сохранить' : 'Добавить'}} новость
                                         </button>
                                     </div>
                                 </div>
