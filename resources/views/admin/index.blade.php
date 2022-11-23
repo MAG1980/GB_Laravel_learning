@@ -25,9 +25,13 @@
                             <a href="{{route('admin.edit', $item)}}" class="btn btn-success m-4">
                                 Редактировать новость
                             </a>
-                            <a href="{{route('admin.destroy', $item)}}" class="btn btn-danger m-4">
-                                Удалить новость
-                            </a>
+                            <form class="d-inline" action="{{route('admin.destroy', $item)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger m-4">
+                                    Удалить новость
+                                </button>
+                            </form>
                         @empty
                             <p>Нет новостей</p>
                         @endforelse</div>

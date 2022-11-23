@@ -62,9 +62,9 @@ Route::name('admin.')
         //открывает форму редактирования новости
         Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
         //сохраняет изменённую новость в БД
-        Route::post('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
+        Route::patch('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
         //удаляет новость из БД
-        Route::get('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
+        Route::delete('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
 
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');

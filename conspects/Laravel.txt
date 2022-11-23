@@ -1299,5 +1299,10 @@ method="post">
   <input name="title" value="{{ $news->title ?? old('title') }}">
   если заголовок новости пуст, то, при наличии, будет выведено старое значение.
 
+Чтобы изменить метод отправки данных формой с POST на, например, DELETE, нужно внутри формы добавить директиву @method()
+<form method="post">
+ @csrf
+ @method('DELETE')
+</form>
 
 

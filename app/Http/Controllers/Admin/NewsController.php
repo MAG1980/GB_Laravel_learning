@@ -16,7 +16,7 @@ class NewsController extends Controller
             ->with('news', $news);
     }
 
-    public function create(Request $request, Category $category)
+    public function create(Request $request)
     {
         //В соответствии с паттерном AR создаём объект модели News, а не принимаем его в качестве параметра
         $news = new News();
@@ -34,22 +34,6 @@ class NewsController extends Controller
             //Получаю id последней записи
             $newsId = $news->id;
 
-            /*//            слишком многословно
-                        $news->title = $request->title;
-                        $news->text = $request->text;
-                        $news->category_id = (int) $request->category_id;
-                        $news->isPrivate = isset($request->isPrivate);*/
-
-            /*            $data = [
-                            "title" => $request->title,
-                            "text" => $request->text,
-                            "category_id" => (int) $request->category_id,
-                            "isPrivate" => isset($request->isPrivate)
-                        ];*/
-
-/*            //Вношу данные в БД и получаю id последней записи
-            $newsId = DB::table('news')->insertGetId($data);*/
-
             //перенаправление на страницу последней добавленной новости
             return redirect()->route('news.show', $newsId)
                 ->with('success', "Новость успешно добавлена!");
@@ -58,7 +42,7 @@ class NewsController extends Controller
         return view('admin.create')
             ->with([
                 'news' => $news,
-                'categories' => $category->query()->get()
+                'categories' => Category::all()
             ]);
     }
 
@@ -67,12 +51,12 @@ class NewsController extends Controller
 
     }
 
-    public function edit(News $news, Category $category)
+    public function edit(News $news)
     {
         return view('admin.create')
             ->with([
                 'news' => $news,
-                'categories' => $category->query()->get()
+                'categories' => Category::all()
             ]);
     }
 
@@ -82,6 +66,7 @@ class NewsController extends Controller
         $data = $request->all();
         //заполнение только тех полей экземпляра класса News, которые перечислены в его свойстве fillable
         $news->fill($data);
+        $news->isPrivate = isset($request->isPrivate);
         //Сохранение строки в БД
         $news->save();
 
@@ -92,7 +77,7 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         $news->delete();
-        return redirect('admin.index')
+        return redirect()->route('admin.index')
             ->with('success', 'Новость удалена успешно!');
     }
 }

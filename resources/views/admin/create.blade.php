@@ -22,16 +22,17 @@
                             <form id="news__add"
                                   action="{{ $news->id ? route('admin.update', $news): route('admin.create') }}"
                                   method="post">
-                            @csrf
-                            <div class="row mb-3">
-                                <label for="news__title" class="col-md-4 col-form-label text-md-end">
-                                    Заголовок новости
-                                </label>
-                                <div class="col-md-6">
-                                    <input id="news__title" type="text" name="title" class="form-control"
-                                           value="{{ $news->title ?? old('title') }}">
+                                @csrf
+                                <input type="hidden" name="_method" value="{{ $news->id ? 'PATCH' : 'POST'}}">
+                                <div class="row mb-3">
+                                    <label for="news__title" class="col-md-4 col-form-label text-md-end">
+                                        Заголовок новости
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="news__title" type="text" name="title" class="form-control"
+                                               value="{{ $news->title ?? old('title') }}">
+                                    </div>
                                 </div>
-                            </div>
 
                                 <div class="row mb-3">
                                     <label for="news__category" class="col-md-4 col-form-label text-md-end">
@@ -40,7 +41,7 @@
                                     <div class="col-md-6">
                                         <select id="news__category" type="text"
                                                 name="category_id"
-                                                class="form-control">                                               >
+                                                class="form-control"> >
                                             @forelse($categories as $category)
                                             <option
                                                 {{ $category->id === old('category_id') ? 'selected' : '' }}
@@ -63,16 +64,6 @@
                                                   ></textarea>
                                     </div>
                                 </div>
-
-<!--                                <div class="row mb-3">
-                                    <label for="news__descr" class="col-md-4 col-form-label text-md-end">
-                                        Краткое описание новости
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input id="news__descr" type="text" name="descr" class="form-control"
-                                               value="{{ old('descr') }}">
-                                    </div>
-                                </div>-->
 
                                 <div class="row mb-3">
                                     <label for="news__is-private" class="col-md-4 col-form-label text-md-end">
