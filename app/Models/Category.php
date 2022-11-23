@@ -11,8 +11,6 @@ class Category extends Model
 
     protected $fillable = ['title', 'slug'];
 
-
-
     /**Возвращает массив новостей категории, id которой получает с помощью ORM
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

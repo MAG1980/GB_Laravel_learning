@@ -10,7 +10,7 @@ class NewsController
 {
     public function index()
     {
-        $categories = Category::query()->get();
+        $categories = Category::all();
 //        $categories = DB::table('categories')->get();
 
         $news = News::query()->paginate(5);
@@ -27,7 +27,7 @@ class NewsController
 //        $news = $news->getOneNews($id);
 //        $news = DB::table('news')->find($id);
 //        dd($news);
-        $categories = Category::query()->get();
+        $categories = Category::all();
         return view('news.show')
             ->with('categories', $categories)
             ->with('news', $news);
@@ -36,15 +36,14 @@ class NewsController
     public function selectedCategory(
         $slug
     ) {
-        $categories = Category::query()->get();
+        $categories = Category::all();
 
-        $selectedCategory = Category::query()->where('slug', '=', $slug)->first();
+        $selectedCategory = Category::where('slug',  $slug)->first();
         /*        $selectedCategory = DB::table('categories')->where('slug', '=', $slug)->first();*/
         $selectedCategoryId = $selectedCategory->id;
 
-//        $news = $selectedCategory->news();
-        $news = DB::table('news')->where('category_id', $selectedCategoryId)->get();
-
+        $news = $selectedCategory->news()->get();
+//        $news = DB::table('news')->where('category_id', $selectedCategoryId)->get();
 
         return view('news.selectedCategory')
             ->with('categories', $categories)
