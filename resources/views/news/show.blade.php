@@ -18,6 +18,7 @@
                     <h1 class="card-title">{{ $news->title }}</h1>
                     <div class="card-text">
                         <p class="fs-4"> Новость № {{ $news->id }}</p>
+                        <p class="fs-4"> Категория: {{ $news->category()->title }}</p>
                         @if($news->isPrivate)
                             <div>
                                 <p class="card-text">Скрытый контент доступен только авторизованным пользователям</p>
