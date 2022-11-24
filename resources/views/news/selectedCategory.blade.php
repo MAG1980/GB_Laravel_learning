@@ -4,7 +4,7 @@
 
 @section('menu')
     @include('main-menu')
-    @include('news.categories-menu')
+    @include('news.category-menu')
 @endsection
 
 @section('content')

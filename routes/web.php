@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TestInvokeController;
@@ -44,27 +45,46 @@ Route::name('news.')
             ->where('id', '[0-9]+')
             ->name('show');
 
-      Route::name('category.')
-          ->group(function ()
-          {
-              Route::get('/category/{slug}', [NewsController::class, 'selectedCategory'])
-                  ->name('selectedCategory');
-          });
+        Route::name('category.')
+            ->group(function () {
+                Route::get('/category/{slug}', [NewsController::class, 'selectedCategory'])
+                    ->name('selectedCategory');
+            });
     });
 
 Route::name('admin.')
     ->prefix('admin')
     ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
-        //CRUD
-        Route::get('/', [AdminNewsController::class, 'index'])->name('index');
-        Route::match(['post','get'],'/create', [AdminNewsController::class, 'create'])->name('create');
-        //открывает форму редактирования новости
-        Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
-        //сохраняет изменённую новость в БД
-        Route::patch('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
-        //удаляет новость из БД
-        Route::delete('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
+        Route::name('news.')
+            ->prefix('news')
+            ->group(function () {
+                //CRUD
+                Route::get('/', [AdminNewsController::class, 'index'])->name('index');
+                Route::match(['post', 'get'], '/create', [AdminNewsController::class, 'create'])->name('create');
+                //открывает форму редактирования новости
+                Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
+                //сохраняет изменённую новость в БД
+                Route::patch('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
+                //удаляет новость из БД
+                Route::delete('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::name('category.')
+            ->prefix('category')
+            ->group(function () {
+                //CRUD
+                Route::get('/', [AdminCategoryController::class, 'index'])->name('index');
+                Route::match(['post', 'get'], '/create', [AdminCategoryController::class, 'create'])->name('create');
+                //открывает форму редактирования новости
+                Route::get('/edit/{category}', [AdminCategoryController::class, 'edit'])->name('edit');
+                //сохраняет изменённую новость в БД
+                Route::patch('/edit/{category}', [AdminCategoryController::class, 'update'])->name('update');
+                //удаляет новость из БД
+                Route::delete('/destroy/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::get('/', [AdminController::class, 'index'])->name('index');
 
         Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
         Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
@@ -91,7 +111,6 @@ Route::redirect('redir', '/', 301);
 
 //Чтобы устранить ошибку, нужно указать namespace для класса контроллера (use)
 Route::get('/invoke', TestInvokeController::class);
-
 
 
 Auth::routes();

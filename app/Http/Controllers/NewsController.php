@@ -11,7 +11,7 @@ class NewsController
     public function index()
     {
         $categories = Category::all();
-//        $categories = DB::table('categories')->get();
+//        $category = DB::table('category')->get();
 
         $news = News::query()->paginate(5);
         //Передаём данные в представление ('news' - переменная, $news - значение)
@@ -39,7 +39,7 @@ class NewsController
         $categories = Category::all();
 
         $selectedCategory = Category::where('slug',  $slug)->first();
-        /*        $selectedCategory = DB::table('categories')->where('slug', '=', $slug)->first();*/
+        /*        $selectedCategory = DB::table('category')->where('slug', '=', $slug)->first();*/
         $selectedCategoryId = $selectedCategory->id;
 
         $news = $selectedCategory->news()->get();

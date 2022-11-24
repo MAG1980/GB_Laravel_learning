@@ -39,7 +39,7 @@ class savejson extends Command
 
         //Сохраняет категории в файл
         Storage::disk('local')->put(
-            'categories.json',
+            'category.json',
             json_encode($category->getCategories(),
                 JSON_UNESCAPED_UNICODE| JSON_PRETTY_PRINT));
 

@@ -12,7 +12,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::query()->paginate(5);
-        return view('admin.index')
+        return view('admin.news.index')
             ->with('news', $news);
     }
 
@@ -39,10 +39,10 @@ class NewsController extends Controller
                 ->with('success', "Новость успешно добавлена!");
 
         }
-        return view('admin.create')
+        return view('admin.news.create')
             ->with([
                 'news' => $news,
-                'categories' => Category::all()
+                'category' => Category::all()
             ]);
     }
 
@@ -53,7 +53,7 @@ class NewsController extends Controller
 
     public function edit(News $news)
     {
-        return view('admin.create')
+        return view('admin.news.create')
             ->with([
                 'news' => $news,
                 'categories' => Category::all()
@@ -70,14 +70,14 @@ class NewsController extends Controller
         //Сохранение строки в БД
         $news->save();
 
-        return redirect()->route('admin.index')
-            ->with('success', "Новость изменена успешно");
+        return redirect()->route('admin.news.index')
+            ->with('success', "Новость изменена успешно!");
     }
 
     public function destroy(News $news)
     {
         $news->delete();
-        return redirect()->route('admin.index')
+        return redirect()->route('admin.news.index')
             ->with('success', 'Новость удалена успешно!');
     }
 }

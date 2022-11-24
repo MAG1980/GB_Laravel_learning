@@ -10,7 +10,7 @@
     <div class="card container-lg ">
         <div class="card-body">
             <h1 class="card-title text-center py-3">Новости</h1>
-            @include('news.categories-menu')
+            @include('news.category-menu')
             <div class="list-group">
                 @forelse($news as $item)
                     <a class="list-group-item list-group-item-action my-2 py-2"
