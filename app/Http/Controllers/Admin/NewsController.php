@@ -42,7 +42,7 @@ class NewsController extends Controller
         return view('admin.news.create')
             ->with([
                 'news' => $news,
-                'category' => Category::all()
+                'categories' => Category::all()
             ]);
     }
 

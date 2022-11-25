@@ -54,21 +54,18 @@ Route::name('news.')
 
 Route::name('admin.')
     ->prefix('admin')
-    ->namespace('Admin') //контроллер вложен в папку Admin (в данном случае использовать не обязательно, т.к. ns явно указан в use
     ->group(function () {
-        Route::name('news.')
-            ->prefix('news')
-            ->group(function () {
-                //CRUD
-                Route::get('/', [AdminNewsController::class, 'index'])->name('index');
-                Route::match(['post', 'get'], '/create', [AdminNewsController::class, 'create'])->name('create');
-                //открывает форму редактирования новости
-                Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
-                //сохраняет изменённую новость в БД
-                Route::patch('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
-                //удаляет новость из БД
-                Route::delete('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');
-            });
+        //заменяет собой маршруты для всех методов CRUD
+        Route::resource('news', AdminNewsController::class)->except(['show']);
+        /*                //CRUD
+                        Route::get('/', [AdminNewsController::class, 'index'])->name('index');
+                        Route::match(['post', 'get'], '/create', [AdminNewsController::class, 'create'])->name('create');
+                        //открывает форму редактирования новости
+                        Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
+                        //сохраняет изменённую новость в БД
+                        Route::patch('/edit/{news}', [AdminNewsController::class, 'update'])->name('update');
+                        //удаляет новость из БД
+                        Route::delete('/destroy/{news}', [AdminNewsController::class, 'destroy'])->name('destroy');*/
 
         Route::name('category.')
             ->prefix('category')
