@@ -20,7 +20,8 @@
 
                             <!-- Если $news содержит поле id, значит мы не создаём новость, а редактируем-->
                             <form id="news__add"
-                                  action="{{ $news->id ? route('admin.news.update', $news): route('admin.news.create') }}"
+                                  action="{{ $news->id ? route('admin.news.update', $news):route('admin.news.store')
+                                   }}"
                                   method="post">
                                 @csrf
                                 <input type="hidden" name="_method" value="{{ $news->id ? 'PATCH' : 'POST'}}">

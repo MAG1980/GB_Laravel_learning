@@ -20,8 +20,15 @@ class NewsController extends Controller
     {
         //В соответствии с паттерном AR создаём объект модели News, а не принимаем его в качестве параметра
         $news = new News();
+        return view('admin.news.create')
+            ->with([
+                'news' => $news,
+                'categories' => Category::all()
+            ]);
+    }
 
-        if ($request->isMethod('post')) {
+    public function store(Request $request, News $news)
+    {
             //            Получаю данные из формы через Request, а затем, используя ORM, сохраняем их в экземпляре класса News
             /*            этот блок команд сохраняет в модель только те данные из класса Request, которые перечислены в свойстве
                          fillable модели News*/
@@ -37,18 +44,6 @@ class NewsController extends Controller
             //перенаправление на страницу последней добавленной новости
             return redirect()->route('news.show', $newsId)
                 ->with('success', "Новость успешно добавлена!");
-
-        }
-        return view('admin.news.create')
-            ->with([
-                'news' => $news,
-                'categories' => Category::all()
-            ]);
-    }
-
-    public function store(News $news)
-    {
-
     }
 
     public function edit(News $news)

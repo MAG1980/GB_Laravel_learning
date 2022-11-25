@@ -16,27 +16,24 @@ class CategoryController extends Controller
         return view('admin.category.index')->with('categories', $categories);
     }
 
-    public function create(Request $request)
+    public function create()
     {
         $category = new Category();
-        if ($request->isMethod('post')) {
-            //заполняю fillable-поля объекта данными, полученными из формы
-            $category->fill($request->all());
-            $category->slug = Str::slug($category->title);
-            $category->save();
-
-            //перенаправление на страницу категорий
-            return redirect()->route('admin.category.index')
-                ->with('categories', Category::all()->sortDesc())
-                ->with('success', "Категория успешно добавлена!");
-        }
         return view('admin.category.create')
             ->with('category', $category);
     }
 
-    public function store(Category $category)
+    public function store(Request $request, Category $category)
     {
+        //заполняю fillable-поля объекта данными, полученными из формы
+        $category->fill($request->all());
+        $category->slug = Str::slug($category->title);
+        $category->save();
 
+        //перенаправление на страницу категорий
+        return redirect()->route('admin.category.index')
+            ->with('categories', Category::all()->sortDesc())
+            ->with('success', "Категория успешно добавлена!");
     }
 
     public function edit(Category $category)

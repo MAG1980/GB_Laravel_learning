@@ -19,7 +19,7 @@
                         <div class="card-body">
                             <!-- Если $category содержит поле id, значит мы не создаём категорию, а редактируем-->
                             <form id="category__add"
-                                  action="{{ $category->id ? route('admin.category.update', $category): route('admin.category.create') }}"
+                                  action="{{ $category->id ? route('admin.category.update', $category): route('admin.category.store') }}"
                                   method="post">
                                 @csrf
                                 <input type="hidden" name="_method" value="{{ $category->id ? 'PATCH' : 'POST'}}">
