@@ -27,18 +27,33 @@ class NewsController extends Controller
             ]);
     }
 
-    public function store(Request $request, News $news)
+    public function store(Request $request, News $news, Category $category)
     {
-            //            Получаю данные из формы через Request, а затем, используя ORM, сохраняем их в экземпляре класса News
-            /*            этот блок команд сохраняет в модель только те данные из класса Request, которые перечислены в свойстве
-                         fillable модели News*/
-            //получение всех данных объекта класса Request
-            $data = $request->all();
-            //заполнение только тех полей экземпляра класса News, которые перечислены в его свойстве fillable
-            $news->fill($data);
-            //Сохранение строки в БД
-            $news->save();
-            //Получаю id последней записи
+        //получение названия таблицы класса
+        $tableNameCategory = $category->getTable();
+
+        $this->validate($request,
+            [
+            //правила для input name="title"
+                //обязательное, мин. длина - 3 симв., макс. - 20 симв.
+                'title' => 'required|min:3|max:20',
+                'text'=> 'required|min:3',
+                //поле может быть пустым, поэтому подходит правило sometimes, 1 - допустимое значение.
+                'isPrivate'=>'sometimes|in:1',
+                 //обязательное, должен присутствовать в столбце id таблицы $tableNameCategory
+                'category_id' =>"required|exists:{$tableNameCategory},id"
+            ]
+        );
+        //            Получаю данные из формы через Request, а затем, используя ORM, сохраняем их в экземпляре класса News
+        /*            этот блок команд сохраняет в модель только те данные из класса Request, которые перечислены в свойстве
+                     fillable модели News*/
+        //получение всех данных объекта класса Request
+        $data = $request->all();
+        //заполнение только тех полей экземпляра класса News, которые перечислены в его свойстве fillable
+        $news->fill($data);
+        //Сохранение строки в БД
+        $news->save();
+        //Получаю id последней записи
             $newsId = $news->id;
 
             //перенаправление на страницу последней добавленной новости

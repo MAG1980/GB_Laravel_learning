@@ -6,6 +6,8 @@
     @include('main-menu')
 @endsection
 
+@dump($errors)
+
 @section('content')
     <div class="card container">
         <div class="row justify-content-center min-vh-100">
@@ -25,51 +27,94 @@
                                   method="post">
                                 @csrf
                                 <input type="hidden" name="_method" value="{{ $news->id ? 'PATCH' : 'POST'}}">
-                                <div class="row mb-3">
-                                    <label for="news__title" class="col-md-4 col-form-label text-md-end">
-                                        Заголовок новости
-                                    </label>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
+                                        <label for="news__title" class="">Заголовок новости</label>
+
+                                        @if($errors->has('title'))
+                                            @foreach($errors->get('title') as $error)
+                                                <label for="news__title"
+                                                       class="{{ $errors->get('title') ? 'text-danger':''}}">
+                                                    {{ $error }}
+                                                </label>
+                                                @endforeach
+                                                @endif
+                                                </label>
+                                    </div>
                                     <div class="col-md-6">
-                                        <input id="news__title" type="text" name="title" class="form-control"
+                                        <input id="news__title" type="text" name="title"
+                                               class="form-control"
                                                value="{{ $news->title ?? old('title') }}">
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <label for="news__category" class="col-md-4 col-form-label text-md-end">
-                                        Категория новости
-                                    </label>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
+                                        <label for="news__category" class="">Категория новости</label>
+
+                                        @if($errors->has('category_id'))
+                                            @foreach($errors->get('category_id') as $error)
+                                                <label for="news__category"
+                                                       class="{{ $errors->get('category_id') ? 'text-danger':''}}">
+                                                    {{ $error }}
+                                                </label>
+                                                @endforeach
+                                                @endif
+                                                </label>
+                                    </div>
                                     <div class="col-md-6">
                                         <select id="news__category" type="text"
                                                 name="category_id"
                                                 class="form-control"> >
                                             @forelse($categories as $category)
-                                            <option
-                                                {{ $category->id === old('category_id') ? 'selected' : '' }}
-                                                value="{{ $category->id }}">{{ $category->title
-                                            }}</option>
+                                                <option
+                                                    {{ strval($category->id) === old('category_id') ? 'selected' : '' }}
+                                                    value="{{ $category->id }}">
+                                                    {{ $category->title }}
+                                                </option>
                                             @empty
-                                            <option value="0">Нет категории</option>
+                                                <option value="0">Нет категории</option>
                                             @endforelse
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3 align-items-center">
-                                    <label for="news__text" class="col-md-4 col-form-label text-md-end">
-                                        Подробное описание новости
-                                    </label>
+                                    <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
+                                        <label for="news__title" class="">Подробное описание новости</label>
+
+                                        @if($errors->has('text'))
+                                            @foreach($errors->get('text') as $error)
+                                                <label for="news__title"
+                                                       class="{{ $errors->get('text') ? 'text-danger':''}}">
+                                                    {{ $error }}
+                                                </label>
+                                                @endforeach
+                                                @endif
+                                                </label>
+                                    </div>
                                     <div class="col-md-6">
                                         <textarea id="news__text" name="text" class="form-control"
                                                   value="{{ $news->text ?? old('text') }}"
-                                                  ></textarea>
+                                        ></textarea>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="news__is-private" class="col-md-4 col-form-label text-md-end">
-                                        Приватность
-                                    </label>
+                                    <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
+                                        <label for="news__is-private">
+                                            Приватность
+                                        </label>
+                                        @if($errors->has('isPrivate'))
+                                            @foreach($errors->get('isPrivate') as $error)
+                                                <label for="news__is-private"
+                                                       class="{{ $errors->get('isPrivate') ? 'text-danger':''}}">
+                                                    {{ $error }}
+                                                </label>
+                                                @endforeach
+                                                @endif
+                                                </label>
+                                    </div>
                                     <div class="col-md-6 d-flex align-items-center">
                                         <input id="news__is-private"
                                                type="checkbox"
