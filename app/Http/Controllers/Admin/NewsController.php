@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreNewsRequest;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
@@ -27,12 +28,13 @@ class NewsController extends Controller
             ]);
     }
 
-    public function store(Request $request, News $news, Category $category)
+    public function store(StoreNewsRequest $request, News $news, Category $category)
     {
+        $validated = $request->validated();
         //получение названия таблицы класса
-        $tableNameCategory = $category->getTable();
+//        $tableNameCategory = $category->getTable();
 
-        $this->validate($request,
+ /*       $this->validate($request,
             [
                 //правила для input name="title"
                 //обязательное, мин. длина - 3 симв., макс. - 20 симв.
@@ -50,7 +52,7 @@ class NewsController extends Controller
                 'text' => 'Текст новости',
                 'isPrivate' => 'Категория новости',
             ]
-        );
+        );*/
         //            Получаю данные из формы через Request, а затем, используя ORM, сохраняем их в экземпляре класса News
         /*            этот блок команд сохраняет в модель только те данные из класса Request, которые перечислены в свойстве
                      fillable модели News*/

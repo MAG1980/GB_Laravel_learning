@@ -1491,6 +1491,12 @@ sail artisan cache:clear
      }
 
 
+Чтобы сохранить контроллер "тонким" валидацию можно выполнять в отдельном классе:
+sail artisan make:request StoreNewsRequest
+Request [app/Http/Requests/StoreNewsRequest.php] created successfully.
+
+
+
 
 
 sail artisan dusk --do-not-cache-result
