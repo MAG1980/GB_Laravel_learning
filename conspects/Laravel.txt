@@ -1391,9 +1391,24 @@ https://laravel.demiart.ru/ways-of-laravel-validation/
   Доступные правила валидации:
   https://laravel.com/docs/9.x/validation#available-validation-rules-
 
-  Значение переменной  $errors, которая заполняется результатами работы метода validate() можно вывести в шаблон, но  только между секциями
+В результате работы метода validate() в шаблоне становится доступной переменная $errors.
+  Значение переменной  $errors, которая ссылается нао объект, который заполняется результатами работы метода validate() можно вывести в шаблон,
+  но  только между секциями
      @dump($errors)
-     В $errors будет массив ошибок с их описанием.
+
+     Получить доступ к массиву ошибок в объекте $errors можно с помощью методов:
+$errors->has('text'): boolean - проверяет наличие в массиве ошибок, связанных с элементом формы, имещюм name="text";
+$errors->get('text') :[string] - возвращает массив строк с описанием ошибок тега с указанным name="text"
+$errors->all():[string] - возвращает плоский массив строк ошибок, содержащий ошибки всех тегов, независимо от имени
+
+Если перебрать массив ошибок в шаблоне, то текст ошибки можно получить так:
+@if($errors->has('text'))
+    @foreach($errors->get('text') as $error)
+        <label for="news__title"                                                          class="{{ $error ? 'text-danger':''}}">
+         {{ $error }}
+         </label>
+    @endforeach
+@endif
 
 В Laravel имеется класс ~/vendor/laravel/framework/src/Foundation/Validation/ValidatesRequests.php, в котором есть метод
  public validate():

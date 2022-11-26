@@ -34,7 +34,7 @@
                                         @if($errors->has('title'))
                                             @foreach($errors->get('title') as $error)
                                                 <label for="news__title"
-                                                       class="{{ $errors->get('title') ? 'text-danger':''}}">
+                                                       class="{{ $error ? 'text-danger':''}}">
                                                     {{ $error }}
                                                 </label>
                                                 @endforeach
@@ -55,7 +55,7 @@
                                         @if($errors->has('category_id'))
                                             @foreach($errors->get('category_id') as $error)
                                                 <label for="news__category"
-                                                       class="{{ $errors->get('category_id') ? 'text-danger':''}}">
+                                                       class="{{ $error ? 'text-danger':''}}">
                                                     {{ $error }}
                                                 </label>
                                                 @endforeach
@@ -86,7 +86,7 @@
                                         @if($errors->has('text'))
                                             @foreach($errors->get('text') as $error)
                                                 <label for="news__title"
-                                                       class="{{ $errors->get('text') ? 'text-danger':''}}">
+                                                       class="{{ $error ? 'text-danger':''}}">
                                                     {{ $error }}
                                                 </label>
                                                 @endforeach
@@ -108,7 +108,7 @@
                                         @if($errors->has('isPrivate'))
                                             @foreach($errors->get('isPrivate') as $error)
                                                 <label for="news__is-private"
-                                                       class="{{ $errors->get('isPrivate') ? 'text-danger':''}}">
+                                                       class="{{ $error ? 'text-danger':''}}">
                                                     {{ $error }}
                                                 </label>
                                                 @endforeach
