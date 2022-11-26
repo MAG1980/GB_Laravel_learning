@@ -1495,8 +1495,45 @@ sail artisan cache:clear
 sail artisan make:request StoreNewsRequest
 Request [app/Http/Requests/StoreNewsRequest.php] created successfully.
 
+Тогда массив rules нужно перенести из контроллера в public function rules() созданного класса, а в самом контроллере
+можно использовать
+$validated = $request->validated(); возвращающий данные, прошедшие проверку.
+//получить часть данных
+ $validated = $request->safe()->only(['name', 'email']);
+ $validated = $request->safe()->except(['name', 'email']);
 
+Если проверка не пройдена, будет сгенерирован ответ перенаправления, чтобы отправить пользователя обратно в его предыдущее местоположение.
+Ошибки также будут переданы в сеанс, чтобы они были доступны для отображения.
+Если запрос был запросом XHR, пользователю будет возвращен ответ HTTP с кодом состояния 422, включая JSON-представление ошибок проверки.
 
+В public function rules() нужно обрабатывать запросы всеми HTTP-методами, используя switch ($this->method()){ case }.
+public function rules()
+    {
+    switch ($this->method()) {
+        case 'GET':
+        case 'DELETE': {
+            return [
+              'id'=>'required|exists:posts,id'
+            ];
+        }
+        case 'POST': {
+            return [
+            'title'=> 'required|min:10',
+            'description' => 'required'
+            ];
+        }
+        case 'PUT':
+        case 'PATCH': {
+            return [
+              'id'=>'required|exists:posts,id'
+            'title'=> 'required|min:10',
+            'description' => 'required'
+            ];
+        }
+        default:
+            break;
+    }
+    }
 
 
 sail artisan dusk --do-not-cache-result

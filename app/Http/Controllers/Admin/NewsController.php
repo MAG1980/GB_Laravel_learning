@@ -30,7 +30,6 @@ class NewsController extends Controller
 
     public function store(StoreNewsRequest $request, News $news, Category $category)
     {
-        $validated = $request->validated();
         //получение названия таблицы класса
 //        $tableNameCategory = $category->getTable();
 
@@ -57,9 +56,13 @@ class NewsController extends Controller
         /*            этот блок команд сохраняет в модель только те данные из класса Request, которые перечислены в свойстве
                      fillable модели News*/
         //получение всех данных объекта класса Request
-        $data = $request->all();
+//        $data = $request->all();
+
+        //содержит данные, прошедшие проверку
+        $validated = $request->validated();
+
         //заполнение только тех полей экземпляра класса News, которые перечислены в его свойстве fillable
-        $news->fill($data);
+        $news->fill($validated);
         //Сохранение строки в БД
         $news->save();
         //Получаю id последней записи
