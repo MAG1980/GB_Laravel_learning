@@ -34,14 +34,21 @@ class NewsController extends Controller
 
         $this->validate($request,
             [
-            //правила для input name="title"
+                //правила для input name="title"
                 //обязательное, мин. длина - 3 симв., макс. - 20 симв.
                 'title' => 'required|min:3|max:20',
-                'text'=> 'required|min:3',
+                'text' => 'required|min:3',
                 //поле может быть пустым, поэтому подходит правило sometimes, 1 - допустимое значение.
-                'isPrivate'=>'sometimes|in:1',
-                 //обязательное, должен присутствовать в столбце id таблицы $tableNameCategory
-                'category_id' =>"required|exists:{$tableNameCategory},id"
+                'isPrivate' => 'sometimes|in:1',
+                //обязательное, должен присутствовать в столбце id таблицы $tableNameCategory
+                'category_id' => "required|exists:{$tableNameCategory},id"
+            ],
+            [],
+            //массив пользовательских атрибутов, которые будут заменять собой имена тегов
+            [
+                'title' => 'Заголовок новости',
+                'text' => 'Текст новости',
+                'isPrivate' => 'Категория новости',
             ]
         );
         //            Получаю данные из формы через Request, а затем, используя ORM, сохраняем их в экземпляре класса News

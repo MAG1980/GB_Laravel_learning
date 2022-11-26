@@ -1387,6 +1387,8 @@ https://laravel.demiart.ru/ways-of-laravel-validation/
         где rules() - это метод, возвращающий массив правил (его нужно создать в модели).
         Набор правил можно сразу передать вторым параметром в метод
         $this->validate($request, [rules]); - это более распространённый и наглядный способ.
+        Кроме того можно передать необязательные параметры:
+        массив сообщений и массив пользовательских атрибутов.
 
   Доступные правила валидации:
   https://laravel.com/docs/9.x/validation#available-validation-rules-
@@ -1447,7 +1449,15 @@ sail artisan lang:add ru
   ⇂ sail:install
   --force нужно добавлять для удаления защищённого пакета
 
+Получить строку перевода из файла языкового пакета php:
+{{ __('messages.welcome') }}, где messages - имя файла, а welcome - ключ массива
 
+Получить строку перевода из файла языкового пакета json
+(используются строки перевода по умолчанию в качестве ключей перевода):
+{{ __('I love programming') }}, где I love programming - строка в файле json.
+
+Сбросить кэш Laravel:
+sail artisan cache:clear
 
 В Laravel имеется класс ~/vendor/laravel/framework/src/Foundation/Validation/ValidatesRequests.php, в котором есть метод
  public validate():
