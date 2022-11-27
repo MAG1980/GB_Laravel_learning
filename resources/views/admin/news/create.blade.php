@@ -29,7 +29,7 @@
                                 <input type="hidden" name="_method" value="{{ $news->id ? 'PATCH' : 'POST'}}">
                                 <div class="row mb-3 align-items-center">
                                     <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
-                                        <label for="news__title" class="">Заголовок новости</label>
+                                        <label for="news__title">Заголовок новости</label>
 
                                         @if($errors->has('title'))
                                             @foreach($errors->get('title') as $error)

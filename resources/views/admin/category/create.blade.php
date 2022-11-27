@@ -23,7 +23,7 @@
                                   method="post">
                                 @csrf
                                 <input type="hidden" name="_method" value="{{ $category->id ? 'PATCH' : 'POST'}}">
-                                <div class="row mb-3">
+<!--                                <div class="row mb-3">
                                     <label for="category__title" class="col-md-4 col-form-label text-md-end">
                                         Название категории
                                     </label>
@@ -31,11 +31,11 @@
                                         <input id="category__title" type="text" name="title" class="form-control"
                                                value="{{ $category->title ?? old('title') }}">
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="row mb-3 align-items-center">
                                     <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
-                                        <label for="category__title" class=""> Название категории</label>
+                                        <label for="category__title"> Название категории</label>
 
                                         @if($errors->has('title'))
                                             @foreach($errors->get('title') as $error)
@@ -47,9 +47,9 @@
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-                                        <input id="category__title type="text" name="title"
+                                        <input id="category__title" type="text" name="title"
                                                class="form-control"
-                                               value="{{ $news->title ?? old('title') }}">
+                                               value="{{ $category->title ?? old('title') }}">
                                     </div>
                                 </div>
 

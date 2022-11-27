@@ -47,7 +47,6 @@ class CategoryController extends Controller
     public function update(StoreCategoryRequest $request, Category $category)
     {
         $category->fill($request->validated());
-        dd($category);
 //        $category->fill($request->all());
         $category->save();
 
