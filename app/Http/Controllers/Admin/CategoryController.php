@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -43,9 +44,11 @@ class CategoryController extends Controller
                 'category', $category);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(StoreCategoryRequest $request, Category $category)
     {
-        $category->fill($request->all());
+        $category->fill($request->validated());
+        dd($category);
+//        $category->fill($request->all());
         $category->save();
 
         return redirect()->route('admin.category.index')

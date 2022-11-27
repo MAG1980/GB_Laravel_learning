@@ -37,9 +37,8 @@
                                                        class="{{ $error ? 'text-danger':''}}">
                                                     {{ $error }}
                                                 </label>
-                                                @endforeach
-                                                @endif
-                                                </label>
+                                            @endforeach
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
                                         <input id="news__title" type="text" name="title"
@@ -121,7 +120,7 @@
                                                name="isPrivate"
                                                value="1"
                                                class="form-check-input"
-                                               {{ $news->isPrivate ?? old('isPrivate') === '1' ? 'checked' : '' }}
+                                            {{ $news->isPrivate ?? old('isPrivate') === '1' ? 'checked' : '' }}
                                         >
                                     </div>
                                 </div>

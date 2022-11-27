@@ -33,6 +33,26 @@
                                     </div>
                                 </div>
 
+                                <div class="row mb-3 align-items-center">
+                                    <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
+                                        <label for="category__title" class=""> Название категории</label>
+
+                                        @if($errors->has('title'))
+                                            @foreach($errors->get('title') as $error)
+                                                <label for="category__title"
+                                                       class="{{ $error ? 'text-danger':''}}">
+                                                    {{ $error }}
+                                                </label>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input id="category__title type="text" name="title"
+                                               class="form-control"
+                                               value="{{ $news->title ?? old('title') }}">
+                                    </div>
+                                </div>
+
                                 <div class="row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
