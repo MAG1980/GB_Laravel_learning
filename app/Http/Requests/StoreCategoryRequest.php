@@ -31,7 +31,7 @@ class StoreCategoryRequest extends FormRequest
                 return [
                     //правила для input name="title"
                     //обязательное, мин. длина - 5 симв., макс. - 25 симв.
-                    'title' => 'required|min:5|max:25',
+                    'title' => 'required|min:5|max:25|unique:categories',
                 ];
             }
             default:
