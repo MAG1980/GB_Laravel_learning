@@ -24,10 +24,10 @@ class CategoryController extends Controller
             ->with('category', $category);
     }
 
-    public function store(Request $request, Category $category)
+    public function store(StoreCategoryRequest $request, Category $category)
     {
         //заполняю fillable-поля объекта данными, полученными из формы
-        $category->fill($request->all());
+        $category->fill($request->validated());
         $category->slug = Str::slug($category->title);
         $category->save();
 
