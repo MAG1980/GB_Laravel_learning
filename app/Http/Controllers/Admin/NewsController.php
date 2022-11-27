@@ -17,7 +17,7 @@ class NewsController extends Controller
             ->with('news', $news);
     }
 
-    public function create(Request $request)
+    public function create()
     {
         //В соответствии с паттерном AR создаём объект модели News, а не принимаем его в качестве параметра
         $news = new News();
@@ -33,25 +33,25 @@ class NewsController extends Controller
         //получение названия таблицы класса
 //        $tableNameCategory = $category->getTable();
 
- /*       $this->validate($request,
-            [
-                //правила для input name="title"
-                //обязательное, мин. длина - 3 симв., макс. - 20 симв.
-                'title' => 'required|min:3|max:20',
-                'text' => 'required|min:3',
-                //поле может быть пустым, поэтому подходит правило sometimes, 1 - допустимое значение.
-                'isPrivate' => 'sometimes|in:1',
-                //обязательное, должен присутствовать в столбце id таблицы $tableNameCategory
-                'category_id' => "required|exists:{$tableNameCategory},id"
-            ],
-            [],
-            //массив пользовательских атрибутов, которые будут заменять собой имена тегов
-            [
-                'title' => 'Заголовок новости',
-                'text' => 'Текст новости',
-                'isPrivate' => 'Категория новости',
-            ]
-        );*/
+        /*       $this->validate($request,
+                   [
+                       //правила для input name="title"
+                       //обязательное, мин. длина - 3 симв., макс. - 20 симв.
+                       'title' => 'required|min:3|max:20',
+                       'text' => 'required|min:3',
+                       //поле может быть пустым, поэтому подходит правило sometimes, 1 - допустимое значение.
+                       'isPrivate' => 'sometimes|in:1',
+                       //обязательное, должен присутствовать в столбце id таблицы $tableNameCategory
+                       'category_id' => "required|exists:{$tableNameCategory},id"
+                   ],
+                   [],
+                   //массив пользовательских атрибутов, которые будут заменять собой имена тегов
+                   [
+                       'title' => 'Заголовок новости',
+                       'text' => 'Текст новости',
+                       'isPrivate' => 'Категория новости',
+                   ]
+               );*/
         //            Получаю данные из формы через Request, а затем, используя ORM, сохраняем их в экземпляре класса News
         /*            этот блок команд сохраняет в модель только те данные из класса Request, которые перечислены в свойстве
                      fillable модели News*/
@@ -66,11 +66,11 @@ class NewsController extends Controller
         //Сохранение строки в БД
         $news->save();
         //Получаю id последней записи
-            $newsId = $news->id;
+        $newsId = $news->id;
 
-            //перенаправление на страницу последней добавленной новости
-            return redirect()->route('news.show', $newsId)
-                ->with('success', "Новость успешно добавлена!");
+        //перенаправление на страницу последней добавленной новости
+        return redirect()->route('news.show', $newsId)
+            ->with('success', "Новость успешно добавлена!");
     }
 
     public function edit(News $news)
@@ -82,12 +82,15 @@ class NewsController extends Controller
             ]);
     }
 
-    public function update(Request $request, News $news)
+    public function update(StoreNewsRequest $request, News $news)
     {
-        //получение всех данных объекта класса Request
-        $data = $request->all();
+        /* //получение всех данных объекта класса Request
+                $data = $request->all();*/
+
+        //содержит данные, прошедшие проверку
+        $validated = $request->validated();
         //заполнение только тех полей экземпляра класса News, которые перечислены в его свойстве fillable
-        $news->fill($data);
+        $news->fill($validated);
         $news->isPrivate = isset($request->isPrivate);
         //Сохранение строки в БД
         $news->save();
