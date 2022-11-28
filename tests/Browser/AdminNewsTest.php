@@ -45,7 +45,7 @@ class AdminNewsTest extends DuskTestCase
         });
     }
 
-    public function testFormDeleteNewsSuccessValidate()
+    public function testFormDeleteNews()
     {
         $this->browse(function (Browser $browser) {
             //Нажать на кнопку и дождаться перезагрузки страницы

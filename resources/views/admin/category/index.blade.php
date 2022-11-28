@@ -16,9 +16,7 @@
                 <h1 class="card-title">СRUD категории</h1>
                 <div class="card-text">
                     <h2>Консоль администратора</h2>
-                    <a class="btn btn-primary mt-4" href="{{ route('admin.category.create') }}">
-                        Добавить категорию
-                    </a>
+                    <a class="btn btn-primary mt-4" href="{{ route('admin.category.create') }}">Добавить категорию</a>
                     <div class="card mt-5">
                         @forelse($categories as $item)
                             <div class="py-2">
@@ -43,9 +41,7 @@
                                          method="post">
                                        @csrf
                                        @method('DELETE')
-                                       <button type="submit" class="btn btn-danger m-4">
-                                           Удалить категорию
-                                       </button>
+                                       <button type="submit" class="btn btn-danger m-4">Удалить категорию</button>
                                    </form>
                                </div>
                         @empty

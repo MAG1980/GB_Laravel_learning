@@ -35,7 +35,7 @@
 
                                 <div class="row mb-3 align-items-center">
                                     <div class="d-flex flex-column col-md-4 col-form-label text-md-end">
-                                        <label for="category__title"> Название категории</label>
+                                        <label for="category__title">Название категории</label>
 
                                         @if($errors->has('title'))
                                             @foreach($errors->get('title') as $error)
@@ -55,9 +55,7 @@
 
                                 <div class="row mb-0">
                                     <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            {{$category->id ? 'Сохранить' : 'Добавить'}} категорию
-                                        </button>
+                                        <button type="submit" class="btn btn-primary">{{$category->id ? 'Сохранить' : 'Добавить'}} категорию</button>
                                     </div>
                                 </div>
                             </form>
