@@ -43,7 +43,7 @@ class MyTest extends TestCase
     {
         $response = $this->get('/news');
         $response->assertViewHasAll([
-            'category',
+            'categories',
             'news'
         ]);
     }

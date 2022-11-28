@@ -5,9 +5,13 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+//Чтобы перед тестами в новую базу данных выполнялись миграции
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminNewsTest extends DuskTestCase
 {
+    //Чтобы перед тестами в новую базу данных выполнялись миграции
+    use RefreshDatabase;
     /**
      * A Dusk test example.
      *
