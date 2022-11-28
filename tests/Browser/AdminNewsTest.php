@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminNewsTest extends DuskTestCase
 {
+    use DatabaseMigrations;
     //Чтобы перед тестами в новую базу данных выполнялись миграции
     use RefreshDatabase;
     /**

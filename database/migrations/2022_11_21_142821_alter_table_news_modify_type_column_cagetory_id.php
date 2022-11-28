@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('news', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->default(1)->change();
-            $table->foreign('category_id')->references('id')->on('category')->restrictOnDelete();
+            $table->foreign('category_id')->references('id')->on('categories')->restrictOnDelete();
         });
     }
 
