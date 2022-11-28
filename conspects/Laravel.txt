@@ -1594,6 +1594,9 @@ depends_on:
 Наконец, вы можете запустить набор тестов Dusk, запустив Sail и выполнив dusk команду:
 sail dusk
 
+Запустить упавшие тесты:
+sail artisan dusk:fails
+
 При возникновении ошибки:
 1 / 1 (100%)file_put_contents(/var/www/html/.phpunit.result.cache): Failed to open stream: Permission denied
 самый простой способ решить проблему - удалить файл .phpunit.result.cache из корневой папки проекта.
