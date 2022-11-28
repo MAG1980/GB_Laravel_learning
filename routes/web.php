@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TestInvokeController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\Admin\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,9 @@ Route::name('news.')
 
 Route::name('admin.')
     ->prefix('admin')
+    ->middleware('auth')
     ->group(function () {
+        Route::match(['get', 'post'], '/profile',[ProfileController::class, 'update'])->name('updateProfile');
         //заменяет собой маршруты для всех методов CRUD
       Route::resource('news', AdminNewsController::class)->except(['show']);
         /*          //CRUD
