@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="card container">
-        <div class="row justify-content-center min-vh-100">
+        <div class="row justify-content-center">
             <div class="d-flex justify-content-center align-items-center">
                 <div class="col-md-8">
                     <div class="card">
