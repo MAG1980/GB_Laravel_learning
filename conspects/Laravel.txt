@@ -1937,6 +1937,21 @@ Hash::check($hash1, $hash2) - сверить hash.
 
 Метод ->save() возвращает Boolean
 
+Создать кастомный (пользовательский) посредник (middleware)
+$ sail artisan make:middleware CheckIsAdmin
+   INFO  Middleware [app/Http/Middleware/CheckIsAdmin.php] created successfully.
+
+Добавим созданный middleware для маршрутов зоны admin.
+Последовательность выполнения посредников важна,
+если сначала проверять наличие значения true в поле is_admin у незалогиненного пользователя,
+а потом запускать ->middleware('auth'), то логика работы будет нарушена (admin не сможет выполнять свои функции).
+
+Зарегистрируем созданный пользовательский middleware CheckIsAdmin
+в методе $routeMiddleware класса app/Http/Kernel.php под псевдонимом is_admin.
+Посредники из метода $routeMiddleware необходимо задействовать вручную для выбранных маршрутов.
+Задействуем ->middleware('is_admin') для маршрутов зоны admin.
+
+
 Нужно выполнить посев Users.
 
 Скрыть в меню зону админа для неавторизованных пользователей.

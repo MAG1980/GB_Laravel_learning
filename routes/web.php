@@ -54,8 +54,10 @@ Route::name('news.')
 
 Route::name('admin.')
     ->prefix('admin')
-    //используется для аутентификации пользователей для всех маршрутов зоны admin
-    ->middleware('auth')
+    //используется для аутентификации, с последующей авторизацией пользователей для всех маршрутов зоны admin
+    //middleware будут выполняться в той последовательности, в которой они перечислены в массиве.
+    ->middleware(['auth', 'is_admin'])
+//    ->middleware('is_admin')
     ->group(function () {
         Route::match(['get', 'post'], '/profile',[ProfileController::class, 'update'])->name('updateProfile');
         //заменяет собой маршруты для всех методов CRUD
