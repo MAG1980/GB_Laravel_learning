@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         //вызов нужного seeder
         $this->call(CategoriesSeeder::class);
         $this->call(NewsSeeder::class);
+        $this->call(UsersSeeder::class);
 
     }
 }
