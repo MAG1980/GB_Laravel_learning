@@ -3,19 +3,20 @@
 @section('title', 'Профиль')
 
 @section('menu')
-    @include('admin.menu')
+    @include('main-menu')
 @endsection
 
 @section('content')
     <div class="card container">
-        <div class="row justify-content-center min-vh-100">
+        <div class="row justify-content-center my-5">
             <div class="d-flex justify-content-center align-items-center">
                 <div class="col-md-8">
+                    <h1 class="text-center mb-4">Профиль пользователя {{ Auth::user()->name }}</h1>
                     <div class="card">
-                        <div class="card-header">{{ __('Register') }}</div>
+                        <div class="card-header">Редактирование</div>
 
                         <div class="card-body">
-                            <form method="POST" action="{{ route('admin.updateProfile') }}">
+                            <form method="POST" action="{{ route('updateProfile') }}">
                                 @csrf
 
                                 <div class="row mb-3">

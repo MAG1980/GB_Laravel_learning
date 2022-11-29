@@ -39,7 +39,7 @@
                 </li>
                 <li class=" nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.updateProfile') ? 'active' : '' }}"
-                       href="{{ route('admin.updateProfile') }}">Профиль</a>
+                       href="{{ route('updateProfile') }}">Профиль</a>
                 </li>
             </ul>
         </div>

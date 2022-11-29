@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,15 +31,15 @@ class ProfileController extends Controller
 
             } else {
                 $errors['password'][] = 'Введён неправильный пароль';
-                return redirect()->route('admin.updateProfile')->withErrors($errors);
+                return redirect()->route('updateProfile')->withErrors($errors);
             }
 
             //Сохраняем данные пользователя в БД
             $user->save();
-            return redirect()->route('admin.updateProfile')->with('success', 'Профиль успешно изменён!');
+            return redirect()->route('updateProfile')->with('success', 'Профиль успешно изменён!');
         }
 
-        return view('admin.profile', ['user' => $user]);
+        return view('profile', ['user' => $user]);
     }
 
     /** Возвращает правила валидации

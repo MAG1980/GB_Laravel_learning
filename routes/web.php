@@ -5,9 +5,9 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestInvokeController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Admin\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +28,8 @@ Route::get('/about', function () {
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 
 Route::get('/save', [HomeController::class, 'save'])->name('save');
+
+Route::match(['get', 'post'], '/profile',[ProfileController::class, 'update'])->name('updateProfile');
 
 // вывод страницы, к которой подключен Vue
 Route::view('/vue', 'vue')->name('vue');
@@ -59,7 +61,6 @@ Route::name('admin.')
     ->middleware(['auth', 'is_admin'])
 //    ->middleware('is_admin')
     ->group(function () {
-        Route::match(['get', 'post'], '/profile',[ProfileController::class, 'update'])->name('updateProfile');
         //заменяет собой маршруты для всех методов CRUD
       Route::resource('news', AdminNewsController::class)->except(['show']);
         /*          //CRUD
