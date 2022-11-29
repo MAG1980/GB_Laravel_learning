@@ -54,6 +54,7 @@ Route::name('news.')
 
 Route::name('admin.')
     ->prefix('admin')
+    //используется для аутентификации пользователей для всех маршрутов зоны admin
     ->middleware('auth')
     ->group(function () {
         Route::match(['get', 'post'], '/profile',[ProfileController::class, 'update'])->name('updateProfile');
@@ -109,7 +110,13 @@ Route::redirect('redir', '/', 301);
 //Чтобы устранить ошибку, нужно указать namespace для класса контроллера (use)
 Route::get('/invoke', TestInvokeController::class);
 
-
+//автоматически генерирует все запросы, необходимые для работы с аутентификацией, в том числе для сброса пароля
 Auth::routes();
+//Если маршруты для сброса пароля не нужны, можно создать остальные вручную
+/*
+Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+*/
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -20,6 +20,9 @@
                         о
                         проекте</a>
                 </li>
+
+{{--                Зона админа--}}
+                @if(isset(Auth::user()->name) && Auth::user()->name === 'Admin')
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.index') ? 'active' : '' }}" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,6 +36,8 @@
                         <li><a class="dropdown-item" href="{{ route('admin.category.index') }}">Категории</a></li>
                     </ul>
                 </li>
+                @endif
+
                 <li class=" nav-item">
                     <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}"
                        href="{{ route('vue') }}">Vue</a>

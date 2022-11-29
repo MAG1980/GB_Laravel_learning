@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="card container-lg d-flex align-items-center justify-content-center vh-100">
+    <div class="card container-lg d-flex align-items-center justify-content-center py-4">
         <div class="card text-center col-md-8">
             <div class="card-header">
                 - || -

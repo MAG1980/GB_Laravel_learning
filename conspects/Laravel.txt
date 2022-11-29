@@ -1826,6 +1826,15 @@ Auth::ruotes();
 Если, например, маршрут для регистрации пользователей не требуетс,
 можно создать свой роут аутентификации вручную.
 
+//автоматически генерирует все запросы, необходимые для работы с аутентификацией, в том числе для сброса пароля
+Auth::routes();
+//Если маршруты для сброса пароля не нужны, можно создать остальные вручную
+/*
+Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+*/
+
 В Laravel не требуется стартовать сессию вручную. Для этго испоьзуется посредник.
 Работать с сессиями можно через фасад или через хэлпер
 session().

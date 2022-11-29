@@ -7,15 +7,18 @@
 @endsection
 
 @section('content')
-    <div class="card container-lg d-flex align-items-center justify-content-center vh-100">
+    <div class="card container-lg d-flex align-items-center justify-content-center py-4">
         <div class="card text-center col-md-8">
-            <div class="card-header card-img" style="background-image: url({{ asset("storage/default.jpg") }})">
+            <div class="card-header">
                 Самые актуальные новости со всех концов света!
             </div>
             <div class="card-body py-5">
-                <h1 class="card-title">
-                    Информация об агрегаторе новостей
-                </h1>
+                <div class="d-flex align-items-center justify-content-center card-img" style="background-image: url({{ asset
+                ("storage/img/default.jpg") }})">
+                    <h1 class="card-title text-white">
+                        Информация об агрегаторе новостей
+                    </h1>
+                </div>
                 <div class="card-text">
                     <p>Самая актуальная и интересная информация о происходящем в мире!</p>
                     <p>Да что там в мире - во всей России!</p>
