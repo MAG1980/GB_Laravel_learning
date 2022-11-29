@@ -1844,11 +1844,98 @@ session().
 Фасад Auth позволяет получать объект текущего пользователя и далее использовать AR:
 Auth::user()->name;
 
+Директивы аутентификации
+Директивы @auth и @guest можно использовать для быстрого определения, аутентифицирован ли текущий пользователь или
+является гостем:
+@auth
+    // The user is authenticated...
+@endauth
+@guest
+    // The user is not authenticated...
+@endguest
+
+При необходимости вы можете указать защиту аутентификации, которую следует проверять при использовании директив @authи :@guest
+@auth('admin')
+    // The user is authenticated...
+@endauth
+@guest('admin')
+    // The user is not authenticated...
+@endguest
+
+
+Директива Laravel Blade @error
+
+Вы можете использовать директиву @error Blade, чтобы быстро определить,
+существуют ли сообщения об ошибках проверки для данного атрибута.
+Внутри @error директивы вы можете использовать переменную $message,
+в которую помещается текст ошибки,
+чтобы отобразить сообщение об ошибке:
+
+<!-- /resources/views/post/create.blade.php -->
+<label for="title">Post Title</label>
+<input id="title"
+    type="text"
+    name="title"
+    class="@error('title') is-invalid @enderror">
+@error('title')
+    <div class="alert alert-danger">{{ $message }}</div>
+@enderror
+
+Если вы используете именованные пакеты ошибок,
+вы можете передать имя пакета ошибок в качестве второго аргумента @error директиве:
+<input ... class="@error('title', 'post') is-invalid @enderror">
+
+
+@error('name')
+       <span class="invalid-feedback" role="alert">
+       <strong>{{ $message }}</strong>
+       </span>
+@enderror
+
+работает аналогично
+
+@if($errors->has('name'))
+    @foreach($errors->get('name') as $error
+     {{ $error }}
+    @endforeach
+@endif
+
 Пример правила валидации пароля:
 'email'=>'required|email|unique:users,email,'.Auth::id(),
 обязательное, в формате email,
 unique:users,email - должно быть уникальным значением для столбца email таблицы users
 .Auth::id() - для исключения из ограничения email текущего авторизованного пользователя.
+
+Получить объект аутентифицированного пользователя
+       $user = Auth::user();
+ Фасад Auth в данном методе гарантированно вернёт объект пользователя,
+  т.к. данный метод будет вызван из посредника, который проверил аутентификацию.
+  Испоьзуя AR можно получать любые поля объекта User из БД
+  $userName = Auth::user()->name;
+
+
+Illuminate\Support\Facades\Hash
+Hash::check($hash1, $hash2) - сверить hash.
+//сверить hash старого и нового паролей.
+   if (Hash::check($request->post('password'), $user->password));
+
+   ->withErrors()
+   После определения того, не прошла ли проверка запроса, вы можете использовать этот withErrors метод для передачи
+   сообщений об ошибках в сеанс. При использовании этого метода $errorsпеременная будет автоматически передана вашим
+   представлениям после перенаправления, что позволит вам легко отобразить их обратно пользователю. Метод withErrors
+   принимает валидатор, MessageBag или PHP array.
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:posts|max:255',
+            'body' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect('post/create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+
+Метод ->save() возвращает Boolean
 
 Нужно выполнить посев Users.
 
@@ -1856,3 +1943,5 @@ unique:users,email - должно быть уникальным значение
 Залогиненные неадмины тоже не должны её видеть.
 Образец взять в шаблонах страниц в папке auth, а токже layout.
 Нужно использовать директиву @guest.
+
+Вёрстка prifile.blade.php - 1:04

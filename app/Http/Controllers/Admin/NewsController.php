@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNewsRequest;
 use App\Models\Category;
 use App\Models\News;
-use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -93,10 +92,14 @@ class NewsController extends Controller
         $news->fill($validated);
         $news->isPrivate = isset($request->isPrivate);
         //Сохранение строки в БД
-        $news->save();
-
-        return redirect()->route('admin.news.index')
-            ->with('success', "Новость изменена успешно!");
+        $result = $news->save(); //boolean
+        if ($result) {
+            return redirect()->route('admin.news.index')
+                ->with('success', "Новость изменена успешно!");
+        } else {
+            return redirect()->route('admin.news.index')
+                ->with('error', "Ошибка изменения новости!");
+        }
     }
 
     public function destroy(News $news)

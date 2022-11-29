@@ -21,22 +21,32 @@
                         проекте</a>
                 </li>
 
-{{--                Зона админа--}}
-                @if(isset(Auth::user()->name) && Auth::user()->name === 'Admin')
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.index') ? 'active' : '' }}" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Редактировать
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('admin.news.index') }}">Новости</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
+                {{-- Зона админа--}}
+                @auth()
+                    @if(Auth::user()->name === 'Admin')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.index') ? 'active' : '' }}"
+                               href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Редактировать
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('admin.news.index') }}">Новости</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('admin.category.index') }}">Категории</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('admin.category.index') }}">Категории</a></li>
-                    </ul>
-                </li>
-                @endif
+
+                        <li class=" nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.updateProfile') ? 'active' : '' }}" href="{{
+                            route('admin.updateProfile') }}">Профиль</a>
+                        </li>
+                    @endif
+                @endauth
+                {{-- Зона админа--}}
 
                 <li class=" nav-item">
                     <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}"
