@@ -1091,8 +1091,23 @@ class NewsSeeder extends Seeder
         DB::table('news')->insert($this->getData());
 
 Для запуска сидера используется команда:
-$ sail artisan db::seed --class=ClassNameSeeder,
+$ sail artisan db:seed --class=ClassNameSeeder,
 где ClassNameSeeder - название класса сидера.
+
+Для сидинга можно использовать фабрики классов, например, ~/database/factories/UserFactory.php.
+Для этого в корневом сидере ~/database/seeders/DatabaseSeeder.php в методе run() у нужной модели нужно вызывать
+статический метод NeedModel::factory(count)->create()
+
+Например:
+public function run()
+{
+\App\Moodels\User::factory(10)->create();   //засеет в БД 10 пользователей
+\App\Moodels\User::factory()->create([      //засеет в БД одного пользователя с нужными параметрами, например Admin
+    'name'=>'Alex',
+    'email'=>'alex@example.com',
+]);
+$this->call(CategorySeeder::class);         //вызов сидеров остальных таблиц.
+}
 
 Если в БД много таблиц, то выполнять посев данных в каждую из них отдельной командой затратно, поэтому используется
 класс DatabaseSeeder, который присутствует в Laravel по умолчанию и содержит метод run().

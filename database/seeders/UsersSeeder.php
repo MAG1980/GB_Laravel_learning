@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UsersSeeder extends Seeder
@@ -22,6 +23,16 @@ class UsersSeeder extends Seeder
     private function getData()
     {
         $data = [];
+        $data[] = [
+            'name' => 'Admin',
+            'email' => 'admin@admin.ru',
+            'is_admin'=> true,
+            'email_verified_at' => now(),
+            'password' =>  Hash::make('123'), // password
+            'remember_token' => Str::random(10),
+            'created_at'=>now(),
+            'updated_at'=>now(),
+            ];
         for ($i = 0; $i < 10; $i++){
             $data[]=[
                 'name' => fake('ru_RU')->name(),
