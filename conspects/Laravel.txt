@@ -1101,8 +1101,8 @@ $ sail artisan db:seed --class=ClassNameSeeder,
 Например:
 public function run()
 {
-\App\Moodels\User::factory(10)->create();   //засеет в БД 10 пользователей
-\App\Moodels\User::factory()->create([      //засеет в БД одного пользователя с нужными параметрами, например Admin
+\App\Models\User::factory(10)->create();   //засеет в БД 10 пользователей
+\App\Models\User::factory()->create([      //засеет в БД одного пользователя с нужными параметрами, например Admin
     'name'=>'Alex',
     'email'=>'alex@example.com',
 ]);

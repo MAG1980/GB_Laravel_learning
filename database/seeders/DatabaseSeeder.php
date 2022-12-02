@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        \App\Models\User::factory()->create([      //засеет в БД одного пользователя с нужными параметрами, например Admin
+            'name'=>'AGM',
+            'email'=>'agm@mail.ru',
+            'password'=>Hash::make('123'),
+            'is_admin'=>true,
+        ]);
+
         //вызов нужного seeder
         $this->call(CategoriesSeeder::class);
         $this->call(NewsSeeder::class);
