@@ -25,9 +25,15 @@
                             <a href="{{route('admin.users.index',$user)}}" class="btn btn-success m-4">
                                 Редактировать данные
                             </a>
-                            <a href="{{ route('admin.users.toggleAdminRights', $user) }}" type="button"
-                               class="btn {{ $user->is_admin ? 'btn-danger' : 'btn-success' }}">
-                                {{ $user->is_admin ? 'Лишить прав администратора' : 'Дать права администратора' }}</a>
+                            <form class="d-inline" action="{{ route('admin.users.toggleAdminRights', $user) }}"
+                                  method="post">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                        class="btn {{ $user->is_admin ? 'btn-danger' : 'btn-success' }} m-4">
+                                    {{ $user->is_admin ? 'Лишить прав администратора' : 'Дать права администратора' }}
+                                </button>
+                            </form>
                             <form class="d-inline" action="{{route('admin.users.index',$user)}}" method="post">
                                 @csrf
                                 @method('DELETE')

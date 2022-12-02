@@ -89,7 +89,7 @@ Route::name('admin.')
         Route::name('users.')
             ->group(function () {
                 Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
-                Route::get('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
+                Route::patch('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
                     ->name('toggleAdminRights');
             });
 
