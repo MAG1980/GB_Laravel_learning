@@ -52,6 +52,11 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index')->with('error', 'При добавлении пользователя произошла ошибка!');
     }
 
+    public function edit(User $user)
+    {
+        return view('admin.users.create')->with('user', $user);
+    }
+
     public function destroy(User $user)
     {
         $userName = $user->name;

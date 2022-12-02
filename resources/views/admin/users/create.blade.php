@@ -11,14 +11,17 @@
         <div class="row justify-content-center my-5">
             <div class="d-flex justify-content-center align-items-center">
                 <div class="col-md-8">
-                    <h1 class="text-center mb-4">Профиль пользователя {{ Auth::user()->name }}</h1>
+                    @if($user->id)
+                        <h1 class="text-center mb-4">Профиль пользователя {{ $user->name }}</h1>
+                    @else
+                        <h1 class="text-center mb-4">Новый пользователь</h1>
+                    @endif
                     <div class="card">
-                        <div class="card-header">Редактирование</div>
+                        <div class="card-header">{{$user->id ? 'Редактирование' : 'Создание'}}</div>
 
                         <div class="card-body">
-                            {{$user}}
                             <form method="POST"
-                                  action="{{ $user->id ? route('admin.users.update') : route('admin.users.store') }}">
+                                  action="{{ $user->id ? route('admin.users.update', $user) : route('admin.users.store') }}">
                                 @csrf
                                 <input type="hidden" name="_method" value="{{ $user->id ? 'PATCH' : 'POST'}}">
 

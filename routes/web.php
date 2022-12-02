@@ -30,7 +30,7 @@ Route::get('/login', [HomeController::class, 'login'])->name('login');
 
 Route::get('/save', [HomeController::class, 'save'])->name('save');
 
-Route::match(['get', 'post'], '/profile',[ProfileController::class, 'update'])->name('updateProfile');
+Route::match(['get', 'post'], '/profile', [ProfileController::class, 'update'])->name('updateProfile');
 
 // вывод страницы, к которой подключен Vue
 Route::view('/vue', 'vue')->name('vue');
@@ -63,7 +63,7 @@ Route::name('admin.')
 //    ->middleware('is_admin')
     ->group(function () {
         //заменяет собой маршруты для всех методов CRUD
-      Route::resource('news', AdminNewsController::class)->except(['show']);
+        Route::resource('news', AdminNewsController::class)->except(['show']);
         /*          //CRUD
                 Route::get('/', [AdminNewsController::class, 'index'])->name('index');
                 Route::match(['post', 'get'], '/create', [AdminNewsController::class, 'create'])->name('create');
@@ -89,13 +89,19 @@ Route::name('admin.')
         Route::name('users.')
             ->group(function () {
                 Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
+                Route::match(['get', 'post'], '/users/create', [AdminUsersController::class, 'create'])
+                    ->name('create');
                 Route::post('/users', [AdminUsersController::class, 'store'])->name('store');
-                Route::patch('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
-                    ->name('toggleAdminRights');
+                //Передаёт данные пользователя в форму редактирования
+                Route::get('/users/edit/{user}', [AdminUsersController::class, 'edit'])->name('edit');
+                //Сохраняет обновлённые данные в БД
+                Route::patch('/users/edit/{user}', [AdminUsersController::class, 'update'])->name('update');
                 Route::delete('/users/destroy/{user}', [AdminUsersController::class, 'destroy'])
                     ->name('destroy');
-                Route::match(['get', 'post'],'/users/create', [AdminUsersController::class, 'create'])
-                    ->name('create');
+                Route::patch('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
+                    ->name('toggleAdminRights');
+
+
             });
 
         Route::get('/', [AdminController::class, 'index'])->name('index');

@@ -22,7 +22,7 @@
                     <div class="users mt-5">
                         @forelse($users as $user)
                             <h2>Пользователь: {{$user->name}}</h2>
-                            <a href="{{route('admin.users.index',$user)}}" class="btn btn-success m-4">
+                            <a href="{{route('admin.users.edit',$user)}}" class="btn btn-success m-4">
                                 Редактировать данные
                             </a>
                             <form class="d-inline" action="{{ route('admin.users.toggleAdminRights', $user) }}"
