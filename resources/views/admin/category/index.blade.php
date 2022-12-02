@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Панель администратора')
+@section('title', 'Администрирование категорий')
 
 @section('menu')
     @include('main-menu')

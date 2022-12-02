@@ -41,6 +41,11 @@
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('admin.category.index') }}">Категории</a>
                                 </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Пользователи</a>
+                                </li>
                             </ul>
                         </li>
                     @endif

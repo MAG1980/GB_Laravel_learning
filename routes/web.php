@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\UsersController as AdminUsersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
@@ -84,6 +85,13 @@ Route::name('admin.')
                 Route::patch('/edit/{category}', [AdminCategoryController::class, 'update'])->name('update');
                 //удаляет новость из БД
                 Route::delete('/destroy/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');*/
+
+        Route::name('users.')
+            ->group(function () {
+                Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
+                Route::get('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
+                    ->name('toggleAdminRights');
+            });
 
         Route::get('/', [AdminController::class, 'index'])->name('index');
 
