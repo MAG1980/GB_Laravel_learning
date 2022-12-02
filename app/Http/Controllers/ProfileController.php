@@ -54,8 +54,12 @@ class ProfileController extends Controller
                 //чтобы при проверке уникальности текущий email не попал в бан по уникальности, добавим .Auth::id()
                 'email' => 'required|email|unique:users,email,'.Auth::id(),
                 'password' => 'required',
-                'newPassword' => 'required|string|min:3'
+                'newPassword' => 'string|min:3|confirmed',
+                //для использования правила confirmed, нужно, чтобы во входных данных было соответствующее поле
+                // name_confirmation
+                'newPassword_confirmation' => 'string|min:3'
             ];
+//        TODO В шаблоне вывести ошибку об ошибке подтверждения пароля с помощью @errors('nwwPassword_confirmation')
     }
 
     //требуется для русификации сообщений об ошибках валидации
@@ -63,7 +67,9 @@ class ProfileController extends Controller
     {
         return
         [
-            'newPassword'=>'Новый пароль'
+            'password_confirmation' => 'Новый пароль',
+            'newPassword' =>'Новый пароль',
+            'newPassword_confirmation'=>'Подтверждение нового пароля'
         ];
     }
 }

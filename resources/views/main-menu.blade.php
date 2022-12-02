@@ -24,6 +24,10 @@
                 {{-- Зона админа--}}
                 @auth()
                     @if(Auth::user()->name === 'Admin')
+                        <li class=" nav-item">
+                            <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}"
+                               href="{{ route('vue') }}">Vue</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.index') ? 'active' : '' }}"
                                href="#" id="navbarDropdown" role="button"
@@ -42,11 +46,6 @@
                     @endif
                 @endauth
                 {{-- Зона админа--}}
-
-                <li class=" nav-item">
-                    <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}"
-                       href="{{ route('vue') }}">Vue</a>
-                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->

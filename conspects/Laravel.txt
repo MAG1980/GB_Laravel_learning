@@ -1094,7 +1094,9 @@ class NewsSeeder extends Seeder
 $ sail artisan db:seed --class=ClassNameSeeder,
 где ClassNameSeeder - название класса сидера.
 
-Для сидинга можно использовать фабрики классов, например, ~/database/factories/UserFactory.php.
+Если используется ORM-модель, то для сидинга удобнее использовать фабрики классов, например,
+~/database/factories/UserFactory
+.php.
 Для этого в корневом сидере ~/database/seeders/DatabaseSeeder.php в методе run() у нужной модели нужно вызывать
 статический метод NeedModel::factory(count)->create()
 
@@ -1417,6 +1419,17 @@ https://laravel.demiart.ru/ways-of-laravel-validation/
         $this->validate($request, [rules]); - это более распространённый и наглядный способ.
         Кроме того можно передать необязательные параметры:
         массив сообщений и массив пользовательских атрибутов.
+
+Полезные правила валидации
+confirmed - проверяемое поле должно иметь соответствующее поле {field}_confirmation.
+Например, если проверяется поле password, во входных данных должно присутствовать соответствующее поле
+password_confirmation.
+SO ?По умолчанию «подтвержденный» валидатор Laravel добавляет сообщение об ошибке в исходное поле, а не в поле, которое
+обычно содержит подтвержденное значение.?
+
+current_password - проверяемое поле должно совпадать с паролем аутентифицированного пользователя.
+Вы можете указать защиту аутентификации , используя первый параметр правила:
+'password' => 'current_password:api'
 
   Доступные правила валидации:
   https://laravel.com/docs/9.x/validation#available-validation-rules-

@@ -83,8 +83,8 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="password-confirm"
-                                           class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+                                    <label for="newPassword"
+                                           class="col-md-4 col-form-label text-md-end">Новый пароль</label>
 
                                     <div class="col-md-6">
                                         @if ($errors->has('newPassword'))
@@ -93,8 +93,35 @@
                                             @endforeach
                                         @endif
 
-                                        <input id="password-confirm" type="password" class="form-control"
-                                               name="newPassword" required autocomplete="new-password">
+                                        <input id="newPassword" type="password" class="form-control"
+                                               name="newPassword" autocomplete="newPassword">
+                                        @error('password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="newPassword-confirm"
+                                           class="col-md-4 col-form-label text-md-end">Подтверждение нового
+                                        пароля</label>
+
+                                    <div class="col-md-6">
+                                        @if ($errors->has('newPassword_confirmation'))
+                                            @foreach($errors->get('newPassword_confirmation') as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        @endif
+
+                                        <input id="newPassword-confirm" type="password" class="form-control"
+                                               name="newPassword_confirmation" autocomplete="newPassword_confirmation">
+                                        @error('newPassword_confirmation')
+                                            <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                 </div>
 
