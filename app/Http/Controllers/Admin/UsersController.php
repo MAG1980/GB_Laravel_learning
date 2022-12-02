@@ -25,7 +25,7 @@ class UsersController extends Controller
             $user->is_admin = !$user->is_admin;
             $user->save();
             return redirect(route('admin.users.index'))
-                ->with('success', "Права администратора предоставлены успешно!");
+                ->with('success', $user->is_admin ? "Права администратора предоставлены успешно!" : "Права администратора удалены успешно!");
         }
         return redirect(route('admin.users.index'))
             ->with('error', "Нельзя лишать активного пользователя прав администратора!");
