@@ -15,7 +15,7 @@ class UsersController extends Controller
     public function index(): View
     {
         //Получаем всех пользователей, исключая текущего, чтобы случайно не лишить его прав администратора
-        $users = User::query()->where('id', '!=', Auth::id())->orderBy('updated_at', 'DESC') ->paginate(5);
+        $users = User::query()->where('id', '!=', Auth::id())->orderBy('updated_at', 'DESC')->paginate(5);
         return view('admin.users.index', ['users' => $users]);
     }
 
@@ -39,16 +39,16 @@ class UsersController extends Controller
 
     public function store(Request $request, User $user)
     {
-        $validated = $this->validate($request, $this->getRules());
+        $validated = $this->validate($request, $this->getRules($user->id));
         $user->fill($validated);
         //хэшируем пароль перед внесением в БД
         $user->password = Hash::make($validated['password']);
         //Преобразуем чекбокс в Boolean
         $user->is_admin = isset($validated['is_admin']);
 
-       if( $user->save()){
-           return redirect()->route('admin.users.index')->with('success', 'Пользователь добавлен успешно!');
-       }
+        if ($user->save()) {
+            return redirect()->route('admin.users.index')->with('success', 'Пользователь добавлен успешно!');
+        }
         return redirect()->route('admin.users.index')->with('error', 'При добавлении пользователя произошла ошибка!');
     }
 
@@ -57,25 +57,37 @@ class UsersController extends Controller
         return view('admin.users.create')->with('user', $user);
     }
 
+    public function update(Request $request, User $user)
+    {
+        $validated = $this->validate($request, $this->getRules($user->id));
+        $user->fill($validated);
+        $user->password = Hash::make($validated['password']);
+        $user->is_admin = isset($validated['is_admin']) ? 1 : 0;
+        if ($user->save()) {
+            return redirect()->route('admin.users.index')->with('success', 'Данные пользователя изменены успешно!');
+        }
+        return redirect()->route('admin.users.index')->with('error', 'При сохранении изменённых пользователя произошла ошибка!');
+    }
+
     public function destroy(User $user)
     {
         $userName = $user->name;
         if ($user->delete()) {
             return redirect(route('admin.users.index'))
-                ->with("success", "Пользователь " . $userName ." удалён успешно!");
+                ->with("success", "Пользователь " . $userName . " удалён успешно!");
         }
     }
 
     /**Возвращает массив правил валидации
      * @return string[]
      */
-    private function getRules():array
+    private function getRules($userId): array
     {
         return [
-            'name'=>'required|unique:users,name|min:5|max:50',
-            'email'=>'required|unique:users,email',
-            'password'=>'required|min:3|max:20',
-            'is_admin'=>'sometimes:in:1'
+            'name' => 'min:5|max:50|required|unique:users,name,'.$userId,
+            'email' => 'required|email|unique:users,email,'.$userId,
+            'password' => 'required|min:3|max:20',
+            'is_admin' => 'sometimes:in:1'
         ];
     }
 }

@@ -77,8 +77,9 @@
                                                type="password"
                                                class="form-control @error('password') is-invalid @enderror"
                                                name="password"
+                                               value="{{ old('password') ?? '' }}"
                                                required
-                                               autocomplete="new-password">
+                                        >
 
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -100,7 +101,10 @@
                                         @endif
 
                                         <input id="is_admin" type="checkbox" class="form-check-input"
-                                               name="is_admin" autocomplete="is_admin">
+                                               name="is_admin"
+                                               autocomplete="is_admin"
+                                            {{ $user->is_admin ?? old('is_admin') === '1' ? 'checked' : '' }}>
+
                                         @error('password_confirmation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
