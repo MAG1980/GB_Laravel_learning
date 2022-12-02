@@ -27,4 +27,13 @@ class UsersController extends Controller
         return redirect(route('admin.users.index'))
             ->with('error', "Нельзя лишать активного пользователя прав администратора!");
     }
+
+    public function destroy(User $user)
+    {
+        $userName = $user->name;
+        if ($user->delete()) {
+            return redirect(route('admin.users.index'))
+                ->with("success", "Пользователь " . $userName ." удалён успешно!");
+        }
+    }
 }

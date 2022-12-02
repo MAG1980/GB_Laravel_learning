@@ -91,6 +91,8 @@ Route::name('admin.')
                 Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
                 Route::patch('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
                     ->name('toggleAdminRights');
+                Route::delete('/users/destroy/{user}', [AdminUsersController::class, 'destroy'])
+                    ->name('destroy');
             });
 
         Route::get('/', [AdminController::class, 'index'])->name('index');

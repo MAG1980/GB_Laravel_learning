@@ -34,7 +34,7 @@
                                     {{ $user->is_admin ? 'Лишить прав администратора' : 'Дать права администратора' }}
                                 </button>
                             </form>
-                            <form class="d-inline" action="{{route('admin.users.index',$user)}}" method="post">
+                            <form class="d-inline" action="{{route('admin.users.destroy',$user)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger m-4">
