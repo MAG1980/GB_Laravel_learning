@@ -86,9 +86,10 @@ Route::name('admin.')
                 //удаляет новость из БД
                 Route::delete('/destroy/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');*/
 
+        Route::resource('users', AdminUsersController::class);
         Route::name('users.')
             ->group(function () {
-                Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
+/*                Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
                 Route::match(['get', 'post'], '/users/create', [AdminUsersController::class, 'create'])
                     ->name('create');
                 Route::post('/users', [AdminUsersController::class, 'store'])->name('store');
@@ -97,11 +98,9 @@ Route::name('admin.')
                 //Сохраняет обновлённые данные в БД
                 Route::patch('/users/edit/{user}', [AdminUsersController::class, 'update'])->name('update');
                 Route::delete('/users/destroy/{user}', [AdminUsersController::class, 'destroy'])
-                    ->name('destroy');
+                    ->name('destroy');*/
                 Route::patch('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
                     ->name('toggleAdminRights');
-
-
             });
 
         Route::get('/', [AdminController::class, 'index'])->name('index');
