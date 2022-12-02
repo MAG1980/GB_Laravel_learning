@@ -89,10 +89,13 @@ Route::name('admin.')
         Route::name('users.')
             ->group(function () {
                 Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
+                Route::post('/users', [AdminUsersController::class, 'store'])->name('store');
                 Route::patch('/users/toggleAdminRights/{user}', [AdminUsersController::class, 'toggleAdminRights'])
                     ->name('toggleAdminRights');
                 Route::delete('/users/destroy/{user}', [AdminUsersController::class, 'destroy'])
                     ->name('destroy');
+                Route::match(['get', 'post'],'/users/create', [AdminUsersController::class, 'create'])
+                    ->name('create');
             });
 
         Route::get('/', [AdminController::class, 'index'])->name('index');

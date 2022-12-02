@@ -16,7 +16,7 @@
                 <h1 class="card-title">CRUD пользователей</h1>
                 <div class="card-text">
                     <h2>Консоль администратора</h2>
-                    <a class="btn btn-primary mt-4" href="{{ route('admin.users.index') }}">
+                    <a class="btn btn-primary mt-4" href="{{ route('admin.users.create') }}">
                         Добавить пользователя
                     </a>
                     <div class="users mt-5">
