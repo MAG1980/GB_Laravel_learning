@@ -1258,6 +1258,44 @@ href="{{ route('news.show', $item->id) }}"
 href="{{ route('news.show', $item) }}",
 т.е. разработчику не требуется помнить название первичного ключа модели.
 
+Cтандартные методы создания моделей Eloquent - make(), create(), update() и save().
+
+firstOrNew() - поиск первой модели, которая соответствует некоторым ограничениям, или для создания новой, если такой
+модели нет.
+$user = User::firstOrNew(['email' =>  request('email')]);
+$user->name = request('name');
+$user->save()
+
+firstOrCreate() - пытается найти модель, соответствующую атрибутам, которые вы передаете в первом параметре. Если модель не найдена,
+ автоматически создает и сохраняет новую модель после применения любых атрибутов, переданных во втором параметре.
+$user = User::firstOrCreate(
+    ['email' =>  request('email')],
+    ['name' => request('name')]
+);
+// No call to $user->save() needed
+
+firstOr() - извлекает первую модель из запроса или, если подходящая модель не найдена, вызывает переданный обратный вызов. Это может быть очень полезно, если вам нужно выполнить дополнительные шаги при создании пользователя или вы хотите сделать что-то кроме создания нового пользователя
+$user = User::where('email', request('email'))->firstOr(function () {
+    $account = Account::create([ //... ]);
+
+    return User::create([
+        'account_id' => $account->id,
+        'email' => request('email'),
+    ]);
+});
+
+updateOrCreate() - пытается найти модель, соответствующую ограничениям, переданным в качестве первого параметра. Если будет найдена подходящая Модель, она обновит совпадение с атрибутами, переданными в качестве второго параметра. Если подходящая модель не найдена, будет создана новая модель с ограничениями, переданными в качестве первого параметра, и атрибутами, переданными в качестве второго параметра.
+$user = User::where('email', request('email'))->first();
+if ($user !== null) {
+    $user->update(['name' => request('name')]);
+} else {
+    $user = User::create([
+      'email' => request('email'),
+      'name' => request('name'),
+    ]);
+}
+// Do other things with the User
+
 Принцип работы фасада - при необходимости будет создан экземпляр класса и помещён в контейнер.
 При повторном обращении к классу новый экземпляр создаваться не будет, а будет браться из контейнера.
 
@@ -2004,3 +2042,94 @@ $ sail artisan db:seed --class=UsersSeeder
 Сделать кнопку Профиль доступной любому пользователю после аутентификации в выпадающем меню в правом углу.
 
 Задействовать отношения.
+
+
+Урок 9. События в Laravel. Провайдеры. Работа со сторонними API
+
+Cоздаём контроллер и маршрут для парсинга новостей.
+Он будет только выполнять действие (парсинг), без вывода страницы,
+поэтому создавать отдельный шаблон для него не нужно.
+ sail artisan make:controller Admin/ParserController
+
+Сначала установим пакет парсера, выполнив команду composer require "orchestra/parser=^4.0"
+После успешного скачивания пакета разместим его в списке провайдеров и добавим новый фасад в
+файле app.php.
+
+Подключим orchestra/parser
+https://packagist.org/packages/orchestra/parser
+
+sail composer require "orchestra/parser"
+
+//регистрируем Parser в провайдерах config/app.php
+'providers'=>[...Orchestra\Parser\XmlServiceProvider::class,]
+//создаём псевдоним Parser в алиасах config/app.php
+'aliases' => [...'XmlParser' => Orchestra\Parser\Xml\Facade::class,]
+
+Чтобы использовать Parser его нужно подключить в соответствующем классе
+use Orchestra\Parser\Xml\Facade as XmlParser;
+_____________________________________________
+$xml = XmlParser::load('path/to/above.xml');
+
+//Для разбора полей источника данных можно вывести на экран содержимое $xml
+
+● через точку указываются узлы xml-документа, при этом игнорируется корневой;
+● если данные в xml-документе повторяются, то их указывают в квадратных скобках. Эти
+данные будут возвращены в виде массива.
+
+$user = $xml->parse([
+    'id' => ['uses' => 'user.id'],
+    'email' => ['uses' => 'user.email'],
+//через :: указывается наименование извлекаемого атрибута
+    'followers' => ['uses' => 'user::followers'],
+//извлечь повторяющиеся данные в виде массива
+    'news'=>['uses' =>'channel.item[title,category,description,enclosure::url]']
+]);
+_____________________________________________
+https://www.kommersant.ru/RSS/news.xml
+
+https://rssexport.rbc.ru/rbcnews/news/30/full.rss
+https://news.ru/rss/
+https://lenta.ru/rss
+
+1:04 Использовать не insert() и update(), а firstOrCreate()
+Перед добавлением новости в БД нужно убедиться, что соответствующая ей категория существует (firstOrCreate()).
+В случае отсутствия нужной категории - создать её.
+firstOrCreate() нужно использовать вместо insert() -это также позволит организовать добавление только свежих новостей
+при повторном нажатии на кнопку Parse.
+Для этого нужно анализировать время добавления новости (свойство pubDate в RSS Lenta.ru).
+
+//Структура XML Lenta.ru
+Orchestra\Parser\Xml\Document {#1471 ▼ // app/Http/Controllers/Admin/ParserController.php:14
+  #content: SimpleXMLElement {#1470 ▶
+    +"@attributes": array:1 [▶
+      "version" => "2.0"
+    ]
+    +"channel": SimpleXMLElement {#1503 ▶
+      +"language": "ru"
+      +"title": "Lenta.ru : Новости"
+      +"description": "Новости, статьи, фотографии, видео. Семь дней в неделю, 24 часа в сутки."
+      +"link": "https://lenta.ru"
+      +"image": SimpleXMLElement {#1500 ▶
+        +"url": "https://lenta.ru/images/small_logo.png"
+        +"title": "Lenta.ru"
+        +"link": "https://lenta.ru"
+        +"width": "134"
+        +"height": "22"
+      }
+      +"item": array:200 [▶
+        0 => SimpleXMLElement {#1501 ▶
+          +"guid": "https://lenta.ru/news/2022/12/04/role/"
+          +"author": "Варвара Кошечкина"
+          +"title": "Раскрыта роль западных спецслужб в готовящейся Киевом провокации с аммиаком"
+          +"link": "https://lenta.ru/news/2022/12/04/role/"
+          +"description": SimpleXMLElement {#1694}
+          +"pubDate": "Sun, 04 Dec 2022 09:59:00 +0300"
+          +"enclosure": SimpleXMLElement {#1695 ▶
+            +"@attributes": array:3 [▶
+              "url" => "https://icdn.lenta.ru/images/2022/12/04/10/20221204100018624/pic_e99bd3f53bd2e4d56897dd0c741a1897.jpg"
+              "type" => "image/jpeg"
+              "length" => "39647"
+            ]
+          }
+          +"category": "Бывший СССР"
+        }

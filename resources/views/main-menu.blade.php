@@ -28,6 +28,10 @@
                             <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}"
                                href="{{ route('vue') }}">Vue</a>
                         </li>
+                        <li class=" nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.parser') ? 'active' : '' }}"
+                               href="{{ route('admin.parser') }}">News Parser</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.index') ? 'active' : '' }}"
                                href="#" id="navbarDropdown" role="button"

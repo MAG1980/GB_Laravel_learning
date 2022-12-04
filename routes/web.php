@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UsersController as AdminUsersController;
+use App\Http\Controllers\Admin\ParserController as AdminParserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
@@ -62,6 +63,7 @@ Route::name('admin.')
     ->middleware(['auth', 'is_admin'])
 //    ->middleware('is_admin')
     ->group(function () {
+        Route::get('/parser',[AdminParserController::class, 'index'])->name('parser');
         //заменяет собой маршруты для всех методов CRUD
         Route::resource('news', AdminNewsController::class)->except(['show']);
         /*          //CRUD
