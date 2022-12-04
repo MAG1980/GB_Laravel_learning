@@ -2133,3 +2133,6 @@ Orchestra\Parser\Xml\Document {#1471 ▼ // app/Http/Controllers/Admin/ParserCon
           }
           +"category": "Бывший СССР"
         }
+
+8 ТРЮКОВ С МЕТКАМИ ВРЕМЕНИ LARAVEL
+https://www.whitelabeldevelopers.ru/articles/8-tryukov-s-metkami-vremeni-laravel
