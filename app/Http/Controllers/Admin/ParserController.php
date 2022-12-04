@@ -47,12 +47,7 @@ class ParserController extends Controller
         }
 
         foreach ($result as $item) {
-            $categoryTitle = $item['category'];
-            //Возвращает из БД объект категории, а если он не существует, то создаёт новую запись и возвращает её
-            $category = Category::firstOrCreate(
-                ['title' => mb_strtolower($categoryTitle)],
-                ['slug' => Str::slug($categoryTitle)],
-            );
+            $category = $this->getCategoryFromDB($item);
 
             $news = News::where('title', $item['description'])->firstOr(function () use ($item, $category) {
                 return $newNews = News::create([
@@ -64,6 +59,16 @@ class ParserController extends Controller
 
         }
         dd($result);
+    }
+
+    private function getCategoryFromDB($news)
+    {
+        $categoryTitle = $news['category'];
+        //Возвращает из БД объект категории, а если он не существует, то создаёт новую запись и возвращает её
+        return $category = Category::firstOrCreate(
+            ['title' => mb_strtolower($categoryTitle)],
+            ['slug' => Str::slug($categoryTitle)],
+        );
     }
 
 }
