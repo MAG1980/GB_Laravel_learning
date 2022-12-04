@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 
@@ -49,10 +50,14 @@ class ParserController extends Controller
         foreach ($result as $item) {
             $news = News::where('title', $item['description'])->firstOr(function () use ($item) {
                 $category = $this->getCategoryFromDB($item);
-                return $newNews = News::create([
+                dump($item);
+                dump($category);
+                 $newNews = News::create([
                     'title' => $item['title'],
                     'text' => $item['description'],
-                    'category_id' => $category->id
+                    'category_id' => $category->id,
+                    'image_path'=>$item['enclosure::url'],
+                    'publication_date'=>Carbon::parse($item['pubDate']),
                 ]);
             });
 

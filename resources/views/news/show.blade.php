@@ -12,7 +12,7 @@
             <div class="card-header">
                 Самые актуальные новости со всех концов света!
             </div>
-            <img src="{{ asset('/storage/img/default.jpg') }}" class="card-img-top h-100 d-block" alt="...">
+            <img src="{{ $news->image_path }}" class="card-img-top h-100 d-block" alt="...">
             @if($news)
                 <div class="card-body py-5">
                     <h1 class="card-title">{{ $news->title }}</h1>

@@ -9,7 +9,7 @@ class News extends Model
 {
     use HasFactory;
     //перечислены свойства, которые можно заполнять данными, полученными из Request
-    protected $fillable = ['title', 'text', 'category_id', 'isPrivate'];
+    protected $fillable = ['title', 'text', 'category_id', 'isPrivate', 'image_path', 'publication_date'];
 
      /**Возвращает объект категории, к которой относится данная новость.
      * @return Model|\Illuminate\Database\Eloquent\Relations\BelongsTo|object|null

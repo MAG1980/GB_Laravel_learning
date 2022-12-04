@@ -2136,3 +2136,7 @@ Orchestra\Parser\Xml\Document {#1471 ▼ // app/Http/Controllers/Admin/ParserCon
 
 8 ТРЮКОВ С МЕТКАМИ ВРЕМЕНИ LARAVEL
 https://www.whitelabeldevelopers.ru/articles/8-tryukov-s-metkami-vremeni-laravel
+
+Парсинг дат
+Для работы с датами в Laravel присутствует библиотека Carbon
+'publication_date'=>Carbon::parse($item['pubDate']),

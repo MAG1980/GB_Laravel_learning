@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h2 class="card-title">{{ $item->title }}</h2>
                         <div>
-                            <img src="{{asset('/storage/img/default.jpg')}}" class="card-img-top" alt="...">
+                            <img src="{{ $item->image_path }}" class="card-img-top" alt="...">
                         </div>
                         @if($item->isPrivate)
                             <p>Для просмотра данной новости Вам необходимо войти в свой профиль</p>
