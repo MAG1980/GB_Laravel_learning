@@ -47,9 +47,8 @@ class ParserController extends Controller
         }
 
         foreach ($result as $item) {
-            $category = $this->getCategoryFromDB($item);
-
-            $news = News::where('title', $item['description'])->firstOr(function () use ($item, $category) {
+            $news = News::where('title', $item['description'])->firstOr(function () use ($item) {
+                $category = $this->getCategoryFromDB($item);
                 return $newNews = News::create([
                     'title' => $item['title'],
                     'text' => $item['description'],
