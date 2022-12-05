@@ -6,11 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 
+/**
+ *
+ */
 class ParserController extends Controller
 {
+    /**
+     * @var \string[][][]
+     */
     private $newsSources = [
         'https://rssexport.rbc.ru/rbcnews/news/30/full.rss' => [
             /*          'title' => ['uses' => 'channel.item.title'],
@@ -32,40 +39,38 @@ class ParserController extends Controller
                         'img' => ['uses' => 'channel.item.enclosure::url'],*/
             'news' => ['uses' => 'channel.item[title,category,description,enclosure::url,pubDate]']
         ],
-
     ];
 
+    /**Добавляет в БД свежие новости из зарегистрированных источников
+     * @return void
+     */
     public function index()
     {
-        $result = [];
-        foreach ($this->newsSources as $source => $fields) {
-            $xml = XmlParser::load($source);
+        //Время публикации последней новости, хранящейся в БД
+        $latestPublicationTime = $this->getLatestNewsPublicationTime();
+        dump($latestPublicationTime);
+//        dump($this->xmlSourcesParseResultToArray());
 
-            $data = $xml->parse([
-                ...$fields
-            ]);
-            $result = [...$result, ...$data['news']];
-        }
+        foreach ($this->xmlSourcesParseResultToArray() as $item) {
+            //Время публикации проверяемой новости
+            $newsPublicationTime = Carbon::createFromTimeString($item['pubDate']);
+            //Время публикации самой свежей новости, хранящейся в БД
+            $newsLatestTime = Carbon::createFromTimeString($latestPublicationTime);
+            //Сравнение даты публикации новости с датой публикации самой свежей новости в БД
+            $newsIsFresh = $newsPublicationTime->gt($newsLatestTime);
 
-        foreach ($result as $item) {
-            $news = News::where('title', $item['description'])->firstOr(function () use ($item) {
-                $category = $this->getCategoryFromDB($item);
+            if ($newsIsFresh) {
+                $this->addFreshNews($item);
                 dump($item);
-                dump($category);
-                 $newNews = News::create([
-                    'title' => $item['title'],
-                    'text' => $item['description'],
-                    'category_id' => $category->id,
-                    'image_path'=>$item['enclosure::url'],
-                    'publication_date'=>Carbon::parse($item['pubDate']),
-                ]);
-            });
-
+            }
         }
-        dd($result);
     }
 
-    private function getCategoryFromDB($news)
+    /**
+     * @param $news - массив данных одной новости
+     * @return Category
+     */
+    private function getCategoryFromDB($news):Category
     {
         $categoryTitle = $news['category'];
         //Возвращает из БД объект категории, а если он не существует, то создаёт новую запись и возвращает её
@@ -75,4 +80,46 @@ class ParserController extends Controller
         );
     }
 
+    /**
+     * @return mixed|string время публикации самой свежей новости, хранящейся в БД
+     */
+    private function getLatestNewsPublicationTime()
+    {
+        return DB::table('news')->orderBy('publication_date',
+                'desc')->first()->publication_date ?? 'Mon, 05 Dec 2022 00:00:00 +0300';
+    }
+
+    /**
+     * @param $item - массив данных одной новости
+     * @return void
+     */
+    private function addFreshNews($item)
+    {
+        $category = $this->getCategoryFromDB($item);
+//        dump($category);
+        $newNews = News::create([
+            'title' => $item['title'],
+            'text' => $item['description'],
+            'category_id' => $category->id,
+            'image_path' => $item['enclosure::url'] ?? '/storage/img/default.jpg',
+            'publication_date' => Carbon::createFromTimeString($item['pubDate']),
+        ]);
+    }
+
+    /**Парсит источники новостей в формате xml
+     * @return array массив новостей
+     */
+    private function xmlSourcesParseResultToArray():array
+    {
+        $xmlParsingResult = [];
+        foreach ($this->newsSources as $source => $fields) {
+            $xml = XmlParser::load($source);
+
+            $data = $xml->parse([
+                ...$fields
+            ]);
+            $xmlParsingResult = [...$xmlParsingResult, ...$data['news']];
+        }
+        return $xmlParsingResult;
+    }
 }
