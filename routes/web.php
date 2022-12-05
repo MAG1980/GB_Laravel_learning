@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UsersController as AdminUsersController;
 use App\Http\Controllers\Admin\ParserController as AdminParserController;
+use \App\Http\Controllers\SocialiteLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
@@ -32,6 +33,10 @@ Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/save', [HomeController::class, 'save'])->name('save');
 
 Route::match(['get', 'post'], '/profile', [ProfileController::class, 'update'])->name('updateProfile');
+
+Route::get('/auth/redirect/vk', [SocialiteLoginController::class, 'vkLogin'])->name('vkLogin')->middleware('guest');
+
+Route::get('/auth/vk/response',  [SocialiteLoginController::class, 'vkResponse'])->name('vkResponse')->middleware('guest');
 
 // вывод страницы, к которой подключен Vue
 Route::view('/vue', 'vue')->name('vue');

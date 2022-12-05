@@ -42,7 +42,7 @@
                                 <div class="col-md-6">
                                     <input id="password" type="password"
                                            class="form-control @error('password') is-invalid @enderror" name="password"
-                                           required autocomplete="current-password" value="123">
+                                           autocomplete="current-password" value="123">
 
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -62,6 +62,14 @@
                                             {{ __('Remember Me') }}
                                         </label>
                                     </div>
+                                    <a href="{{route('vkLogin')}}">
+                                        <img src="{{asset('/storage/icons/VK.com-logo.svg')}} "
+                                             alt="logo_vk" class="d-inline-block w-25">
+                                    </a>
+                                    <a href="{{route('vkLogin')}}">
+                                        <img src="{{asset('/storage/avatars/'.'default.jpg')}}"
+                                             alt="logo_vk" class="d-inline-block w-25">
+                                    </a>
                                 </div>
                             </div>
 

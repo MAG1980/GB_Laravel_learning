@@ -214,7 +214,14 @@ $ php artisan route:list --except-path=api,_ignition,sanctum - вывести т
 $ php artisan route:cache - кешировать маршруты.
 После этого Laravel берёт информацию о маршрутах не из папки routes, а из кеша.
 Кеширование маршрутов обязательно нужно делать на рабочем сервере (в ProductionMode), т.к. сборка маршрутов занимает много времени.
+
+
+Очистка кеша cache Laravel:
+$ php artisan cache:clear
+$ php artisan config:clear (.env)
 $ php artisan route:clear
+$ php artisan view:clear
+
 
 !!! При использовании Laravel Sail вместо php нужно писать sail
 sail artisan route:list
@@ -1198,6 +1205,30 @@ sail artisan make:seeder CategoriesSeeder
 $ sail artisan storage:link
    INFO  The [public/storage] link has been connected to [storage/app/public].
 
+   Публичный диск
+   Диск public, включенный в filesystems файл конфигурации вашего приложения, предназначен для файлов, которые будут
+   общедоступны. По умолчанию public диск использует local драйвер и хранит свои файлы в формате storage/app/public.
+
+   Чтобы сделать эти файлы доступными из Интернета, вы должны создать символическую ссылку с public/storage на
+   storage/app/public. Использование этого соглашения о папках позволит хранить ваши общедоступные файлы в одном каталоге, который можно легко использовать в разных развертываниях при использовании систем развертывания с нулевым временем простоя, таких как Envoyer .
+
+   Чтобы создать символическую ссылку, вы можете использовать команду
+   storage:link Artisan:
+
+   php artisan storage:link
+
+   После сохранения файла и создания символической ссылки вы можете создать URL-адрес файлов с помощью asset помощника:
+
+   echo asset('storage/file.txt');
+
+   Вы можете настроить дополнительные символические ссылки в filesystems файле конфигурации. Каждая из настроенных
+   ссылок будет создана при выполнении storage:link команды:
+
+   'links' => [
+       public_path('storage') => storage_path('app/public'),
+       public_path('images') => storage_path('app/images'),
+   ],
+
 Конспект лекции №6: Работа с базой данных. Eloquent ORM. Laravel Debugbar
 
 Laravel Debugbar - внешний компонент. Его аналог присутствует в Laravel UI.
@@ -2140,3 +2171,100 @@ https://www.whitelabeldevelopers.ru/articles/8-tryukov-s-metkami-vremeni-laravel
 Парсинг дат
 Для работы с датами в Laravel присутствует библиотека Carbon
 'publication_date'=>Carbon::parse($item['pubDate']),
+
+ $newsLatestTime = Carbon::createFromTimeString($latestPublicationTime); - создать время из строки
+
+Сравнение времени Carbon (существует много методов)Ж
+$newsPublicationTime->gt($newsLatestTime); - больше >
+
+
+Для авторизации с использоватнием OAUTH2 в Laravel входит специальный пакет Socialite для подключения с помощью некоторых соцсетей.
+Для остальных соцсетей можно установить отдельный компонент и добавить свои настройки, указанные на сайте
+https://socialiteproviders.com/
+Например, VKontakte
+sail composer require socialiteproviders/vkontakte
+
+Добавить конфигурацию в config/services.php
+//берутся из .env, поэтому их нужно туда добавить
+'vkontakte' => [
+  'client_id' => env('VKONTAKTE_CLIENT_ID'),
+  'client_secret' => env('VKONTAKTE_CLIENT_SECRET'),
+  'redirect' => env('VKONTAKTE_REDIRECT_URI')           //Доверенный redirect URI в настр. прил. VK
+],
+указанные выше параметры нужно взять на сайте VK и внести в .env
+https://dev.vk.com/
+
+
+#Добавить прослушиватель событий поставщика
+Настройте прослушиватель пакета для прослушивания SocialiteWasCalledсобытий.
+Добавьте событие в свой listen[]массив в app/Providers/EventServiceProvider.
+См. Руководство по базовой установке (открывает новое окно)для получения подробных инструкций.
+В свойстве $listen перечисляются классы, которые подписываются на собития в других классах.
+В нашем случае класс SocialiteWasCalled подписывается на события класса VKontakteExtendSocialite,
+чтобы при вызове метода обработчика @handle класса VKontakteExtendSocialite автоматически перенаправить запрос на сервис
+ vk.com, а затем отследить получение ответа.
+protected $listen = [
+    \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+        // ... other Socialite providers
+        \SocialiteProviders\VKontakte\VKontakteExtendSocialite::class.'@handle',
+    ],
+];
+#Применение
+Теперь вы сможете использовать провайдера, как если бы вы регулярно использовали Socialite (при условии, что у вас установлен фасад):
+return Socialite::driver('vkontakte')->redirect();
+
+Последовательность добавления авторизации через VK
+1. Создаём приложение на сайте VK
+2. Сохраняем настройки приложения с сайта VK в .env
+3. Создаём контроллер, например, sail artisan make:controller SocialiteLoginController
+4. Добавляем в метод-обработчик запроса на авторизацию SocialiteLoginController строку
+ return Socialite::driver('vkontakte')->redirect();
+ согласно инструкции
+https://laravel.com/docs/9.x/socialite#authentication
+5. Регистрируем маршруты, которыми смогут пользоваться только незарегистрированные пользователи - гости. Для этого используем middleware guest.
+
+Route::get('/auth/redirect/vk', [SocialiteLoginController::class, 'vkLogin'])->name('vkLogin')->middleware('guest');
+Route::get('/auth/callback/vk',  [SocialiteLoginController::class, 'vkResponse'])->name('vkResponse')->middleware('guest');
+
+Для аутентификации пользователей с помощью провайдера OAuth вам понадобятся два маршрута: один для перенаправления пользователя к провайдеру OAuth, а другой — для получения обратного вызова от провайдера после аутентификации.
+Метод vkLogin выполняет redirect, предоставленный Socialiteфасадом, заботится о перенаправлении пользователя к провайдеру OAuth,
+ return Socialite::driver('vkontakte')->redirect();
+
+ в то время как vkResponse метод проверяет входящий запрос и получает информацию о пользователе от провайдера после того, как он одобрил запрос аутентификации.
+$user = Socialite::driver('github')->user();
+     // $user->token
+6. После получения данных о пользователя от сервера соцсети нужно на базе них создать пользователя, например:
+$user = User::updateOrCreate([
+        'github_id' => $githubUser->id,
+    ], [
+        'name' => $githubUser->name,
+        'email' => $githubUser->email,
+        'github_token' => $githubUser->token,
+        'github_refresh_token' => $githubUser->refreshToken,
+    ]);
+
+    Auth::login($user);
+ А затем выполнить редирект на нужну страницу.
+
+Т.к. у пользователя могут быть аккаунты в нескольких соцсетях, через которые он захочет поочерёдно авторизовываться, то
+в таблицу users БД необходимо добавить новый столбец -
+sail artisan make:migration alter_table_users_add_column_authorization_social_network
+
+После этого нужно добавить названия созданных столбцов в свойство fillable класса User.
+Т.к. от различных соцсетей могут приходить в различных форматах,
+применим паттерн Repository.
+Создадим класс UserRepository.
+use App\Models\User;
+//объекты, приходящие от соцсети, являются экземплярами данного класса
+use Laravel\Socialite\Contracts\User as UserOAuth;
+По полученному от соцсети id и названию соцсети ищем в БД пользователя.
+Если он существует, то возвращаем его.
+Если нет - создаём новый экземпляр класса User и заполняем его данными, полученными от соцсети,
+сохраняем его в БД и возвращаем.
+
+Задействуем UserRepository в SocialiteLoginController
+
+Чтобы авторизация через соцсеть заработала, нужно убрать required с input для ввода пароля.
+
+В фасаде Auth есть метод login. Используем его в SocialiteLoginController, передав объект пользователя.
+
