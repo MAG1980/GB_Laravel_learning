@@ -216,7 +216,7 @@ $ php artisan route:cache - кешировать маршруты.
 Кеширование маршрутов обязательно нужно делать на рабочем сервере (в ProductionMode), т.к. сборка маршрутов занимает много времени.
 
 
-Очистка кеша cache Laravel:
+Очистка кеша (кэш) cache Laravel:
 $ php artisan cache:clear
 $ php artisan config:clear (.env)
 $ php artisan route:clear
@@ -2268,3 +2268,6 @@ use Laravel\Socialite\Contracts\User as UserOAuth;
 
 В фасаде Auth есть метод login. Используем его в SocialiteLoginController, передав объект пользователя.
 
+Домашнее задание:
+В методе, создающем нового пользователя на основании данных, полученных от соцсети,
+настроить валидацию поля email.

@@ -11,8 +11,8 @@
     @include('main-menu')
 @endsection
 @section('content')
-    <div class="card container-lg d-flex align-items-center justify-content-center vh-100">
-        <div class="card text-center col-md-8">
+    <div class="card container-lg d-flex align-items-center justify-content-center">
+        <div class="card text-center col-md-8 my-5">
             <div class="card-header">
                 Самые актуальные новости со всех концов света!
             </div>

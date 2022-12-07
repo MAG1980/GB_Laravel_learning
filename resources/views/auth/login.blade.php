@@ -64,23 +64,23 @@
                                     </div>
                                     <a href="{{route('vkLogin')}}">
                                         <img src="{{asset('/storage/icons/VK.com-logo.svg')}} "
-                                             alt="logo_vk" class="d-inline-block w-25">
+                                             alt="logo_vk" class="d-inline-block col-1">
                                     </a>
                                     <a href="{{route('vkLogin')}}">
                                         <img src="{{asset('/storage/avatars/'.'default.jpg')}}"
-                                             alt="logo_vk" class="d-inline-block w-25">
+                                             alt="logo_vk" class="d-inline-block col-1 rounded-circle">
                                     </a>
                                 </div>
                             </div>
 
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary me-2">
                                         {{ __('Login') }}
                                     </button>
 
                                     @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        <a class="btn btn-success" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif

@@ -58,7 +58,7 @@
             </ul>
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav d-flex justify-content-end">
                 <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))
@@ -75,6 +75,9 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item col-2">
+                        <img class="d-block w-100 menu__avatar__img" src="{{ Auth::User()->avatar }}" alt="avatar">
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
