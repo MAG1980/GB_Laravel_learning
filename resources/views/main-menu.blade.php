@@ -12,7 +12,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 <li class=" nav-item">
-                    <a class="nav-link {{ request()->routeIs('news.index') ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->routeIs('news.index') ? 'active' : '' }} {{ request()->routeIs('news.category.selectedCategory') ? 'active' : '' }}"
                        href="{{ route('news.index') }}">Новости</a>
                 </li>
                 <li class=" nav-item">

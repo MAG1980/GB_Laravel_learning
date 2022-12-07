@@ -13,7 +13,7 @@ class NewsController
         $categories = Category::all();
 //        $category = DB::table('category')->get();
 
-        $news = News::query()->paginate(5);
+        $news = News::query()->paginate(10);
         //Передаём данные в представление ('news' - переменная, $news - значение)
         return view('news.index')
             ->with('categories', $categories)
