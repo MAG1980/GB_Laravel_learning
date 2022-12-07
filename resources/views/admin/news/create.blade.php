@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <textarea id="news__text" name="text" class="form-control"
-                                                  value="{{ $news->text ?? old('text') }}"
+                                                  value="{{ empty(old()) ? $news->text : old('text') }}"
                                         ></textarea>
                                     </div>
                                 </div>
