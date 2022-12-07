@@ -76,7 +76,7 @@
                     @endif
                 @else
                     <li class="nav-item col-2">
-                        <img class="d-block w-100 menu__avatar__img" src="{{ Auth::User()->avatar }}" alt="avatar">
+                        <img class="d-block w-50 menu__avatar__img" src="{{ Auth::User()->avatar }}" alt="avatar">
                     </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"

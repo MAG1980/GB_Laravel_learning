@@ -2232,7 +2232,7 @@ Route::get('/auth/redirect/vk', [SocialiteLoginController::class, 'vkLogin'])->n
 Route::get('/auth/callback/vk',  [SocialiteLoginController::class, 'vkResponse'])->name('vkResponse')->middleware('guest');
 
 Для аутентификации пользователей с помощью провайдера OAuth вам понадобятся два маршрута: один для перенаправления пользователя к провайдеру OAuth, а другой — для получения обратного вызова от провайдера после аутентификации.
-Метод vkLogin выполняет redirect, предоставленный Socialiteфасадом, заботится о перенаправлении пользователя к провайдеру OAuth,
+Метод vkLogin выполняет redirect, предоставленный Socialite фасадом, заботится о перенаправлении пользователя к провайдеру OAuth,
  return Socialite::driver('vkontakte')->redirect();
 
  в то время как vkResponse метод проверяет входящий запрос и получает информацию о пользователе от провайдера после того, как он одобрил запрос аутентификации.

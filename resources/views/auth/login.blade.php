@@ -62,11 +62,11 @@
                                             {{ __('Remember Me') }}
                                         </label>
                                     </div>
-                                    <a href="{{route('vkLogin')}}">
+                                    <a href="{{route('socialNetworkLogin','vkontakte')}}">
                                         <img src="{{asset('/storage/icons/VK.com-logo.svg')}} "
                                              alt="logo_vk" class="d-inline-block col-1">
                                     </a>
-                                    <a href="{{route('vkLogin')}}">
+                                    <a href="{{route('socialNetworkLogin','github')}}">
                                         <img src="{{asset('/storage/avatars/'.'default.jpg')}}"
                                              alt="logo_vk" class="d-inline-block col-1 rounded-circle">
                                     </a>

@@ -13,18 +13,20 @@ class SocialiteLoginController extends Controller
     /**Перенаправление пользователя к провайдеру OAuth
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function vkLogin()
-    {
-        return Socialite::driver('vkontakte')->redirect();
+    public function socialNetworkLogin($authorizationProvider)
+    {dump($authorizationProvider);
+        return Socialite::driver($authorizationProvider)->redirect();
     }
 
     /**Проверяет входящий запрос и получает информацию о пользователе от провайдера после того, как он одобрил запрос аутентификации.
      * @return void
      */
-    public function vkResponse(UserRepository $userRepository){
-        $user = Socialite::driver('vkontakte')->user();
+    public function socialNetworkResponse($authorizationProvider, UserRepository $userRepository ){
+
+        $user = Socialite::driver($authorizationProvider)->user();
+
         //Пользователь, полученный из БД сразу, или после добавления в БД на основании данных соцсети.
-        $userInDb=$userRepository->getUserBySocialNetworkId($user,'vk' );
+        $userInDb=$userRepository->getUserBySocialNetworkId($user,$authorizationProvider);
         Auth::login($userInDb);
         return redirect()->route('home');
     }

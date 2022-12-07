@@ -34,9 +34,9 @@ Route::get('/save', [HomeController::class, 'save'])->name('save');
 
 Route::match(['get', 'post'], '/profile', [ProfileController::class, 'update'])->name('updateProfile');
 
-Route::get('/auth/redirect/vk', [SocialiteLoginController::class, 'vkLogin'])->name('vkLogin')->middleware('guest');
+Route::get('/auth/redirect/{authorizationProvider}', [SocialiteLoginController::class, 'socialNetworkLogin'])->name('socialNetworkLogin')->middleware('guest');
 
-Route::get('/auth/vk/response',  [SocialiteLoginController::class, 'vkResponse'])->name('vkResponse')->middleware('guest');
+Route::get('/auth/{authorizationProvider}/response',  [SocialiteLoginController::class, 'socialNetworkResponse'])->name('socialNetworkResponse')->middleware('guest');
 
 // вывод страницы, к которой подключен Vue
 Route::view('/vue', 'vue')->name('vue');
