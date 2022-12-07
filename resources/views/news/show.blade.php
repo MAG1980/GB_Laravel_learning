@@ -19,7 +19,7 @@
                     <div class="card-text">
                         <p class="fs-4"> Новость № {{ $news->id }}</p>
                         <p class="fs-4"> Категория: {{ $news->category()->title }}</p>
-                        @if($news->isPrivate)
+                        @if($news->isPrivate || !Auth::check())
                             <div>
                                 <p class="card-text">Скрытый контент доступен только авторизованным пользователям</p>
                                 <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
