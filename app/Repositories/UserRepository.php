@@ -14,6 +14,7 @@ class UserRepository
      */
     public function getUserBySocialNetworkId(UserOAuth $user, string $socialNetworkName)
     {
+//        dd($user, $socialNetworkName);
         $userInDb = User::query()->where('social_network_id', $user->id)->where('type_auth',
             $socialNetworkName)->first();
         if (is_null($userInDb)) {
@@ -22,7 +23,7 @@ class UserRepository
                 'name' => !empty($user->getName()) ? $user->getName():'',
                 'email' => $user->email,
                 'password' => '',
-                'social_network_id' => !empty($user->getName()) ? $user->getName():'',
+                'social_network_id' => !empty($user->getId()) ? $user->getId():'',
                 'type_auth' => $socialNetworkName,
                 'avatar' => !empty($user->getAvatar()) ? $user->getAvatar():''
             ]);
