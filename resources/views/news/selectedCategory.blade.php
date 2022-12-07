@@ -20,7 +20,7 @@
                         <div>
                             <img src="{{ $item->image_path }}" class="card-img-top" alt="...">
                         </div>
-                        @if($item->isPrivate)
+                        @if($item->isPrivate && !Auth::check())
                             <p>Для просмотра данной новости Вам необходимо войти в свой профиль</p>
                             <a class="btn btn-primary" href="{{ route('login') }}"> Авторизоваться</a>
                         @else
