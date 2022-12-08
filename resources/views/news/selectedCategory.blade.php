@@ -9,11 +9,11 @@
 @section('content')
     <div class="card container-lg d-flex align-items-center justify-content-center">
 
-        <div class="row">
+        <div class="row col-12 my-3">
             <div class="col-4">
                 @include('news.category-menu')
             </div>
-            <div class="card text-center col-md-8 col-8 py-4">
+            <div class="card text-center col-8 py-4">
                 <h1 class="card-title my-3">{{ $selectedCategory->title }}</h1>
                 @forelse ($news as $item)
                     <div class="card mb-3 py-3">
