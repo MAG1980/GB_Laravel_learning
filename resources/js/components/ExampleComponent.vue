@@ -8,6 +8,8 @@
                     <div class="card-body">
                         I'm an example component.
                     </div>
+                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+
                 </div>
             </div>
         </div>
@@ -15,9 +17,20 @@
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+export default {
+    data() {
+        return {
+            editor: ClassicEditor,
+            editorData: '<p>Content of the editor.</p>',
+            editorConfig: {
+                // The configuration of the editor.
+            }
         }
+    },
+    mounted() {
+        console.log( 'Component mounted.' )
     }
+}
 </script>
