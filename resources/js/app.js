@@ -37,4 +37,4 @@ app.component('example-component', ExampleComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.use( CKEditor ).mount('#app');
+app.mount('#app');
