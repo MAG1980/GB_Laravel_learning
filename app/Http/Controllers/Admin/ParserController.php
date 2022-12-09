@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
-use Illuminate\Routing\Route;
+use App\Services\XMLParserService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -45,27 +45,18 @@ class ParserController extends Controller
     /**Добавляет в БД свежие новости из зарегистрированных источников
      * @return void
      */
-    public function index()
+    public function index(XMLParserService $parserService)
     {
-        //Время публикации последней новости, хранящейся в БД
-        $latestPublicationTime = $this->getLatestNewsPublicationTime();
-        dump($latestPublicationTime);
-//        dump($this->xmlSourcesParseResultToArray());
+        $links = [
+            'https://overclockers.ru/rss/all.rss',
+            'https://lenta.ru/rss',
+            'https://news.rambler.ru/rss/holiday/',
+            'https://rssexport.rbc.ru/rbcnews/news/30/full.rss'
+        ];
 
-        foreach ($this->xmlSourcesParseResultToArray() as $item) {
-            //Время публикации проверяемой новости
-            $newsPublicationTime = Carbon::createFromTimeString($item['pubDate']);
-            //Время публикации самой свежей новости, хранящейся в БД
-            $newsLatestTime = Carbon::createFromTimeString($latestPublicationTime);
-            //Сравнение даты публикации новости с датой публикации самой свежей новости в БД
-            $newsIsFresh = $newsPublicationTime->gt($newsLatestTime);
-
-            if ($newsIsFresh) {
-                $this->addFreshNews($item);
-                dump($item);
-            }
+        foreach ($links as $link){
+            $parserService->saveNews($link);
         }
-
         return redirect()->route('news.index');
     }
 
