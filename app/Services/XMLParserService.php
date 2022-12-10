@@ -4,7 +4,8 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\News;
-use Illuminate\Support\Str;
+use App\Repositories\NewsRepository;
+use Illuminate\Support\Carbon;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 
 class XMLParserService
@@ -18,46 +19,24 @@ class XMLParserService
             'news' => ['uses' => 'channel.item[title,link,guid,category,description,enclosure::url,pubDate]']
         ]);
 
+        //Время публикации самой "свежей" новости по всем источникам во время последнего парсинга
+        $tLatestNewsPublicationTime = NewsRepository::getLatestNewsPublicationTime();
+
         foreach ($data['news'] as $news) {
-            if (!$news['category']) {
-                $categoryName = $data['title'];
-            } else {
-                $categoryName = $news['category'];
+            //Проверяем новость на "свежесть"
+            if (NewsRepository::newsIsFresh($news, $tLatestNewsPublicationTime)) {
+                if (!$news['category']) {
+                    $categoryTitle = $data['title'];
+                } else {
+                    $categoryTitle = $news['category'];
+                }
+
+                //Получаем объект категории новости
+                $category = Category::getCategoryFromDB($categoryTitle);
+
+                //Сохраняем новость в БД
+                NewsRepository::addNewsToDb( $news, $category);
             }
-
-            $category = Category::query()->firstOrCreate([
-                'title' => $categoryName,
-                'slug' => Str::slug($categoryName)
-            ]);
-
-            News::query()->firstOrCreate([
-                    'title' => $news['title'],
-                    'text' => $news['description'],
-                    'isPrivate' => false,
-                    'image_path' => $news['enclosure::url'] ? $news['enclosure::url']: env(DEFAULT_IMAGE_PATH),
-                'category_id'=>$category->id,
-            ]);
         }
-
-
-        /*        //Время публикации последней новости, хранящейся в БД
-                $latestPublicationTime = $this->getLatestNewsPublicationTime();
-                dump($latestPublicationTime);
-        //        dump($this->xmlSourcesParseResultToArray());
-
-                foreach ($this->xmlSourcesParseResultToArray() as $item) {
-                    //Время публикации проверяемой новости
-                    $newsPublicationTime = Carbon::createFromTimeString($item['pubDate']);
-                    //Время публикации самой свежей новости, хранящейся в БД
-                    $newsLatestTime = Carbon::createFromTimeString($latestPublicationTime);
-                    //Сравнение даты публикации новости с датой публикации самой свежей новости в БД
-                    $newsIsFresh = $newsPublicationTime->gt($newsLatestTime);
-
-                    if ($newsIsFresh) {
-                        $this->addFreshNews($item);
-                        dump($item);
-                    }*/
     }
-
-
 }

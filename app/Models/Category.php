@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -20,5 +21,18 @@ class Category extends Model
         //->has_Many() свяжет внешний ключ (category_id) указанного класса (News) с первичным ключом класса (Category),   в котором   создаётся    метод.
 
         return $this->hasMany(News::class, 'category_id');
+    }
+
+    /**
+     * @param $categoryTitle - заголовок категории новостей
+     * @return Category
+     */
+    public static function getCategoryFromDB($categoryTitle):Category
+    {
+        //Возвращает из БД объект категории, а если он не существует, то создаёт новую запись и возвращает её
+        return $category = Category::firstOrCreate(
+            ['title' => mb_strtolower($categoryTitle)],
+            ['slug' => Str::slug($categoryTitle)],
+        );
     }
 }
