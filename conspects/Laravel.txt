@@ -217,10 +217,10 @@ $ php artisan route:cache - кешировать маршруты.
 
 
 Очистка кеша (кэш) cache Laravel:
-$ php artisan cache:clear
-$ php artisan config:clear (.env)
-$ php artisan route:clear
-$ php artisan view:clear
+$ sail artisan cache:clear
+$ sail artisan config:clear (.env)
+$ sail artisan route:clear
+$ sail artisan view:clear
 
 
 !!! При использовании Laravel Sail вместо php нужно писать sail
@@ -2291,11 +2291,93 @@ use Laravel\Socialite\Contracts\User as UserOAuth;
 
 Урок 10. Добавление HTML-редактора. Хранение файлов. Очереди в Laravel
 
-Чтобы сгенерировать новое задание, используйте команду
+Чтобы "тяжёлые" задачи не приводили к "зависанию" сервера в Laravel применяется механизм очередей.
+"Тяжёлые" задачи принято выполнять в отдельном потоке в фоне,
+к тому же, эти задачи можно выполнять параллельно в нескольких потоках.
+
+Чтобы сгенерировать такое новое задание, используется команда
 sail artisan make:job NewsParsing
 //создан app/Jobs/NewsParsing.php
 
-Эта команда поместит новый класс задания в каталог app/Jobs вашего приложения. Если этот каталог не существует в вашем приложении, то Laravel предварительно создаст его:
+Эта команда поместит новый класс задания в каталог app/Jobs вашего приложения.
+Если этот каталог не существует в вашем приложении, то Laravel предварительно создаст его:
 
 php artisan make:job ProcessPodcast
 Сгенерированный класс будет реализовывать интерфейс Illuminate\Contracts\Queue\ShouldQueue, указывая Laravel, что задание должно быть поставлено в очередь для асинхронного выполнения.
+
+Паттерн:
+для рассылок принято создавать приватное поле $links в Job,
+которое будет заполнено данными через конструктор.
+
+В метод Job->handle() нужно передать сервис для внедрения зависимости.
+В качестве аргумента в сервис нужно передать $this->link.
+
+Laravel будет вызывать Job->handle() самостоятельно.
+Это так называемый Worker - рабочий - который делает одну задачу.
+В нашем случе рабочий парсит одну ссылку.
+
+Чтобы задействовать созданный Worker нужно в контроллере вместо прямого обращения к соответствующему сервису будем
+регистрировать задачи с помощью статического метода dispatch($params),
+который регистрирует задачу, например:
+NewsParsing::dispatch($link);
+
+https://laravel.com/docs/9.x/queues#main-content
+Для асинхронного выполнения задач Worker нужно в .env изменить настройки очереди (QUEUE_CONNECTION) с синхрнонного на
+database или REDIS (лучше):
+QUEUE_CONNECTION=REDIS
+
+Чтобы использовать QUEUE_CONNECTION=database предварительно нужно создать таблицу в БД:
+
+Для этого нужно выполнить команды:
+sail artisan queue:table
+sail artisan migrate
+
+После этого Workers будут не выполняться незамедлительно, а помещаться в таблицу БД.
+Чтобы запустить из выполнение нужно выполнить команду:
+sail artisan queue:work
+Это приведёт к последовательному выполнению всех задач, хранящихся в таблице jobs нашей БД.
+
+Параллельно можно запускать несколько Workers в нескольких терминалах, например :).
+Это ускорит процесс парсинга.
+
+Ctrl+c - прервать работу Worker
+
+В Linux будет работать команда
+sail artisan queue:work &       - запуск Worker в фоновом режиме
+
+sail artisan queue:restart      -остановка работы Workers, работающих в фоновом режиме
+
+
+Redis - аналог Memcached - БД, располагающаяся в оперативной памяти.
+Чтобы они работали в OpenServer нужно активировать соответствующие настройки (там же, где и настройки MySQL). Для Redis
+в OpenServer существует RedisAdmin, наподобие PhpMyAdmin (находится там же).
+Чтобы локальный PHP мог взаимодействовать с Redis, нужно в его файле настроек раскомментировать расширение redis:
+extension = redis
+
+Чтобы задействовать Redis нужно установить соответствующй пакет:
+php composer require predis/predis
+и переключить настрйку сохранения задач для Workers в redis в .env
+QUEUE_CONNECTION=redis
+в ~config/app.php добавить псевдоним ('alias'):
+        'Redis'=>\Illuminate\Support\Facades\Redis::class,
+
+Существует внешний пакет Laravel для метрик очередей в Redis - Horizon
+ Horizon предоставляет удобный графический интерфейс для работы с Redis через админ-панель сайта.
+ С помощью Horizon удобно отслеживать не работающие источники новостей, например.
+
+https://laravel.com/docs/9.x/horizon#installation
+Установка Horizon:
+composer require laravel/horizon
+После установки Horizon опубликуйте его ресурсы с помощью
+horizon:install команды Artisan:
+php artisan horizon:install
+Запуск обработчиков Horizon (другие обработчики (Workers) теперь запускать не надо)
+sail artisan horizon
+
+
+
+
+ Полезные дополнительные пакеты Laravel:
+https://github.com/chiraggude/awesome-laravel
+
+ДЗ - получить список ресурсов новостей из модели.

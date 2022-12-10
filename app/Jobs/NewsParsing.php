@@ -8,19 +8,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Services\XMLParserService;
 
 class NewsParsing implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    private $link;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($link)
     {
-        //
+        $this->link = $link;
     }
 
     /**
@@ -28,8 +31,8 @@ class NewsParsing implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(XMLParserService $parserService)
     {
-        //
+        $parserService->saveNews($this->link);
     }
 }

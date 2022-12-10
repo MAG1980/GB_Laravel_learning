@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParsing;
 use App\Models\Category;
 use App\Models\News;
 use App\Services\XMLParserService;
@@ -55,7 +56,9 @@ class ParserController extends Controller
         ];
 
         foreach ($links as $link){
-            $parserService->saveNews($link);
+//            $parserService->saveNews($link);
+            //Регистрируем задачу для Worker
+            NewsParsing::dispatch($link);
         }
         return redirect()->route('news.index');
     }

@@ -10,7 +10,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav d-flex align-items-center">
                 <li class=" nav-item">
                     <a class="nav-link {{ request()->routeIs('news.index') ? 'active' : '' }} {{ request()->routeIs('news.category.selectedCategory') ? 'active' : '' }}"
                        href="{{ route('news.index') }}">Новости</a>
@@ -23,7 +23,7 @@
 
                 {{-- Зона админа--}}
                 @auth()
-                    @if(Auth::user()->name === 'Admin')
+                    @if(Auth::user()->is_admin)
                         <li class=" nav-item">
                             <a class="nav-link {{ request()->routeIs('vue') ? 'active' : '' }}"
                                href="{{ route('vue') }}">Vue</a>
@@ -31,6 +31,10 @@
                         <li class=" nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.parser') ? 'active' : '' }}"
                                href="{{ route('admin.parser') }}">News Parser</a>
+                        </li>
+                        <li class=" nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.horizon') ? 'active' : '' }}"
+                               href="admin/horizon/dashboard">Horizon Dashboard</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.index') ? 'active' : '' }}"

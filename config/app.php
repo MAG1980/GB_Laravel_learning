@@ -193,6 +193,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Orchestra\Parser\XmlServiceProvider::class,
 
@@ -212,6 +213,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
+        'Redis'=>\Illuminate\Support\Facades\Redis::class,
     ])->toArray(),
 
 ];
