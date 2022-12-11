@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\NewsSource;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreCategoryRequest extends FormRequest
+class StoreNewsSourceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,6 +16,7 @@ class StoreCategoryRequest extends FormRequest
     public function authorize()
     {
         return auth()->user()->is_admin;
+//        return false;
     }
 
     /**
@@ -23,17 +26,15 @@ class StoreCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        switch ($this->method()) {
+        dump($this->id);
+        switch($this->method()){
             case 'POST':
             case 'PATCH':
             case 'PUT':
-            {
-                return [
-                    //правила для input name="title"
-                    //обязательное, мин. длина - 5 симв., макс. - 25 симв.
-                    'title' => 'required|min:5|max:25|unique:categories',
-                ];
-            }
+            return [
+                'title'=>['required', 'min:3', 'max:15', Rule::unique('news_sources')->ignore($this->id)],
+                'link'=>'required|min:7|max:75|unique:news_sources,link,'.$this->id,
+            ];
             default:
                 break;
         }

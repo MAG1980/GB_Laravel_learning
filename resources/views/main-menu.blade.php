@@ -52,7 +52,14 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Пользователи</a>
+                                <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Пользователей</a>
+                                </li>
+                                <li>
+                                <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('admin.news_source.index') }}">Источники
+                                        новостей
+                                    </a>
                                 </li>
                             </ul>
                         </li>

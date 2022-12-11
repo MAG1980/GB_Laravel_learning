@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UsersController as AdminUsersController;
 use App\Http\Controllers\Admin\ParserController as AdminParserController;
+use App\Http\Controllers\Admin\NewsSourceController as AdminNewsSourceController;
 use \App\Http\Controllers\SocialiteLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -69,6 +70,8 @@ Route::name('admin.')
 //    ->middleware('is_admin')
     ->group(function () {
         Route::get('/parser',[AdminParserController::class, 'index'])->name('parser');
+        //заменяет собой маршруты для всех методов CRUD
+        Route::resource('news_source', AdminNewsSourceController::class)->except(['show']);
         //заменяет собой маршруты для всех методов CRUD
         Route::resource('news', AdminNewsController::class)->except(['show']);
         /*          //CRUD
@@ -148,3 +151,5 @@ Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout
 */
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
