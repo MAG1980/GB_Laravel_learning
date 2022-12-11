@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\NewsParsing;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\NewsSource;
 use App\Services\XMLParserService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -48,17 +49,19 @@ class ParserController extends Controller
      */
     public function index(XMLParserService $parserService)
     {
-        $links = [
+        $links = NewsSource::all();
+
+/*        $links = [
             'https://overclockers.ru/rss/all.rss',
             'https://lenta.ru/rss',
             'https://news.rambler.ru/rss/holiday/',
             'https://rssexport.rbc.ru/rbcnews/news/30/full.rss'
-        ];
+        ];*/
 
         foreach ($links as $link){
 //            $parserService->saveNews($link);
             //Регистрируем задачу для Worker
-            NewsParsing::dispatch($link);
+            NewsParsing::dispatch($link['link']);
         }
         return redirect()->route('news.index');
     }

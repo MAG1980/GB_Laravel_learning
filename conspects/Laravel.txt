@@ -2437,6 +2437,6 @@ resources/views/admin/news_sources
 Тогда правило валидации может выглядеть так:
  'title'=>['required', 'min:3', 'max:5', Rule::unique('news_sources')->ignore($this->id)],
 или так
-
+ 'link'=>'required|min:7|max:75|unique:news_sources,link,'.$this->id,
 
 

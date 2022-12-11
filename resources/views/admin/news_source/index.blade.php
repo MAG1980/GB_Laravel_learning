@@ -8,7 +8,7 @@
 {{--@dump($newsSources)--}}
 @section('content')
     <div class="card container-lg d-flex align-items-center justify-content-center py-3">
-        <div class="card text-center col-md-8">
+        <div class="card text-center col-md-10">
             <div class="card-header">
                 - || -
             </div>
